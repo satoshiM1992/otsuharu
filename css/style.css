@@ -214,6 +214,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .av-svg { position: absolute; inset: 0; }
 .av-vrm { position: absolute; inset: 0; display: none; width: 100%; height: 100%; }
 .has-vrm > .av-svg { display: none; }
+/* while the VRM loads show only the loading badge; the SVG remains as the fallback if loading fails */
+.vrm-loading > .av-svg { visibility: hidden; }
 .has-vrm > .av-vrm { display: block; }
 .vrm-loading::after {
   content: attr(data-loading);

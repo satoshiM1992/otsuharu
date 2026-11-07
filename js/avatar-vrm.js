@@ -214,6 +214,7 @@ export class VrmView {
       (vrm) => {
         done();
         if (this.model === name) this.setVrm(vrm);
+        this.preloadOthers();
         return vrm;
       },
       (err) => {
@@ -245,6 +246,16 @@ export class VrmView {
   }
 
   // ---------------------------------------------------------- internals
+
+  // Download the other models in the background (e.g. the real-life model used in
+  // chapter 3) so switching to them later is instant. Failures are retried on use.
+  preloadOthers() {
+    if (stage.preloaded) return;
+    stage.preloaded = true;
+    setTimeout(() => {
+      for (const url of new Set(Object.values(this.urls))) loadVrm(url).promise.catch(() => {});
+    }, 1500);
+  }
 
   setVrm(vrm) {
     this.vrm = vrm;
