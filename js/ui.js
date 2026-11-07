@@ -51,6 +51,8 @@ export class UI {
     this.mobKey = 'common';
     this.viewers = 23;
     this.timers = {};
+    this.lastLine = null; // shown above the choices so the question stays readable
+    this.log = []; // backlog for the menu
 
     this.game = this.$('screen-game');
     this.msg = this.$('msg');
@@ -65,9 +67,14 @@ export class UI {
       e.stopPropagation();
       this.$('menu').hidden = false;
     });
+    this.$('log').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (e.target.closest('[data-action="log-close"]') || e.target.id === 'log') this.$('log').hidden = true;
+    });
     this.$('menu').addEventListener('click', (e) => {
       e.stopPropagation();
       const action = e.target.closest('[data-action]')?.dataset.action;
+      if (action === 'log') this.showLog();
       if (action === 'close' || e.target.id === 'menu') this.$('menu').hidden = true;
       if (action === 'title') {
         this.$('menu').hidden = true;
@@ -88,6 +95,9 @@ export class UI {
     this.choicesBox.hidden = true;
     this.$('card').hidden = true;
     this.$('menu').hidden = true;
+    this.$('log').hidden = true;
+    this.lastLine = null;
+    this.log = [];
     this.$('hud-debug').hidden = !this.debug;
   }
 
@@ -112,7 +122,7 @@ export class UI {
   // --------------------------------------------------------------- input
 
   onTap(e) {
-    if (e.target.closest('button, .choices, .menu')) return;
+    if (e.target.closest('button, .choices, .menu, .log')) return;
     if (this.typing) {
       this.skip = true;
       return;
@@ -149,6 +159,7 @@ export class UI {
     this.chat.innerHTML = '';
     this.msg.hidden = true;
     this.msgText.textContent = '';
+    this.lastLine = null;
     this.stopTimers();
     if (mode === 'stream') this.startMobComments();
     if (mode === 'call') this.startCallTimer();
@@ -212,6 +223,7 @@ export class UI {
 
   async say(line) {
     this.check();
+    this.remember(line);
     if (line.voice && this.mode !== 'dm') sound.voice(line.voice.key, line.voice.forced);
     if (this.mode === 'dm') return this.sayDm(line);
     if (this.mode === 'stream' && line.who !== 'haru' && line.who !== 'narr') {
@@ -249,6 +261,34 @@ export class UI {
     el.textContent = text;
     this.typing = false;
     this.check();
+  }
+
+  remember({ who, name, text }) {
+    if (!text) return;
+    this.log.push({ who, name, text });
+    if (this.log.length > 300) this.log.shift();
+    if (who === 'haru' || who === 'narr') this.lastLine = { who, name, text };
+  }
+
+  showLog() {
+    const list = this.$('log-list');
+    list.innerHTML = '';
+    for (const { who, name, text } of this.log) {
+      const row = document.createElement('div');
+      row.className = `log-row is-${who}`;
+      if (name) {
+        const n = document.createElement('b');
+        n.textContent = name;
+        row.append(n);
+      }
+      const t = document.createElement('p');
+      t.textContent = text;
+      row.append(t);
+      list.append(row);
+    }
+    if (!this.log.length) list.innerHTML = '<p class="hint">まだログはありません</p>';
+    this.$('log').hidden = false;
+    list.scrollTop = list.scrollHeight;
   }
 
   addComment({ who, name, text }) {
@@ -306,6 +346,18 @@ export class UI {
     const box = this.choicesBox;
     box.innerHTML = '';
     const label = { stream: 'コメントを送る', dm: '返信する' }[this.mode];
+    // The sheet covers the subtitle / chat, so repeat the line being answered.
+    if (label && this.lastLine) {
+      const q = document.createElement('div');
+      q.className = 'choices-context';
+      if (this.lastLine.name) {
+        const n = document.createElement('b');
+        n.textContent = this.lastLine.name;
+        q.append(n);
+      }
+      q.append(this.lastLine.text);
+      box.append(q);
+    }
     if (label) {
       const h = document.createElement('p');
       h.className = 'choices-label';
@@ -331,6 +383,7 @@ export class UI {
           this.pending = null;
           sound.se('select');
           box.hidden = true;
+          box.scrollTop = 0;
           resolve(i);
         });
         box.append(b);

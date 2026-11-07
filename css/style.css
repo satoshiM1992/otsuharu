@@ -444,6 +444,23 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   box-shadow: 0 -8px 24px rgba(0, 0, 0, .25);
   animation: sheet-up .25s ease-out;
 }
+.mode-stream .choices, .mode-dm .choices {
+  max-height: calc(100% - 52px - var(--safe-t));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.choices-context {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.55;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .1);
+  border-left: 3px solid var(--pink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.choices-context b { display: block; font-size: 11px; color: #ffb3cf; margin-bottom: 2px; }
 .choices-label { color: #fff; font-size: 12px; font-weight: 700; opacity: .8; }
 .choice {
   position: relative;
@@ -542,3 +559,24 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ------------------------------------------------------------ backlog */
+
+.log {
+  position: absolute; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(16px + var(--safe-t)) 16px calc(16px + var(--safe-b));
+  background: rgba(18, 13, 34, .7);
+}
+.log-box {
+  width: 100%; max-height: 100%;
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--paper); border-radius: 20px; padding: 18px 16px 16px;
+}
+.log-box h2 { font-size: 16px; text-align: center; }
+.log-list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 10px; }
+.log-row { font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+.log-row b { display: block; font-size: 11px; color: var(--pink); }
+.log-row.is-me b { color: var(--violet); }
+.log-row.is-mob, .log-row.is-narr { color: var(--ink-soft); }
+.log-row.is-mob b { color: var(--ink-soft); }
