@@ -61,8 +61,25 @@ class Sound {
     document.addEventListener('visibilitychange', () => {
       if (!this.ctx) return;
       if (document.hidden) this.ctx.suspend();
-      else if (this.enabled) this.ctx.resume();
+      else this.resume();
     });
+    window.addEventListener('pageshow', () => this.resume());
+  }
+
+  // Resume after autoplay blocking, backgrounding, or an iOS 'interrupted'
+  // state (phone call, other app). Only works from a user gesture on iOS.
+  resume() {
+    if (!this.ctx || !this.enabled || this.ctx.state === 'running') return;
+    this.ctx.resume().catch(() => {});
+  }
+
+  // Bind unlock() to every event that counts as a user activation. On iOS a
+  // touch pointerdown does NOT, so touchend/click are needed too.
+  bindUnlock(target = document) {
+    const fn = () => this.unlock();
+    for (const ev of ['pointerdown', 'touchend', 'click', 'keydown']) {
+      target.addEventListener(ev, fn, { capture: true, passive: true });
+    }
   }
 
   unlock() {
@@ -80,8 +97,20 @@ class Sound {
       this.seBus = ctx.createGain();
       this.seBus.gain.value = 0.9;
       this.seBus.connect(this.master);
+      // iOS 17+: play even when the ring/silent switch is on (the in-game
+      // 🔊 button is the mute). Older iOS ignores this.
+      try {
+        if (navigator.audioSession) navigator.audioSession.type = 'playback';
+      } catch {}
     }
-    if (this.ctx.state === 'suspended' && this.enabled) this.ctx.resume();
+    if (this.ctx.state !== 'running' && this.enabled) {
+      this.ctx.resume().catch(() => {});
+      // iOS needs a sound started inside the gesture to really unlock.
+      const src = this.ctx.createBufferSource();
+      src.buffer = this.ctx.createBuffer(1, 1, 22050);
+      src.connect(this.ctx.destination);
+      src.start();
+    }
     this.loadVoices();
     if (this.track !== this.playing) this.bgm(this.track);
   }
@@ -93,7 +122,7 @@ class Sound {
     } catch {}
     if (!this.ctx) return;
     this.master.gain.setTargetAtTime(on ? 1 : 0, this.ctx.currentTime, 0.05);
-    if (on) this.ctx.resume();
+    if (on) this.resume();
   }
 
   // -------------------------------------------------------------- synthesis
@@ -126,6 +155,7 @@ class Sound {
 
   se(name) {
     if (!this.ctx || !this.enabled) return;
+    if (this.ctx.state !== 'running') this.resume();
     const t = this.ctx.currentTime + 0.01;
     const n = (m, at, dur, o) => this.note(midi(m), t + at, dur, o);
     switch (name) {

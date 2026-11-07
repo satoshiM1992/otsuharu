@@ -14,7 +14,7 @@ const MODES = ['stream', 'dm', 'call', 'adv'];
 // Illustrated backgrounds: img/bg/<name>.(jpg|webp|png|svg), first file found
 // wins, so dropping in station.jpg replaces the bundled station.svg.
 // Other backgrounds (room, night, call) are CSS gradients only.
-const IMAGE_BGS = ['station', 'cafe', 'arcade', 'sunset'];
+const IMAGE_BGS = ['station', 'cafe', 'arcade', 'sunset', 'aquarium', 'park'];
 const BG_EXTS = ['jpg', 'webp', 'png', 'svg'];
 const bgCache = {};
 function resolveBg(name) {
@@ -98,6 +98,7 @@ export class UI {
     this.$('log').hidden = true;
     this.lastLine = null;
     this.log = [];
+    this.setContact('天音ハル');
     this.$('hud-debug').hidden = !this.debug;
   }
 
@@ -209,6 +210,12 @@ export class UI {
     this.viewers = viewersFor(pop);
     this.$('viewers').textContent = fmtCount(this.viewers);
     this.$('hud-subs').textContent = fmtCount(subsFor(pop));
+  }
+
+  // name in the DM header and on the call screen (天音ハル → ひなの after meeting)
+  setContact(name) {
+    document.querySelector('.dm-header b').textContent = name;
+    document.querySelector('.call-name').textContent = name;
   }
 
   setChapter(label) {

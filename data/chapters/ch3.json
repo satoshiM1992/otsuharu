@@ -3,7 +3,7 @@
   "title": "第三章 DM",
   "subtitle": "配信の外の、小さな声",
   "call": "san",
-  "defaults": { "ui": "call", "model": "vtuber", "bg": "call", "haruName": "ハル" },
+  "defaults": { "ui": "call", "model": "vtuber", "bg": "call", "haruName": "ハル", "contact": "天音ハル" },
   "scenes": [
     {
       "id": "3-1",

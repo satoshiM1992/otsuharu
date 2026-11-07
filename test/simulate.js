@@ -22,7 +22,7 @@ const data = await loadScenario('../data/');
 
 const TYPES = ['good', 'normal', 'bad', 'trap', 'gag', 'out'];
 const WHO = ['haru', 'me', 'mob', 'narr', 'sys'];
-const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal'];
+const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal', 'persona'];
 const UIS = ['stream', 'dm', 'call', 'adv'];
 
 function checkLines(lines, where) {
@@ -37,7 +37,7 @@ function checkLines(lines, where) {
     if (l.face && !EXPRESSIONS[l.face]) fail(`${where}: unknown face ${l.face}`);
     if (l.voice && !data.voice?.clips?.[l.voice]) fail(`${where}: unknown voice ${l.voice}`);
     for (const [p, o] of Object.entries(l.by ?? {})) {
-      if (!data.personas[p]) fail(`${where}: unknown persona in by: ${p}`);
+      if (!data.personas[p] && !data.realPersonas?.[p]) fail(`${where}: unknown persona in by: ${p}`);
       if (o.face && !EXPRESSIONS[o.face]) fail(`${where}: unknown face ${o.face} (by.${p})`);
     }
   }
@@ -70,12 +70,17 @@ for (const ch of data.chapters) {
       if (v.choice) checkChoice(v.choice, `${w}/${k}`);
       if (sc.topic && !v.choice && !sc.choice) fail(`${w}/${k}: no choice`);
       if (sc.variantBy === 'persona' && k !== 'default' && !data.personas[k]) fail(`${w}: unknown persona variant ${k}`);
+      if (sc.variantBy === 'real' && k !== 'default' && !data.realPersonas?.[k]) fail(`${w}: unknown real persona variant ${k}`);
     }
   }
 }
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);
 for (const [id, r] of Object.entries(data.rares)) checkLines(r.lines, `rare ${id}`);
 for (const [id, p] of Object.entries(data.personas)) checkLines(p.becomes, `persona ${id}`);
+for (const [id, p] of Object.entries(data.realPersonas ?? {})) {
+  checkLines(p.becomes, `realPersona ${id}`);
+  checkLines(p.stays, `realPersona ${id}`);
+}
 for (const [id, routes] of Object.entries(data.routes ?? {})) {
   for (const r of routes) if (!data.endings[r.to]) fail(`route ${id}: unknown ending ${r.to}`);
 }
@@ -156,6 +161,7 @@ async function simulate(name, runs, extraOptions = {}) {
   const counts = {};
   const rares = {};
   const personas = {};
+  const reals = {};
   let popSum = 0;
   let lines = 0;
   const pickRng = createRng(12345);
@@ -176,6 +182,7 @@ async function simulate(name, runs, extraOptions = {}) {
       const r = await engine.run();
       counts[r.id] = (counts[r.id] ?? 0) + 1;
       personas[state.persona] = (personas[state.persona] ?? 0) + 1;
+      if (state.chapterIndex >= 3) reals[state.realPersona] = (reals[state.realPersona] ?? 0) + 1;
       popSum += state.pop;
     } catch (e) {
       fail(`${name} seed=${seed}: ${e.message}`);
@@ -183,7 +190,7 @@ async function simulate(name, runs, extraOptions = {}) {
     }
     lines += ui.lines;
   }
-  return { counts, rares, personas, avgPop: Math.round(popSum / runs), avgLines: Math.round(lines / runs) };
+  return { counts, rares, personas, reals, avgPop: Math.round(popSum / runs), avgLines: Math.round(lines / runs) };
 }
 
 function fmtCounts(c, runs) {
@@ -202,6 +209,7 @@ for (const [name, opts] of [['random', {}], ['noOut', {}], ['mostlyGood', {}], [
   log(`\n[${label}] ${RUNS}回  平均セリフ数 ${r.avgLines}`);
   log(`  エンド: ${fmtCounts(r.counts, RUNS)}`);
   log(`  最終の性格: ${fmtCounts(r.personas, RUNS)}  平均人気 ${r.avgPop}`);
+  log(`  リアルの性格（会えた回のみ・全体比）: ${fmtCounts(r.reals, RUNS)}`);
   log(`  レア: ${JSON.stringify(r.rares)}`);
 }
 

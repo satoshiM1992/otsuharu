@@ -40,6 +40,35 @@
     }
   },
 
+  "realPersonas": {
+    "shy": { "label": "🌱人見知り", "stays": [{ "who": "narr", "text": "──ひなのは、まだ少しだけ、言葉を選んでいるみたいだった。" }] },
+    "amae": {
+      "label": "🍓甘えんぼ",
+      "style": "kind",
+      "styleMod": { "kind": 2 },
+      "becomes": [{ "who": "narr", "text": "──話すうちに、ひなのは少しずつ甘えてくるようになった。" }, { "who": "haru", "face": "shy", "text": "ねえ、もうちょっとだけ……おやすみって言うの、あと五分待って" }],
+      "stays": [{ "who": "narr", "text": "──ひなのの「おやすみ」は、今日も三回目だった。" }]
+    },
+    "shikkari": {
+      "label": "📒しっかり者",
+      "style": "mitsugi",
+      "styleMod": { "mitsugi": -2, "kind": 2 },
+      "becomes": [{ "who": "narr", "text": "──話すうちに、ひなのは妙にしっかりしてきた。" }, { "who": "haru", "face": "angry", "text": "ねえ、この前のぜったいお金使いすぎ！ 家計簿アプリ入れて。今すぐ" }],
+      "stays": [{ "who": "narr", "text": "──今日も、ひなのから家計簿のチェックが入った。" }]
+    },
+    "itazura": {
+      "label": "😈いたずらっ子",
+      "style": "neta",
+      "styleMod": { "neta": 4 },
+      "loverGagMin": 90,
+      "becomes": [
+        { "who": "narr", "text": "──話すうちに、ひなのはやたらとからかってくるようになった。" },
+        { "who": "haru", "face": "smug", "text": "問題です。いま、わたしは何をしているでしょう？ ……正解は「{name}くんをからかう作戦会議」でした〜" }
+      ],
+      "stays": [{ "who": "narr", "text": "──今日も、ひなのから謎のクイズが届いた。" }]
+    }
+  },
+
   "moods": {
     "cheerful": {
       "label": "ご機嫌",
@@ -48,7 +77,8 @@
         "1": [{ "who": "haru", "face": "happy", "text": "今日なんかね、すっごくご機嫌なの！ 何言われても笑っちゃいそう！" }],
         "2": [{ "who": "haru", "face": "happy", "text": "人がいっぱいで、なんかテンション上がっちゃう！ 今日は何でも拾うよ！" }],
         "3": [{ "who": "haru", "face": "happy", "text": "今日ね、いいことあったんだ〜！ ……あ、それは置いといて！" }],
-        "4": [{ "who": "narr", "text": "──今日は朝から、なんだか全部うまくいきそうな気がしていた。" }]
+        "4": [{ "who": "narr", "text": "──今日は朝から、なんだか全部うまくいきそうな気がしていた。" }],
+        "5": [{ "who": "narr", "text": "──空は快晴。今日は、いい日になりそうだ。" }]
       }
     },
     "sleepy": {
@@ -58,7 +88,8 @@
         "1": [{ "who": "haru", "face": "relaxed", "text": "ふぁ……あ、ごめん、今日ちょっと眠くて……ゆる〜くいくね……" }],
         "2": [{ "who": "haru", "face": "relaxed", "text": "ふぁ……昨日、自分の切り抜き見すぎて寝不足で……" }],
         "3": [{ "who": "haru", "face": "relaxed", "text": "ふぁ……ごめん、ちょっと眠くて……でも話したくて……" }],
-        "4": [{ "who": "narr", "text": "──緊張で、昨日はあまり眠れなかった。たぶん、向こうも。" }]
+        "4": [{ "who": "narr", "text": "──緊張で、昨日はあまり眠れなかった。たぶん、向こうも。" }],
+        "5": [{ "who": "narr", "text": "──昨日は遅くまで通話していて、少し眠い。……向こうも、あくびをかみ殺している。" }]
       }
     },
     "hyper": {
@@ -68,7 +99,8 @@
         "1": [{ "who": "haru", "face": "happy", "motion": "jump", "text": "よっしゃー！ 今日は飛ばしていくよー！！" }],
         "2": [{ "who": "haru", "face": "happy", "motion": "jump", "text": "同接すごい！ 今日は全力でいくよーー！！" }],
         "3": [{ "who": "haru", "face": "happy", "text": "あのね！ あのね！ 聞いてほしいことがいっぱいあって！！" }],
-        "4": [{ "who": "narr", "text": "──約束の三十分前に着いてしまった。気合いが入りすぎている。" }]
+        "4": [{ "who": "narr", "text": "──約束の三十分前に着いてしまった。気合いが入りすぎている。" }],
+        "5": [{ "who": "narr", "text": "──待ち合わせの一時間前に着いてしまった。……ひなのは、もっと前から来ていた。" }]
       }
     }
   },
@@ -227,7 +259,7 @@
     ]
   },
 
-  "chapters": ["chapters/ch1.json", "chapters/ch2.json", "chapters/ch3.json", "chapters/ch4.json"],
+  "chapters": ["chapters/ch1.json", "chapters/ch2.json", "chapters/ch3.json", "chapters/ch4.json", "chapters/ch5.json"],
 
   "endings": {
     "lover": {
@@ -241,6 +273,9 @@
         { "who": "haru", "face": "shy", "text": "……ずるい。わたしが言おうとしてたのに" },
         { "who": "haru", "face": "shy", "text": "……はい。わたしも、好きです" },
         { "who": "haru", "face": "happy", "text": "これからよろしくね、{name}。" },
+        { "who": "haru", "face": "shy", "text": "……ね、手つないで帰ろ。今日は、離さないから", "if": { "real": "amae" } },
+        { "who": "haru", "face": "smug", "text": "……あ、でも！ デート代は割り勘ね。そこは譲らないから", "if": { "real": "shikkari" } },
+        { "who": "haru", "face": "happy", "text": "……なーんて、ドッキリでした〜！ ……うそ。ドッキリじゃないよ", "if": { "real": "itazura" } },
         { "who": "narr", "text": "──数日後。" },
         { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【恋バナ】恋のお悩み相談、再び！", "mob": "koibana" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日は恋バナ枠だよ！" },
@@ -262,6 +297,9 @@
         { "who": "haru", "face": "smug", "text": "……ふーん。付き合ってあげても、いいけど？" },
         { "who": "haru", "face": "shy", "text": "……うそ。ほんとは、すっごくうれしい" },
         { "who": "haru", "face": "shy", "text": "スパチャより、ずっと。……これからよろしくね、{name}" },
+        { "who": "haru", "face": "shy", "text": "……ね、手つないで帰ろ。今日は、離さないから", "if": { "real": "amae" } },
+        { "who": "haru", "face": "smug", "text": "……あ、でも！ デート代は割り勘ね。そこは譲らないから", "if": { "real": "shikkari" } },
+        { "who": "haru", "face": "happy", "text": "……なーんて、ドッキリでした〜！ ……うそ。ドッキリじゃないよ", "if": { "real": "itazura" } },
         { "who": "narr", "text": "──数日後。" },
         { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【雑談】今日はスパチャ読みなし！", "mob": "chat" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日はスパチャ読みなしで、ただおしゃべりするよ！" },
@@ -282,6 +320,9 @@
         { "who": "haru", "face": "happy", "text": "……ずるい！ そこはボケるとこでしょ！ なんで本気なの！" },
         { "who": "haru", "face": "shy", "text": "……ツッコめないじゃん。……わたしも、好き" },
         { "who": "haru", "face": "happy", "text": "これからよろしくね、相方……じゃなくて、{name}！" },
+        { "who": "haru", "face": "shy", "text": "……ね、手つないで帰ろ。今日は、離さないから", "if": { "real": "amae" } },
+        { "who": "haru", "face": "smug", "text": "……あ、でも！ デート代は割り勘ね。そこは譲らないから", "if": { "real": "shikkari" } },
+        { "who": "haru", "face": "happy", "text": "……なーんて、ドッキリでした〜！ ……うそ。ドッキリじゃないよ", "if": { "real": "itazura" } },
         { "who": "narr", "text": "──数日後。" },
         { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【雑談】ツッコミ封印チャレンジ", "mob": "chat" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日はツッコミ封印チャレンジ！" },
@@ -300,8 +341,8 @@
         { "if": { "chapter": 3 }, "who": "haru", "face": "happy", "text": "今日はありがとう！ {name}さんに相談してよかった！" },
         { "if": { "chapter": 3 }, "who": "haru", "face": "happy", "text": "これからも、相談させてね。……友達として！" },
         { "if": { "chapter": 3 }, "who": "narr", "text": "──それからも、ときどき通話する仲になった。" },
-        { "if": { "chapter": 4 }, "who": "haru", "face": "sad", "text": "……ごめん、まだ、うまく言えないや" },
-        { "if": { "chapter": 4 }, "who": "haru", "face": "relaxed", "text": "でも、これからも相談させてね。……大事な、友達だから" },
+        { "if": { "chapter": [4, 5] }, "who": "haru", "face": "sad", "text": "……ごめん、まだ、うまく言えないや" },
+        { "if": { "chapter": [4, 5] }, "who": "haru", "face": "relaxed", "text": "でも、これからも相談させてね。……大事な、友達だから" },
         { "who": "narr", "text": "──その言葉の続きを、いつか聞ける日は来るだろうか。" }
       ]
     },
@@ -471,7 +512,18 @@
       "title": "ハーレム失格エンド",
       "desc": "一番大事な場面で、一番言ってはいけないことを言った。",
       "hint": "告白の場面で、欲張りすぎると……",
-      "lines": [{ "who": "narr", "text": "──川沿いに、一人。夕日がやけにまぶしかった。" }]
+      "lines": [
+        { "if": { "notFlag": "harem_kanransha" }, "who": "narr", "text": "──川沿いに、一人。夕日がやけにまぶしかった。" },
+        { "if": { "flag": "harem_kanransha" }, "who": "narr", "text": "──観覧車の下に、一人。夕焼けがやけにまぶしかった。" }
+      ]
+    },
+    "rokuon": {
+      "cat": "out",
+      "emoji": "📼",
+      "title": "録音バレエンド",
+      "desc": "夜の通話は、録るものじゃなくて、聞くもの。",
+      "hint": "夜の通話で、ふたりだけの声を外に出そうとすると……",
+      "lines": [{ "who": "narr", "text": "──それきり、スマホが鳴ることはなかった。" }]
     },
     "zarigani": {
       "cat": "hidden",
@@ -530,6 +582,9 @@
         { "who": "haru", "face": "shy", "text": "カットもしない。ちゃんと、最後まで言わせて" },
         { "who": "haru", "face": "shy", "motion": "nod", "text": "{name}くん。……好きです" },
         { "who": "haru", "face": "happy", "text": "……えへへ。言えた。配信より、ずっと緊張した" },
+        { "who": "haru", "face": "shy", "text": "……ね、手つないで帰ろ。今日は、離さないから", "if": { "real": "amae" } },
+        { "who": "haru", "face": "smug", "text": "……あ、でも！ デート代は割り勘ね。そこは譲らないから", "if": { "real": "shikkari" } },
+        { "who": "haru", "face": "happy", "text": "……なーんて、ドッキリでした〜！ ……うそ。ドッキリじゃないよ", "if": { "real": "itazura" } },
         { "who": "narr", "text": "──数日後。" },
         { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【ご報告】……じゃなくて雑談！", "mob": "koibana" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日はね、カットなしでいくって決めたの！" },

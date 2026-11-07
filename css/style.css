@@ -210,6 +210,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     radial-gradient(circle at 75% 18%, #fff3c4 0 18px, transparent 60px),
     linear-gradient(#f6e7d2 0%, #ead2b1 62%, #9c6f48 62%, #7d5636 100%);
 }
+.stage[data-bg="aquarium"] .stage-bg { background: linear-gradient(#1d5fa8 0%, #123f7a 60%, #0a2148 100%); }
+.stage[data-bg="park"] .stage-bg { background: linear-gradient(#8fb8ff 0%, #ffd1c2 55%, #e8c9a8 80%, #c9a27e 100%); }
 .stage[data-bg="sunset"] .stage-bg {
   background:
     radial-gradient(circle at 50% 52%, #fff2c0 0 30px, transparent 90px),

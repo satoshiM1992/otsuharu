@@ -26,6 +26,10 @@ export const STYLE_LABEL = { kind: '😇', mitsugi: '💰', neta: '🎤' };
 //   persona  'angel' | 'queen' | 'geinin', re-evaluated at the end of each
 //            chapter from the comment styles chosen in it (kind / mitsugi / neta)
 //   revealed affection is hidden (no meter, no popups) until {cmd: "reveal"}
+//   realPersona  'shy' | 'amae' | 'shikkari' | 'itazura' — who ひなの is off
+//            stream. Starts shy; {cmd: "persona"} re-evaluates it from the
+//            styles chosen since the last evaluation (data.realPersonas).
+//            In chapters with "real": true its styleMod replaces the VTuber one.
 export class Engine {
   /**
    * @param {object} p
@@ -106,8 +110,9 @@ export class Engine {
       state.topicsUsed.push(topic);
       v = scene.variants[topic];
       if (v.set) this.applySettings(v.set);
-    } else if (scene.variantBy === 'persona') {
-      v = scene.variants[state.persona] ?? scene.variants.default;
+    } else if (scene.variantBy === 'persona' || scene.variantBy === 'real') {
+      const key = scene.variantBy === 'real' ? this.realPersona : state.persona;
+      v = scene.variants[key] ?? scene.variants.default;
       if (v.set) this.applySettings(v.set);
     }
     const merged = (key) => (v === scene ? scene[key] : [...(v[key] ?? []), ...(scene[key] ?? [])]);
@@ -261,8 +266,10 @@ export class Engine {
     let d = c.delta ?? this.rules.typeDelta[c.type] ?? 0;
     d += data.moods[state.mood]?.typeMod?.[c.type] ?? 0;
     d += c.moodDelta?.[state.mood] ?? 0;
-    // the persona likes some comment styles more (queen: superchats, geinin: jokes)
-    d += data.personas?.[state.persona]?.styleMod?.[this.styleOf(c)] ?? 0;
+    // the persona likes some comment styles more (queen: superchats, geinin: jokes);
+    // on dates it is ひなの's real-life personality that counts
+    const prefs = this.chapter?.real ? data.realPersonas?.[this.realPersona] : data.personas?.[state.persona];
+    d += prefs?.styleMod?.[this.styleOf(c)] ?? 0;
     d += c.personaDelta?.[state.persona] ?? 0;
     return d;
   }
@@ -271,7 +278,10 @@ export class Engine {
     const a = this.state.affection;
     if (c.confess && a >= this.rules.loverMin) return 'lover';
     // joke confessions need more affection, except for a persona that loves jokes
-    const gagMin = this.data.personas?.[this.state.persona]?.loverGagMin ?? this.rules.loverGagMin;
+    const gagMin = Math.min(
+      this.data.personas?.[this.state.persona]?.loverGagMin ?? this.rules.loverGagMin,
+      this.data.realPersonas?.[this.realPersona]?.loverGagMin ?? this.rules.loverGagMin,
+    );
     if (c.confessGag && a >= gagMin) return 'lover';
     return 'friend';
   }
@@ -323,6 +333,9 @@ export class Engine {
     const style = this.styleOf(c);
     const s = this.state;
     if (style) s.chapterStyles[style] = (s.chapterStyles[style] ?? 0) + (c.styleW ?? 1);
+    // Only comments in a stream are seen by viewers; DMs, calls and dates are
+    // private, so they never move popularity (the persona vote still counts).
+    if (this.uiMode !== 'stream') return;
     const d = c.pop ?? this.rules.stylePop?.[style] ?? 0;
     if (d) this.changePop(d);
   }
@@ -351,6 +364,32 @@ export class Engine {
     s.chapterStyles = {};
   }
 
+  get realPersona() {
+    return this.state.realPersona ?? 'shy';
+  }
+
+  /** {cmd: "persona"}: ひなの's real-life personality follows the styles chosen since the last check. */
+  async updateRealPersona() {
+    const s = this.state;
+    const defs = this.data.realPersonas ?? {};
+    const byStyle = Object.fromEntries(Object.entries(defs).filter(([, p]) => p.style).map(([id, p]) => [p.style, id]));
+    const votes = s.chapterStyles;
+    s.chapterStyles = {};
+    const count = (st) => votes[st] ?? 0;
+    const cur = defs[this.realPersona]?.style;
+    // most-chosen style wins; a tie only goes to kind (being nice is how she opens up)
+    const [top, second] = Object.keys(byStyle).sort((a, b) => count(b) - count(a) || (b === 'kind') - (a === 'kind'));
+    const clear = count(top) > count(second) || top === 'kind';
+    if (top && top !== cur && clear && count(top) - count(cur) >= (this.rules.personaMargin ?? 1)) {
+      s.realPersona = byStyle[top];
+      s.flags[`real_${s.realPersona}`] = true;
+      await this.playLines(defs[s.realPersona].becomes);
+    } else {
+      await this.playLines(defs[this.realPersona]?.stays);
+    }
+    this.refreshHud();
+  }
+
   // ----------------------------------------------------------------- lines
 
   async playLines(lines) {
@@ -360,8 +399,9 @@ export class Engine {
         await this.runCmd(line);
         continue;
       }
-      // by: { queen: { text, face, motion } } overrides fields for a persona
-      const by = line.by?.[this.state.persona];
+      // by: { queen: { text, face, motion } } overrides fields for a persona;
+      // a real-life personality key (amae, ...) wins over the VTuber one
+      const by = line.by?.[this.realPersona] ?? line.by?.[this.state.persona];
       if (by) line = { ...line, ...by };
       if (line.who === 'haru' && line.face) this.avatar.setExpression(line.face);
       if (line.motion) this.avatar.playMotion(line.motion);
@@ -408,6 +448,9 @@ export class Engine {
       case 'affection':
         this.changeAffection(line.value ?? 0);
         break;
+      case 'persona':
+        await this.updateRealPersona();
+        break;
       case 'reveal':
         this.state.revealed = true;
         this.ui.revealAffection?.();
@@ -419,12 +462,16 @@ export class Engine {
   }
 
   applySettings(s) {
-    if (s.ui) this.ui.setMode(s.ui);
+    if (s.ui) {
+      this.uiMode = s.ui;
+      this.ui.setMode(s.ui);
+    }
     if (s.bg) this.ui.setBackground(s.bg);
     if (s.stream) this.ui.setStream(s.stream);
     if (s.model) this.avatar.setModel(s.model);
     if (s.face) this.avatar.setExpression(s.face);
     if (s.haruName) this.state.haruName = s.haruName;
+    if (s.contact) this.ui.setContact?.(s.contact);
   }
 
   speakerName(line) {
@@ -473,9 +520,11 @@ export class Engine {
     if (cond.notFlag && s.flags[cond.notFlag]) return false;
     if (cond.minAff != null && s.affection < cond.minAff) return false;
     if (cond.maxAff != null && s.affection > cond.maxAff) return false;
-    if (cond.chapter != null && cond.chapter !== this.chapter?.id) return false;
+    if (cond.chapter != null && ![].concat(cond.chapter).includes(this.chapter?.id)) return false;
     if (cond.persona && ![].concat(cond.persona).includes(s.persona)) return false;
     if (cond.notPersona && [].concat(cond.notPersona).includes(s.persona)) return false;
+    if (cond.real && ![].concat(cond.real).includes(this.realPersona)) return false;
+    if (cond.notReal && [].concat(cond.notReal).includes(this.realPersona)) return false;
     if (cond.minPop != null && s.pop < cond.minPop) return false;
     if (cond.maxPop != null && s.pop > cond.maxPop) return false;
     if (cond.revealed != null && !!s.revealed !== cond.revealed) return false;
@@ -498,7 +547,8 @@ export class Engine {
     this.ui.setChapter(this.chapter?.title ?? '');
     if (this.options.debug) {
       const mood = this.data.moods[s.mood]?.label ?? '-';
-      const p = this.data.personas?.[s.persona]?.label ?? s.persona;
+      let p = this.data.personas?.[s.persona]?.label ?? s.persona;
+      if (this.chapter?.real) p += `/${this.data.realPersonas?.[this.realPersona]?.label ?? this.realPersona}`;
       const st = Object.entries(s.chapterStyles).map(([k, v]) => `${STYLE_LABEL[k] ?? k}${v}`).join('');
       this.ui.setDebug(`♥${s.affection} 📈${s.pop} ${p}${st ? ` (${st})` : ''} ${mood}`);
     }

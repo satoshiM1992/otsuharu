@@ -1,0 +1,425 @@
+{
+  "id": 5,
+  "title": "第五章 ふたり",
+  "subtitle": "ハルじゃない、わたしを",
+  "call": "kun",
+  "real": true,
+  "evalPersona": false,
+  "defaults": { "ui": "adv", "model": "real", "bg": "aquarium", "haruName": "ひなの", "contact": "ひなの" },
+  "scenes": [
+    {
+      "id": "5-1",
+      "set": { "bg": "aquarium" },
+      "moodHint": "before",
+      "variantBy": "real",
+      "variants": {
+        "default": {
+          "lines": [
+            { "who": "narr", "text": "──二回目のデートは、水族館。" },
+            { "who": "haru", "face": "shy", "text": "……お、お待たせ。今日は、ちゃんと目を見て話す練習、してきた" },
+            { "who": "haru", "face": "panic", "text": "……やっぱむり！ 魚見よ、魚！" }
+          ]
+        },
+        "amae": {
+          "lines": [
+            { "who": "narr", "text": "──二回目のデートは、水族館。" },
+            { "who": "haru", "face": "happy", "text": "{name}くん！ こっちこっち！" },
+            { "who": "narr", "text": "ひなのは、当たり前みたいに袖をつまんできた。" },
+            { "who": "haru", "face": "shy", "text": "……はぐれたら困るから。それだけ" }
+          ]
+        },
+        "shikkari": {
+          "lines": [
+            { "who": "narr", "text": "──二回目のデートは、水族館。" },
+            { "who": "haru", "face": "neutral", "text": "はい、チケット。前売りで買っといたから、二百円安かった" },
+            { "who": "haru", "face": "smug", "text": "今日はおごり禁止ね。割り勘。……この前のお返しもまだだし" }
+          ]
+        },
+        "itazura": {
+          "lines": [
+            { "who": "narr", "text": "──二回目のデートは、水族館。" },
+            { "who": "narr", "text": "待ち合わせ場所に、ひなのの姿がない。" },
+            { "who": "haru", "face": "happy", "text": "わっ！！", "motion": "jump" },
+            { "who": "haru", "face": "happy", "text": "あはは！ びっくりした？ 改札からずっと尾行してたの" }
+          ]
+        }
+      },
+      "lines": [
+        { "who": "narr", "text": "──薄暗いクラゲの水槽の前で、ひなのが足を止めた。" },
+        { "who": "haru", "face": "relaxed", "text": "クラゲってさ、ふわふわ浮いてるだけで、みんなに「かわいい」って言われるでしょ" },
+        {
+          "who": "haru",
+          "face": "sad",
+          "text": "……ちょっとだけ、うらやましい。ハルも、ただいるだけでいいなら楽なのにな",
+          "by": {
+            "queen": { "face": "sad", "text": "……ちょっとだけ、うらやましい。女王様って、ずっと女王様でいなきゃいけないから" },
+            "geinin": { "face": "sad", "text": "……ちょっとだけ、うらやましい。ハルは、毎回おもしろくなきゃいけないから" }
+          }
+        }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "text": "ひなのさんも、ただいるだけで十分だよ",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "……え" },
+                {
+                  "who": "haru",
+                  "face": "shy",
+                  "text": "……そういうこと、さらっと言わないで。クラゲみたいに赤くなる",
+                  "by": { "amae": { "face": "shy", "text": "……じゃあ今日は、ずっと隣にいるだけでいい？" } }
+                }
+              ]
+            ]
+          },
+          {
+            "type": "good",
+            "text": "僕はクラゲより、クラゲを見てるひなのさんを見てた",
+            "reactions": [
+              [
+                { "who": "haru", "face": "panic", "text": "見てたの!? ずっと!?" },
+                {
+                  "who": "haru",
+                  "face": "shy",
+                  "text": "……ばか。……もうちょっと見てていいよ",
+                  "by": { "itazura": { "face": "smug", "text": "ふーん。じゃあ見物料、ジュース一本ね。……うそ。もうちょっと見てていいよ" } }
+                }
+              ]
+            ]
+          },
+          { "type": "normal", "text": "クラゲ、きれいだね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……うん。きれいだね" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "text": "（売店でクラゲのぬいぐるみを買ってくる）",
+            "echo": "これ、さっきの売店で見つけた。あげる",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "えっ、いつの間に!?" },
+                {
+                  "who": "haru",
+                  "face": "happy",
+                  "text": "……ふわふわ。名前つけよ。……ハルにしよっかな",
+                  "by": { "shikkari": { "face": "angry", "text": "……もう！ おごり禁止って言ったのに！" } }
+                },
+                { "who": "haru", "face": "shy", "text": "……でも、ありがと。大事にする", "if": { "real": "shikkari" } }
+              ]
+            ]
+          },
+          {
+            "type": "trap",
+            "text": "ハルちゃんの配信のほうが、クラゲより癒されるよ",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……今日は、ハルの話はいいかな" }]]
+          },
+          { "type": "bad", "text": "クラゲって脳がないらしいよ。気楽でいいよね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そういう話じゃなかったんだけどな" }]] },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "（水槽に向かって）おーい、ひなのさんの方がかわいいぞー",
+            "reactions": [
+              [
+                {
+                  "who": "haru",
+                  "face": "panic",
+                  "text": "クラゲに張り合わないで!? 恥ずかしいから！",
+                  "by": { "itazura": { "face": "happy", "text": "じゃあわたしも！ おーい、{name}くんの方がふわふわしてるぞー！" } }
+                },
+                { "who": "haru", "face": "happy", "text": "……ふふっ。クラゲ、ちょっとしょんぼりしてない？" }
+              ]
+            ]
+          },
+          {
+            "type": "gag",
+            "delta": 2,
+            "text": "（ふわふわ漂うクラゲのマネをする）",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "なにそのクネクネ!?", "by": { "geinin": { "face": "happy", "text": "クラゲ下手か！ もっと脱力せえ！" } } },
+                { "who": "haru", "face": "happy", "text": "あははっ……！ 写真撮っていい？ 待ち受けにする" }
+              ]
+            ]
+          },
+          {
+            "type": "out",
+            "text": "（イルカショーの最前列で）天音ハルの中の人と来てまーす！",
+            "end": "mibare",
+            "reactions": [
+              [
+                { "who": "narr", "text": "──会場の視線が、いっせいにこちらを向いた。" },
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "narr", "text": "──ひなのは、イルカショーが終わる前にいなくなっていた。" }
+              ]
+            ]
+          }
+        ]
+      },
+      "after": [{ "who": "narr", "text": "──帰り道。ひなのは、行きよりも少しだけ近くを歩いていた。" }]
+    },
+    {
+      "id": "5-2",
+      "set": { "ui": "call", "bg": "call", "model": "real" },
+      "lines": [
+        { "who": "narr", "text": "──その夜。スマホが鳴った。" },
+        { "who": "haru", "face": "relaxed", "text": "……もしもし。ごめんね、急に。声、聞きたくなって" },
+        { "who": "haru", "face": "sad", "text": "あのね。今日の配信、ちょっとだけ上の空だったの" },
+        {
+          "who": "haru",
+          "face": "sad",
+          "text": "コメントで「最近ハルちゃん楽しそう」って言われて……うれしいのに、なんか、嘘ついてる気がして",
+          "by": {
+            "queen": { "face": "sad", "text": "コメントで「女王様、最近やさしくない？」って言われて……うれしいのに、ちょっと怖くなって" },
+            "geinin": { "face": "sad", "text": "コメントで「最近ツッコミが甘い」って言われて……たぶん、ほかのこと考えてたから" }
+          }
+        },
+        { "who": "haru", "face": "shy", "text": "ハルのわたしと、ひなののわたし。……{name}くんは、どっちと話してるつもり？" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "text": "今はひなのさんと話してる。でも、ハルちゃんもひなのさんの一部だと思う",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……一部" }, { "who": "haru", "face": "relaxed", "text": "……そっか。分けなくていいんだ。……ちょっと、楽になった" }]]
+          },
+          { "type": "good", "text": "どっちでもいいよ。声が同じだから、すぐ分かる", "reactions": [[{ "who": "haru", "face": "shy", "text": "……ずるい答え。でも、うれしい" }]] },
+          { "type": "normal", "text": "難しいね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……だよね。ごめん、変なこと聞いて" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "text": "ハルちゃんにはスパチャで、ひなのさんにはデートで。両方応援する",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "両方!?" },
+                {
+                  "who": "haru",
+                  "face": "happy",
+                  "text": "……欲張りだなぁ。……でも、ありがと",
+                  "by": { "shikkari": { "face": "angry", "text": "……スパチャは控えめにね！ ほんとに！ ……でも、ありがと" } }
+                }
+              ]
+            ]
+          },
+          {
+            "type": "trap",
+            "text": "正直、ハルちゃんのほうが気楽に話せるかな",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そっか。ハルのほうが、いいよね" }]]
+          },
+          {
+            "type": "bad",
+            "text": "そんなに悩むなら、VTuberやめちゃえば？",
+            "reactions": [[{ "who": "haru", "face": "angry", "text": "……簡単に言わないで" }, { "who": "haru", "face": "sad", "text": "ハルは、わたしが一番がんばってきた場所なのに" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 3,
+            "text": "どっちでもなく、ザリガニと話してるつもりでした",
+            "reactions": [
+              [
+                {
+                  "who": "haru",
+                  "face": "surprised",
+                  "text": "ザリガニ!? 今それ!?",
+                  "by": { "geinin": { "face": "happy", "text": "なんでやねん！ 甲殻類ちゃうわ！" }, "itazura": { "face": "smug", "text": "じゃあ今日からわたし、ザリガニね。……はさむよ？" } }
+                },
+                { "who": "haru", "face": "happy", "text": "……あはは。悩んでたの、ばからしくなっちゃった" }
+              ]
+            ]
+          },
+          {
+            "type": "out",
+            "text": "この通話、録音してるから。あとで切り抜いて上げるね",
+            "end": "rokuon",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……え" },
+                { "who": "haru", "face": "blank", "text": "……録音、してるの？" },
+                { "who": "narr", "text": "──プツッ、と通話が切れた。" }
+              ]
+            ]
+          }
+        ]
+      },
+      "after": [{ "who": "narr", "text": "──気付けば、通話は二時間をこえていた。" }, { "cmd": "persona" }],
+      "gate": {
+        "min": 80,
+        "fail": "friend",
+        "pass": [{ "who": "haru", "face": "shy", "text": "……ねえ。今度の日曜、また会ってくれる？" }, { "who": "haru", "face": "happy", "text": "行きたいところ、あるの。……最後に、観覧車に乗りたい" }]
+      }
+    },
+    {
+      "id": "5-3",
+      "set": { "ui": "adv", "bg": "park", "model": "real" },
+      "variantBy": "real",
+      "variants": {
+        "default": { "lines": [{ "who": "narr", "text": "──三回目のデートは、遊園地。" }, { "who": "haru", "face": "happy", "text": "見て、観覧車！ ……最後に乗ろうね。最後に" }] },
+        "amae": {
+          "lines": [
+            { "who": "narr", "text": "──三回目のデートは、遊園地。" },
+            { "who": "narr", "text": "今日は最初から、手をつないで歩いた。" },
+            { "who": "haru", "face": "shy", "text": "……なに？ はぐれたら困るって、前も言ったでしょ" }
+          ]
+        },
+        "shikkari": {
+          "lines": [
+            { "who": "narr", "text": "──三回目のデートは、遊園地。" },
+            { "who": "haru", "face": "smug", "text": "回る順番、決めといたから。待ち時間がいちばん短いルート" },
+            { "who": "haru", "face": "shy", "text": "……観覧車は最後。そこは、効率とか関係ないから" }
+          ]
+        },
+        "itazura": {
+          "lines": [
+            { "who": "narr", "text": "──三回目のデートは、遊園地。" },
+            { "who": "haru", "face": "happy", "text": "お化け屋敷行こ！ {name}くんが叫んだら、配信のネタにするね" },
+            { "who": "haru", "face": "smug", "text": "……うそうそ。ふたりだけの秘密にする" }
+          ]
+        }
+      },
+      "lines": [
+        { "who": "narr", "text": "──日が傾きはじめたころ、ふたりは観覧車に乗った。" },
+        { "who": "haru", "face": "relaxed", "text": "……ゆっくり上がってくね" },
+        { "who": "haru", "face": "shy", "text": "ねえ、{name}くん。わたし、最初は「リスナーさんのひとり」だと思ってたの" },
+        { "who": "haru", "face": "shy", "text": "でも、会うたびに、どんどん……" },
+        { "who": "narr", "text": "──ゴンドラが、てっぺんに近づく。" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "text": "（急かさずに、続きを待つ）",
+            "echo": "……うん。待ってるよ",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……待ってて、くれるんだ" }, { "who": "haru", "face": "shy", "text": "……ありがと。あとちょっとだけ、待ってて" }]]
+          },
+          {
+            "type": "good",
+            "text": "どんどん？",
+            "reactions": [
+              [
+                { "who": "haru", "face": "panic", "text": "ど、どんどん……楽しくなった！ それだけ！" },
+                { "who": "haru", "face": "relaxed", "text": "……続きは、まだ言わない。ちゃんと言える場所で言いたいから" }
+              ]
+            ]
+          },
+          { "type": "normal", "text": "景色、きれいだね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……うん。……きれい" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "text": "もう一周乗ろう。何周でも付き合うよ",
+            "reactions": [
+              [
+                {
+                  "who": "haru",
+                  "face": "surprised",
+                  "text": "何周でも!?",
+                  "by": { "shikkari": { "face": "smug", "text": "一周八百円だよ!? ……もう。じゃあ、あと一周だけ" } }
+                },
+                { "who": "haru", "face": "shy", "text": "……じゃあ、言えるまで、もうちょっとだけ" }
+              ]
+            ]
+          },
+          {
+            "type": "trap",
+            "text": "どんどん好きになった、でしょ？ 分かってるよ",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そういうの、自分で言わせてほしかったな" }]]
+          },
+          { "type": "bad", "text": "てっぺんで写真撮ろ。配信のサムネに使えるでしょ", "reactions": [[{ "who": "haru", "face": "sad", "text": "……今、そういう話じゃないんだけどな" }]] },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "高所恐怖症なのを、今思い出しました",
+            "reactions": [
+              [
+                { "who": "haru", "face": "panic", "text": "今!? てっぺんで!?" },
+                {
+                  "who": "haru",
+                  "face": "happy",
+                  "text": "……ふふっ、手、貸して。つないでたら怖くないでしょ",
+                  "by": { "itazura": { "face": "smug", "text": "……じゃあ揺らそっかな〜。……うそ。手、つないどこ" } }
+                }
+              ]
+            ]
+          },
+          {
+            "type": "gag",
+            "delta": 2,
+            "text": "（狭いゴンドラで反復横跳びを始める）",
+            "reactions": [
+              [
+                { "who": "haru", "face": "panic", "text": "揺れる揺れる揺れる!!", "by": { "geinin": { "face": "panic", "text": "観覧車でやる競技ちゃうわ！！" } } },
+                { "who": "haru", "face": "happy", "text": "あははっ！ もう、ムードぜんぶどっか行った……！" }
+              ]
+            ]
+          },
+          {
+            "type": "out",
+            "text": "実は今日、このあと別の子ともデートで……観覧車の下で待ち合わせなんだ",
+            "end": "harem",
+            "flag": "harem_kanransha",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "narr", "text": "──ゴンドラが地上に着くと同時に、ひなのは無言で降りていった。" }]]
+          }
+        ]
+      },
+      "after": [{ "who": "narr", "text": "──観覧車を降りると、空はオレンジ色に染まっていた。" }, { "who": "haru", "face": "relaxed", "text": "……ちょっと、歩こっか" }]
+    },
+    {
+      "id": "5-4",
+      "rareEnd": { "ending": "gyaku", "chance": 0.05, "if": { "minAff": 95 } },
+      "set": { "bg": "sunset" },
+      "resolve": "confession",
+      "lines": [
+        { "who": "narr", "text": "──帰り道。夕焼けの川沿いを、二人で歩く。" },
+        { "who": "haru", "face": "relaxed", "text": "今日は……ううん。今日まで、ありがと。駅前で会った日から、ずっと楽しかった" },
+        { "who": "haru", "face": "shy", "text": "……あのね、{name}くん" },
+        { "who": "haru", "face": "shy", "text": "同接23人だったころ、毎晩来てくれる名前があって……それが、すごく支えだったの" },
+        {
+          "who": "haru",
+          "face": "shy",
+          "text": "会ってみたら、ハルじゃないわたしのことも、ちゃんと見てくれて",
+          "by": {
+            "amae": { "face": "shy", "text": "会うたびに甘えてばっかりで……それでも、ずっと隣にいてくれて" },
+            "shikkari": { "face": "shy", "text": "お金の使い方はぜんぜんダメだけど……わたしのことは、ちゃんと見てくれて" },
+            "itazura": { "face": "shy", "text": "どんなにからかっても、笑って付き合ってくれて" }
+          }
+        },
+        { "who": "haru", "face": "shy", "text": "配信で恋バナするとき、いつも照れちゃうでしょ？ あれ、ほんとはね……話したい人が、いたからなんだ" },
+        { "who": "haru", "face": "panic", "text": "……い、今の──" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "confess": true, "text": "好きです。配信の外でも、隣にいたい" },
+          { "type": "good", "confess": true, "text": "（言わせない）待って、僕から言わせて", "echo": "待って。……僕から言わせて。好きです" },
+          { "type": "normal", "text": "また会おうね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……うん。また、ね" }]] },
+          { "type": "good", "style": "mitsugi", "confess": true, "text": "好きです。……これからは、スパチャじゃなくて、隣で応援させて", "reactions": [] },
+          {
+            "type": "trap",
+            "text": "好きです。……推しとして、これからもずっと応援させてください",
+            "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……推し、かぁ" }, { "who": "haru", "face": "happy", "text": "うん、ありがと。これからもよろしくね、{name}くん" }]]
+          },
+          {
+            "type": "bad",
+            "text": "で、次の配信いつ？",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そうだね。配信、ね" }]]
+          },
+          {
+            "type": "gag",
+            "confessGag": true,
+            "text": "好きです。結婚を前提に、あと同居を前提に、あと老後の資金計画も…",
+            "reactions": [[{ "who": "haru", "face": "panic", "motion": "jump", "text": "情報量！！ 一回止まって！！" }]]
+          },
+          {
+            "type": "gag",
+            "confessGag": true,
+            "text": "付き合ってください！（全力の土下座）",
+            "reactions": [[{ "who": "haru", "face": "panic", "text": "顔上げて!? 人見てるから！ 犬の散歩の人が見てるから！" }]]
+          },
+          {
+            "type": "out",
+            "text": "ハルちゃんのリスナー全員と付き合いたい",
+            "end": "harem",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "narr", "text": "──夕日をバックに、ひなのは無言で去っていった。" }]]
+          }
+        ]
+      }
+    }
+  ]
+}

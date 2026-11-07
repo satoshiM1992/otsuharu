@@ -244,7 +244,7 @@ document.addEventListener('click', (e) => {
 
 // Browsers only allow audio after a user gesture; resume on every tap
 // (iOS suspends the context when the page goes to the background).
-document.addEventListener('pointerdown', () => sound.unlock(), true);
+sound.bindUnlock();
 
 function refreshSoundButtons() {
   document.querySelectorAll('.sound-toggle').forEach((b) => {

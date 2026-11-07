@@ -16,6 +16,7 @@ export function newState({ seed, handle, flags = {} }) {
     pop: 0, // popularity 0..100
     persona: 'angel', // angel | queen | geinin
     personaChanged: false,
+    realPersona: 'shy', // shy | amae | shikkari | itazura (ひなの off stream)
     chapterStyles: {}, // comment styles chosen this chapter: { kind, mitsugi, neta }
     mood: null,
     moodChapter: null,
