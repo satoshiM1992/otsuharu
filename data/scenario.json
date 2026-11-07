@@ -9,7 +9,8 @@
     "typeStyle": { "good": "kind", "normal": "kind", "gag": "neta" },
     "stylePop": { "kind": 1, "mitsugi": 4, "neta": 2 },
     "personaMargin": 2,
-    "spiceRate": { "meme": 0.5, "bad": 0.4, "out": 0.1 }
+    "spiceRate": { "meme": 0.5, "bad": 0.4, "out": 0.1 },
+    "gesu": { "limit": 3, "end": "mikudashi", "warn": [{ "who": "haru", "face": "blank", "text": "……{name}さん、またそういうの？" }, { "who": "mob", "text": "またこいつか" }, { "who": "mob", "text": "そろそろBANされるぞ" }] }
   },
 
   "personas": {
@@ -433,6 +434,67 @@
           { "who": "mob", "text": "さすがにアウト" }
         ]
       ]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 3,
+      "text": "てぇてぇ",
+      "reactions": [[{ "who": "haru", "face": "surprised", "text": "誰と!? 今ひとりだよ!?" }, { "who": "haru", "face": "shy", "text": "……え、わたしとリスナーさんで？ ……て、てぇてぇ……" }]]
+    },
+    { "spice": "meme", "type": "gag", "delta": 4, "text": "ガチ恋距離やめろ（やめないで）", "reactions": [[{ "who": "haru", "face": "shy", "text": "どっち!? ……えへへ、じゃあちょっとだけ近づいとくね" }]] },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "中の人などいない",
+      "reactions": [
+        [
+          { "who": "haru", "face": "smug", "text": "そうだよ！ 中の人なんていないよ！" },
+          { "who": "haru", "face": "panic", "text": "……いないよ？ ほんとに！", "by": { "geinin": { "face": "happy", "text": "おるわ！ ……あ、おらんわ！ 今のナシ！" } } }
+        ]
+      ]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 3,
+      "text": "ママ（絵師さん）見てる〜？",
+      "reactions": [[{ "who": "haru", "face": "panic", "text": "ママ見てたらどうしよ!?" }, { "who": "haru", "face": "happy", "text": "ママ〜！ かわいく描いてくれてありがと〜！" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "切り抜き班、仕事だぞ",
+      "reactions": [[{ "who": "haru", "face": "surprised", "text": "切り抜き班いるの!?" }, { "who": "haru", "face": "happy", "text": "……いないよね？ いたら教えて！ お礼言いたい！" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "初見です（毎日来てる）",
+      "reactions": [[{ "who": "haru", "face": "happy", "text": "嘘つけ！ 毎日いるでしょ！", "by": { "geinin": { "face": "happy", "text": "毎日来とるやないか！ 初見の定義どうなってんねん！" } } }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "ASMRはよ",
+      "reactions": [[{ "who": "haru", "face": "relaxed", "text": "機材ないの！ ……マイクの前でささやくだけでいい？" }, { "who": "haru", "face": "panic", "text": "……やっぱ恥ずかしいから無理！" }]]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "delta": -6,
+      "text": "えっっっ",
+      "reactions": [
+        [
+          { "who": "haru", "face": "panic", "text": "どこが!? 今のどこが!?" },
+          { "who": "haru", "face": "angry", "text": "普通にしゃべってただけだよ!?" },
+          { "who": "mob", "text": "えっっっ" }
+        ]
+      ]
     }
   ],
 
@@ -725,6 +787,28 @@
       "desc": "コメント欄は、言っていいことと悪いことがある場所です。",
       "hint": "配信のコメント欄で、一線を越えた冗談を言うと……",
       "lines": [{ "who": "narr", "text": "──そのコメントは、もう誰の目にも届かない。" }]
+    },
+    "mikudashi": {
+      "cat": "hidden",
+      "emoji": "🧊",
+      "title": "オタク見下しエンド",
+      "desc": "推しの冷たい目は、ある意味で一番のファンサービスだった。",
+      "hint": "コメント欄で、下品なコメントを何度もくり返すと……",
+      "lines": [
+        { "who": "haru", "face": "blank", "text": "……あのさ" },
+        { "who": "haru", "face": "blank", "text": "{name}さん。毎回毎回、そういうコメントしかできないの？" },
+        {
+          "who": "haru",
+          "face": "angry",
+          "text": "正直に言うね。……キモい",
+          "by": { "queen": { "face": "smug", "text": "……はぁ。オタクってほんと、こういうのしか言えないわけ？ キモ" }, "geinin": { "face": "blank", "text": "……ツッコむ気にもならんわ。キモい" } }
+        },
+        { "who": "mob", "text": "言ったｗｗｗ" },
+        { "who": "mob", "text": "ハルちゃんがキレた" },
+        { "who": "mob", "text": "正論" },
+        { "who": "sys", "text": "{name}さんはチャンネルから非表示になりました" },
+        { "who": "narr", "text": "──その夜の切り抜き『ハル、キモオタを一刀両断』は、皮肉にも、彼女の最初のバズ動画になった。" }
+      ]
     },
     "zarigani": {
       "cat": "hidden",

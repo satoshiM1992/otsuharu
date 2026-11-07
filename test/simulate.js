@@ -65,7 +65,10 @@ for (const ch of data.chapters) {
     if (sc.choice) checkChoice(sc.choice, w);
     if (sc.gate && !data.endings[sc.gate.fail]) fail(`${w}: unknown gate ending`);
     if (sc.rareEnd && !data.endings[sc.rareEnd.ending]) fail(`${w}: unknown rareEnd ending`);
-    for (const [k, v] of Object.entries(sc.variants ?? {})) {
+    checkLines(sc.intro, w);
+    const variants = typeof sc.topic === 'string' ? ch.topics?.[sc.topic] : sc.variants;
+    if (typeof sc.topic === 'string' && !variants) fail(`${w}: unknown topic pool ${sc.topic}`);
+    for (const [k, v] of Object.entries(variants ?? {})) {
       checkLines(v.lines, `${w}/${k}`);
       if (v.choice) checkChoice(v.choice, `${w}/${k}`);
       if (sc.topic && !v.choice && !sc.choice) fail(`${w}/${k}: no choice`);
@@ -74,6 +77,8 @@ for (const ch of data.chapters) {
     }
   }
 }
+checkLines(data.rules.gesu?.warn, 'rules.gesu.warn');
+if (data.rules.gesu && !data.endings[data.rules.gesu.end]) fail('rules.gesu: unknown ending');
 if (data.spice) checkChoice({ pool: [{ type: 'good' }, ...data.spice] }, 'spice');
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);
 for (const [id, r] of Object.entries(data.rares)) checkLines(r.lines, `rare ${id}`);
@@ -103,7 +108,9 @@ class FakeUI {
     this.mode = m;
   }
   setBackground() {}
-  setStream() {}
+  setStream({ title } = {}) {
+    if (title && /\{\w+\}/.test(title)) throw new Error(`unformatted stream title: ${title}`);
+  }
   setAffection(r) {
     if (r != null && (r < 0 || r > 1)) throw new Error(`affection ratio ${r}`);
   }

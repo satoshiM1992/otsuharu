@@ -104,17 +104,22 @@ export class Engine {
     if (rareEnd?.at === 'start' && this.rareEndHit(rareEnd)) return { end: rareEnd.ending };
     let v = scene;
     if (scene.topic) {
-      const all = Object.keys(scene.variants);
+      // topic: true draws one of scene.variants; topic: "events" draws from
+      // chapter.topics.events, so several scenes can share one event pool.
+      // Keys already used this game are skipped while fresh ones remain.
+      const variants = typeof scene.topic === 'string' ? this.chapter.topics[scene.topic] : scene.variants;
+      const all = Object.keys(variants);
       const fresh = all.filter((k) => !state.topicsUsed.includes(k));
       const topic = this.rng.pick(fresh.length ? fresh : all);
       state.topicsUsed.push(topic);
-      v = scene.variants[topic];
+      v = variants[topic];
       if (v.set) this.applySettings(v.set);
     } else if (scene.variantBy === 'persona' || scene.variantBy === 'real') {
       const key = scene.variantBy === 'real' ? this.realPersona : state.persona;
       v = scene.variants[key] ?? scene.variants.default;
       if (v.set) this.applySettings(v.set);
     }
+    await this.playLines(scene.intro);
     const merged = (key) => (v === scene ? scene[key] : [...(v[key] ?? []), ...(scene[key] ?? [])]);
 
     // moodHint: true plays the mood line after the scene lines, "before" plays it first.
@@ -214,6 +219,14 @@ export class Engine {
     }
 
     await this.playLines(this.pickReaction(c));
+
+    // creepy / dirty comments add up: a warning, then Haru has had enough
+    if (c.spice === 'gesu') {
+      state.gesu = (state.gesu ?? 0) + 1;
+      const g = this.rules.gesu ?? {};
+      if (g.limit && state.gesu >= g.limit) return { end: g.end };
+      if (g.limit && state.gesu === g.limit - 1) await this.playLines(g.warn);
+    }
 
     if (scene.resolve === 'confession') return { end: this.resolveConfession(c) };
     return null;
@@ -493,7 +506,7 @@ export class Engine {
       this.ui.setMode(s.ui);
     }
     if (s.bg) this.ui.setBackground(s.bg);
-    if (s.stream) this.ui.setStream(s.stream);
+    if (s.stream) this.ui.setStream({ ...s.stream, title: s.stream.title && this.fmt(s.stream.title) });
     if (s.model) this.avatar.setModel(s.model);
     if (s.face) this.avatar.setExpression(s.face);
     if (s.haruName) this.state.haruName = s.haruName;
