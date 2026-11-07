@@ -14,6 +14,7 @@ export function newState({ seed, handle, flags = {} }) {
     affection: 0,
     revealed: false, // affection meter shown (after the first DM)
     pop: 0, // popularity 0..100
+    peakPop: 0, // highest popularity reached (epilogue)
     persona: 'angel', // angel | queen | geinin
     personaChanged: false,
     realPersona: 'shy', // shy | amae | shikkari | itazura (ひなの off stream)

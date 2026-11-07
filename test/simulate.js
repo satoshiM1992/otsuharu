@@ -22,7 +22,7 @@ const data = await loadScenario('../data/');
 
 const TYPES = ['good', 'normal', 'bad', 'trap', 'gag', 'out'];
 const WHO = ['haru', 'me', 'mob', 'narr', 'sys'];
-const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal', 'persona'];
+const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal', 'persona', 'blackout'];
 const UIS = ['stream', 'dm', 'call', 'adv'];
 
 function checkLines(lines, where) {
@@ -78,6 +78,7 @@ for (const ch of data.chapters) {
   }
 }
 checkLines(data.rules.gesu?.warn, 'rules.gesu.warn');
+checkLines(data.epilogue, 'epilogue');
 if (data.rules.gesu && !data.endings[data.rules.gesu.end]) fail('rules.gesu: unknown ending');
 if (data.spice) checkChoice({ pool: [{ type: 'good' }, ...data.spice] }, 'spice');
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);

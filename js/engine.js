@@ -348,6 +348,12 @@ export class Engine {
     const ending = data.endings[id];
     if (!ending) throw new Error(`unknown ending: ${id}`);
     await this.playLines(ending.lines);
+    // lover endings continue into the "years later" epilogue (data.epilogue),
+    // which branches on the highest popularity reached (minPeak / maxPeak)
+    if (ending.epilogue) {
+      this.hudTitle = 'エピローグ';
+      await this.playLines(data.epilogue);
+    }
     return { type: 'ending', id };
   }
 
@@ -379,11 +385,12 @@ export class Engine {
     if (d) this.changePop(d);
   }
 
-  changePop(d) {
+  changePop(d, silent = false) {
     const s = this.state;
     const before = s.pop;
     s.pop = Math.max(0, Math.min(100, s.pop + d));
-    if (s.pop !== before) this.ui.popPopularity?.(s.pop - before);
+    s.peakPop = Math.max(s.peakPop ?? 0, s.pop);
+    if (s.pop !== before && !silent) this.ui.popPopularity?.(s.pop - before);
     this.refreshHud();
   }
 
@@ -482,13 +489,16 @@ export class Engine {
         await this.ui.wait(line.ms ?? 500);
         break;
       case 'pop':
-        this.changePop(line.value ?? 0);
+        this.changePop(line.value ?? 0, line.silent);
         break;
       case 'affection':
         this.changeAffection(line.value ?? 0);
         break;
       case 'persona':
         await this.updateRealPersona();
+        break;
+      case 'blackout':
+        await this.ui.blackout?.(this.fmt(line.text ?? ''));
         break;
       case 'reveal':
         this.state.revealed = true;
@@ -566,6 +576,9 @@ export class Engine {
     if (cond.notReal && [].concat(cond.notReal).includes(this.realPersona)) return false;
     if (cond.minPop != null && s.pop < cond.minPop) return false;
     if (cond.maxPop != null && s.pop > cond.maxPop) return false;
+    const peak = Math.max(s.peakPop ?? 0, s.pop);
+    if (cond.minPeak != null && peak < cond.minPeak) return false;
+    if (cond.maxPeak != null && peak > cond.maxPeak) return false;
     if (cond.revealed != null && !!s.revealed !== cond.revealed) return false;
     return true;
   }
@@ -583,7 +596,7 @@ export class Engine {
     const s = this.state;
     this.ui.setAffection(s.revealed ? s.affection / this.rules.max : null);
     this.ui.setPopularity?.(s.pop);
-    this.ui.setChapter(this.chapter?.title ?? '');
+    this.ui.setChapter(this.hudTitle ?? this.chapter?.title ?? '');
     if (this.options.debug) {
       const mood = this.data.moods[s.mood]?.label ?? '-';
       let p = this.data.personas?.[s.persona]?.label ?? s.persona;

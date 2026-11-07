@@ -94,6 +94,7 @@ export class UI {
     this.msg.hidden = true;
     this.choicesBox.hidden = true;
     this.$('card').hidden = true;
+    this.$('blackout').hidden = true;
     this.$('menu').hidden = true;
     this.$('log').hidden = true;
     this.lastLine = null;
@@ -424,6 +425,25 @@ export class UI {
     this.$('popups').append(el);
     setTimeout(() => el.remove(), 1500);
     sound.se(d > 0 ? 'coin' : 'down');
+  }
+
+  // Fade to black, show one line (e.g. "── それから、数年後。 ──"), wait for a tap.
+  async blackout(text) {
+    const el = this.$('blackout');
+    el.querySelector('.blackout-text').textContent = text;
+    el.hidden = false;
+    el.classList.remove('is-out');
+    sound.se('card');
+    try {
+      await this.wait(900);
+      await this.waitTap();
+    } finally {
+      el.classList.add('is-out');
+      setTimeout(() => {
+        el.hidden = true;
+        el.classList.remove('is-out');
+      }, 500);
+    }
   }
 
   async card(sub, title) {

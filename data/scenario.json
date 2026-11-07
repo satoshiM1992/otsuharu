@@ -498,6 +498,80 @@
     }
   ],
 
+  "epilogue": [
+    { "cmd": "flag", "key": "epi_big", "if": { "minPeak": 65 } },
+    { "cmd": "blackout", "text": "── それから、数年後。 ──" },
+    { "cmd": "pop", "value": 100, "silent": true, "if": { "flag": "epi_big" } },
+    { "cmd": "pop", "value": 8, "silent": true, "if": { "notFlag": "epi_big" } },
+    {
+      "cmd": "set",
+      "ui": "stream",
+      "model": "vtuber",
+      "bg": "room",
+      "haruName": "ハル",
+      "stream": { "title": "【5周年記念3Dライブ】天音ハル ～23からはじまる物語～", "mob": "anni" },
+      "if": { "flag": "epi_big" }
+    },
+    { "who": "narr", "text": "──天音ハル、活動5周年記念3Dライブ。チャンネル登録者{subs}人、同接{viewers}人。", "if": { "flag": "epi_big" } },
+    {
+      "who": "haru",
+      "face": "happy",
+      "text": "みんな〜！ 今日は来てくれて、ほんっとにありがと〜！",
+      "motion": "jump",
+      "by": { "queen": { "face": "smug", "text": "5周年よ。ひれ伏しなさい！ ……うそうそ、来てくれてありがと〜！" }, "geinin": { "face": "happy", "text": "5周年や〜！ 今日もツッコミ全開でいくで〜！" } },
+      "if": { "flag": "epi_big" }
+    },
+    { "who": "mob", "text": "5周年おめでとう！！", "if": { "flag": "epi_big" } },
+    { "who": "mob", "text": "3Dかわいすぎる", "if": { "flag": "epi_big" } },
+    { "who": "mob", "text": "23人時代から見てます", "name": "古参の民", "if": { "flag": "epi_big" } },
+    { "who": "haru", "face": "shy", "text": "……23人。うん、覚えてるよ。毎晩来てくれた名前、ぜんぶ", "if": { "flag": "epi_big" } },
+    { "who": "haru", "face": "happy", "text": "これからも、ずっと、おつハルしようね！", "if": { "flag": "epi_big" } },
+    { "cmd": "set", "ui": "adv", "model": "real", "bg": "night", "haruName": "ひなの", "if": { "flag": "epi_big" } },
+    { "who": "narr", "text": "──ライブのあと。ふたりで住む部屋に、ひなのが帰ってきた。", "if": { "flag": "epi_big" } },
+    { "who": "haru", "face": "relaxed", "text": "ただいま〜……。つかれた〜……", "if": { "flag": "epi_big" } },
+    { "who": "haru", "face": "happy", "text": "ねえ、見ててくれた？ {viewers}人のなかの、いちばん大事なひとり", "if": { "flag": "epi_big" } },
+    {
+      "cmd": "set",
+      "ui": "stream",
+      "model": "vtuber",
+      "bg": "room",
+      "haruName": "ハル",
+      "stream": { "title": "【雑談】5周年！ 今日もゆる〜く", "mob": "chat" },
+      "if": { "notFlag": "epi_big" }
+    },
+    { "who": "narr", "text": "──天音ハル、活動5周年。同接{viewers}人。大バズりはしなかったけれど、毎晩来てくれる常連が、ちゃんといる。", "if": { "notFlag": "epi_big" } },
+    {
+      "who": "haru",
+      "face": "happy",
+      "text": "こんハル〜！ 5周年だよ！ 今日もゆる〜くいくね！",
+      "by": { "queen": { "face": "smug", "text": "こんハル。5周年よ、祝いなさい。……うそ、いつもありがと！" }, "geinin": { "face": "happy", "text": "こんハル〜！ 5周年！ 今日もボケたら拾うで〜！" } },
+      "if": { "notFlag": "epi_big" }
+    },
+    { "who": "mob", "text": "5周年おめでとう", "if": { "notFlag": "epi_big" } },
+    { "who": "mob", "text": "今日も声いいね", "if": { "notFlag": "epi_big" } },
+    { "who": "mob", "text": "眠れない民です", "if": { "notFlag": "epi_big" } },
+    { "who": "haru", "face": "relaxed", "text": "大きいライブとかはできないけど……こうやってみんなとしゃべってるのが、いちばん楽しいんだ", "if": { "notFlag": "epi_big" } },
+    { "who": "haru", "face": "happy", "text": "それじゃあ今日も、おつハル〜！", "if": { "notFlag": "epi_big" } },
+    { "cmd": "set", "ui": "adv", "model": "real", "bg": "night", "haruName": "ひなの", "if": { "notFlag": "epi_big" } },
+    { "who": "narr", "text": "──配信を終えて、ひなのが部屋から出てきた。ふたりで住む、小さな部屋。", "if": { "notFlag": "epi_big" } },
+    { "who": "haru", "face": "relaxed", "text": "おつかれ、わたし！ ……ねえ、今日の配信どうだった？", "if": { "notFlag": "epi_big" } },
+    { "who": "narr", "text": "──ポケットの中の小さな箱を、そっと握りしめる。" },
+    { "who": "narr", "text": "──同接23人の夜から、ずっと。画面の向こうの彼女に、言いたかったことがある。" },
+    {
+      "who": "haru",
+      "face": "surprised",
+      "text": "……？ どうしたの、{name}。なんか顔、こわいよ？",
+      "by": {
+        "amae": { "face": "shy", "text": "……？ どうしたの、{name}。……もしかして、今日もぎゅってしてほしい日？" },
+        "shikkari": { "face": "angry", "text": "……？ どうしたの、{name}。……あ、また何か高い買い物したでしょ。顔に書いてある" },
+        "itazura": { "face": "smug", "text": "……？ どうしたの、{name}。……ドッキリ？ ドッキリならわたし負けないよ？" }
+      }
+    },
+    { "who": "me", "text": "……ひなの。話があるんだ" },
+    { "who": "haru", "face": "surprised", "text": "……え" },
+    { "cmd": "blackout", "text": "── 今度は、カットなしで。 ──" }
+  ],
+
   "routes": {
     "lover": [
       { "if": { "persona": "queen" }, "to": "lover_queen" },
@@ -518,6 +592,7 @@
 
   "endings": {
     "lover": {
+      "epilogue": true,
       "cat": "main",
       "emoji": "💕",
       "title": "恋人エンド",
@@ -542,6 +617,7 @@
       ]
     },
     "lover_queen": {
+      "epilogue": true,
       "cat": "main",
       "emoji": "👑",
       "title": "女王様の恋人エンド",
@@ -565,6 +641,7 @@
       ]
     },
     "lover_geinin": {
+      "epilogue": true,
       "cat": "main",
       "emoji": "🎤",
       "title": "最強コンビの恋人エンド",
@@ -857,6 +934,7 @@
       ]
     },
     "gyaku": {
+      "epilogue": true,
       "cat": "rare",
       "emoji": "🌸",
       "title": "逆告白エンド",
