@@ -2,7 +2,13 @@
 // object through small interfaces, so it can also run inside the test page
 // with fake implementations.
 
+import { viewersFor, subsFor, fmtCount } from './stats.js';
+
 export const ABORT = Symbol('abort');
+
+// Rare events with special handling in the engine; every other id in
+// data.rares is a generic event: { chance, at?: 'before'|'after', lines }.
+const SPECIAL_RARES = ['cat', 'slip', 'pin', 'tategaki'];
 
 export const TYPE_LABEL = {
   good: '💗好印象',
@@ -85,6 +91,9 @@ export class Engine {
 
   async playScene(scene) {
     const { state, data } = this;
+    // optional scenes: "if" conditions and "chance" (random event)
+    if (!this.test(scene.if)) return null;
+    if (scene.chance != null && !this.rng.chance(scene.chance)) return null;
     // rareEnd: { ending, chance, if?, at?: 'start' } ends the game early with a
     // very rare ending, either before the scene or right before its choice.
     const rareEnd = scene.rareEnd;
@@ -97,6 +106,9 @@ export class Engine {
       state.topicsUsed.push(topic);
       v = scene.variants[topic];
       if (v.set) this.applySettings(v.set);
+    } else if (scene.variantBy === 'persona') {
+      v = scene.variants[state.persona] ?? scene.variants.default;
+      if (v.set) this.applySettings(v.set);
     }
     const merged = (key) => (v === scene ? scene[key] : [...(v[key] ?? []), ...(scene[key] ?? [])]);
 
@@ -105,6 +117,7 @@ export class Engine {
     if (scene.moodHint === 'before') await this.playLines(moodLines);
     await this.playLines(merged('lines'));
     if (scene.moodHint === true) await this.playLines(moodLines);
+    await this.playGenericRares(scene, 'before');
 
     let extra = null;
     if (scene.rares?.includes('cat') && !state.flags.cat && this.rareHit('cat')) {
@@ -123,6 +136,7 @@ export class Engine {
     }
 
     await this.playLines(merged('after'));
+    await this.playGenericRares(scene, 'after');
 
     if (scene.rares?.includes('slip') && this.rareHit('slip')) {
       state.flags.slip = true;
@@ -135,6 +149,17 @@ export class Engine {
       await this.playLines(scene.gate.pass);
     }
     return null;
+  }
+
+  async playGenericRares(scene, at) {
+    for (const id of scene.rares ?? []) {
+      const r = this.data.rares[id];
+      if (SPECIAL_RARES.includes(id) || !r || (r.at ?? 'after') !== at) continue;
+      if (!this.test(r.if) || !this.rareHit(id)) continue;
+      this.state.flags[id] = true;
+      this.hooks.onRare?.(id);
+      await this.playLines(r.lines);
+    }
   }
 
   async playChoice(def, scene, extra) {
@@ -190,7 +215,7 @@ export class Engine {
 
   /**
    * Draws the choices shown for one scene:
-   * always one 💗, one 🤪 and one 💣 when the pool has any, a ☠️ with probability outRate,
+   * always one 💗, one 🤪, one 💰 and one 💣 when the pool has any, a ☠️ with probability outRate,
    * the rest from the remaining pool. The order is shuffled.
    */
   drawChoices(def, scene) {
@@ -211,7 +236,11 @@ export class Engine {
     picked.push(good);
 
     if (gags.length && picked.length < count) picked.push(rng.pick(gags));
-    if (traps.length && picked.length < count) picked.push(rng.pick(traps));
+    // a 💰 superchat when the pool has one (so a tipping player can keep tipping)
+    const tips = pool.filter((c) => this.styleOf(c) === 'mitsugi' && c.type !== 'out' && !picked.includes(c));
+    if (tips.length && picked.length < count) picked.push(rng.pick(tips));
+    const freeTraps = traps.filter((c) => !picked.includes(c));
+    if (freeTraps.length && picked.length < count) picked.push(rng.pick(freeTraps));
     const outRate = def.outRate ?? this.rules.outRate;
     if (outs.length && picked.length < count && rng.chance(outRate)) picked.push(rng.pick(outs));
 
@@ -232,13 +261,18 @@ export class Engine {
     let d = c.delta ?? this.rules.typeDelta[c.type] ?? 0;
     d += data.moods[state.mood]?.typeMod?.[c.type] ?? 0;
     d += c.moodDelta?.[state.mood] ?? 0;
+    // the persona likes some comment styles more (queen: superchats, geinin: jokes)
+    d += data.personas?.[state.persona]?.styleMod?.[this.styleOf(c)] ?? 0;
+    d += c.personaDelta?.[state.persona] ?? 0;
     return d;
   }
 
   resolveConfession(c) {
     const a = this.state.affection;
     if (c.confess && a >= this.rules.loverMin) return 'lover';
-    if (c.confessGag && a >= this.rules.loverGagMin) return 'lover';
+    // joke confessions need more affection, except for a persona that loves jokes
+    const gagMin = this.data.personas?.[this.state.persona]?.loverGagMin ?? this.rules.loverGagMin;
+    if (c.confessGag && a >= gagMin) return 'lover';
     return 'friend';
   }
 
@@ -423,9 +457,12 @@ export class Engine {
   }
 
   fmt(text) {
+    const pop = this.state.pop ?? 0;
     return String(text ?? '')
       .replaceAll('{name}', this.state.handle)
-      .replaceAll('{call}', this.callName());
+      .replaceAll('{call}', this.callName())
+      .replaceAll('{viewers}', fmtCount(viewersFor(pop)))
+      .replaceAll('{subs}', fmtCount(subsFor(pop)));
   }
 
   test(cond) {

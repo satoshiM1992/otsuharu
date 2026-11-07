@@ -5,6 +5,7 @@
 //               ?vrm=0    use the SVG placeholder instead of the VRM models
 
 import { createRng, randomSeed } from './rng.js';
+import { loadScenario } from './data.js';
 import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery } from './state.js';
 import { Engine } from './engine.js';
 import { UI, preloadBackgrounds } from './ui.js';
@@ -27,15 +28,10 @@ const fixedSeed = params.has('seed') ? Number(params.get('seed')) >>> 0 : null;
 
 const $ = (id) => document.getElementById(id);
 
-async function loadData() {
-  const res = await fetch('data/scenario.json', { cache: 'no-cache' });
-  if (!res.ok) throw new Error(`scenario.json: HTTP ${res.status}`);
-  return res.json();
-}
 
 let data;
 try {
-  data = await loadData();
+  data = await loadScenario();
 } catch (e) {
   document.body.innerHTML = `<p class="fatal">シナリオを読み込めませんでした。<br>
     ファイルを直接開いた場合は、ローカルサーバー経由で開いてください（README参照）。<br><small>${e.message}</small></p>`;

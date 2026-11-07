@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <!-- 駅ビルのゲームセンター -->
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1f4d"/>
+      <stop offset="1" stop-color="#3b2b6b"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2f5e"/>
+      <stop offset="1" stop-color="#1e1838"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe8ff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#8fc8ff" stop-opacity=".25"/>
+    </linearGradient>
+    <radialGradient id="glowPink" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ff7fb0" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#ff7fb0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowBlue" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#6fd6ff" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#6fd6ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1.4" fill="#fff" opacity=".18"/>
+    </pattern>
+  </defs>
+
+  <rect width="400" height="800" fill="url(#wall)"/>
+  <rect width="400" height="520" fill="url(#dots)"/>
+
+  <!-- neon signs -->
+  <circle cx="90" cy="120" r="90" fill="url(#glowPink)"/>
+  <circle cx="320" cy="150" r="90" fill="url(#glowBlue)"/>
+  <text x="90" y="132" font-family="sans-serif" font-size="30" font-weight="900" fill="#ffd1e4" stroke="#ff4f98" stroke-width="2" text-anchor="middle">GAME</text>
+  <text x="320" y="160" font-family="sans-serif" font-size="24" font-weight="900" fill="#d9f6ff" stroke="#2bb8f0" stroke-width="2" text-anchor="middle">CRANE</text>
+  <g fill="none" stroke="#ffe066" stroke-width="3" stroke-linecap="round" opacity=".85">
+    <path d="M160 70 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14"/>
+  </g>
+
+  <!-- crane machines (left / right, center left open for the character) -->
+  <g>
+    <rect x="-10" y="250" width="120" height="290" rx="8" fill="#ff6fa8"/>
+    <rect x="2" y="266" width="96" height="150" rx="4" fill="url(#glass)"/>
+    <rect x="2" y="266" width="96" height="16" fill="#ffd1e4"/>
+    <line x1="50" y1="282" x2="50" y2="320" stroke="#e8e8f0" stroke-width="2"/>
+    <path d="M40 320 h20 l-4 12 m-12 -12 l4 12" stroke="#e8e8f0" stroke-width="3" fill="none"/>
+    <circle cx="26" cy="396" r="14" fill="#ffd36e"/><circle cx="56" cy="400" r="12" fill="#9fe0c8"/><circle cx="80" cy="394" r="13" fill="#c4a8ff"/>
+    <rect x="10" y="430" width="80" height="40" rx="4" fill="#d94d88"/>
+    <circle cx="34" cy="450" r="9" fill="#ffe066"/><circle cx="66" cy="450" r="7" fill="#7bdcff"/>
+  </g>
+  <g>
+    <rect x="290" y="250" width="120" height="290" rx="8" fill="#4fc3f7"/>
+    <rect x="302" y="266" width="96" height="150" rx="4" fill="url(#glass)"/>
+    <rect x="302" y="266" width="96" height="16" fill="#d9f6ff"/>
+    <line x1="350" y1="282" x2="350" y2="330" stroke="#e8e8f0" stroke-width="2"/>
+    <path d="M340 330 h20 l-4 12 m-12 -12 l4 12" stroke="#e8e8f0" stroke-width="3" fill="none"/>
+    <circle cx="322" cy="398" r="13" fill="#ff9ec4"/><circle cx="352" cy="394" r="15" fill="#ffd36e"/><circle cx="380" cy="400" r="12" fill="#9fe0c8"/>
+    <rect x="310" y="430" width="80" height="40" rx="4" fill="#2a9fd0"/>
+    <circle cx="334" cy="450" r="9" fill="#ff6fa8"/><circle cx="366" cy="450" r="7" fill="#ffe066"/>
+  </g>
+
+  <!-- far machines (behind, small) -->
+  <g opacity=".7">
+    <rect x="130" y="320" width="50" height="160" rx="5" fill="#7a5cff"/>
+    <rect x="137" y="332" width="36" height="40" rx="3" fill="#a8f0ff" opacity=".6"/>
+    <rect x="220" y="320" width="50" height="160" rx="5" fill="#ff8a5c"/>
+    <rect x="227" y="332" width="36" height="40" rx="3" fill="#fff0a8" opacity=".6"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="520" width="400" height="280" fill="url(#floor)"/>
+  <g stroke="#5b4b8c" stroke-width="2" opacity=".6">
+    <line x1="0" y1="560" x2="400" y2="560"/><line x1="0" y1="620" x2="400" y2="620"/><line x1="0" y1="700" x2="400" y2="700"/>
+    <line x1="200" y1="520" x2="200" y2="800"/><line x1="120" y1="520" x2="20" y2="800"/><line x1="280" y1="520" x2="380" y2="800"/>
+  </g>
+  <g fill="#ffe066" opacity=".35"><circle cx="60" cy="600" r="3"/><circle cx="340" cy="640" r="3"/><circle cx="150" cy="720" r="2.5"/><circle cx="260" cy="760" r="2.5"/></g>
+</svg>

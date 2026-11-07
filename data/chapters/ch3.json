@@ -1,0 +1,341 @@
+{
+  "id": 3,
+  "title": "第三章 DM",
+  "subtitle": "配信の外の、小さな声",
+  "call": "san",
+  "defaults": { "ui": "call", "model": "vtuber", "bg": "call", "haruName": "ハル" },
+  "scenes": [
+    {
+      "id": "3-1",
+      "set": { "ui": "dm", "model": "none" },
+      "lines": [
+        { "who": "sys", "text": "天音ハル からメッセージが届きました" },
+        { "who": "narr", "text": "……え？ 天音ハルって、あの？ 登録者{subs}人の？" },
+        { "who": "narr", "text": "何かの間違いだと思って、三回見直した。" },
+        { "cmd": "reveal" },
+        { "who": "sys", "text": "💗 好感度が表示されるようになりました" },
+        { "who": "haru", "text": "急にごめんね！ いつもコメントくれる{name}さん、だよね？",
+          "by": {
+            "queen": { "text": "{name}さん、いつもスパチャありがと。……って、そういう話じゃなくて" },
+            "geinin": { "text": "ツッコミ待ちじゃないよ。……マジのやつ。{name}さんだよね？" }
+          } },
+        { "who": "haru", "text": "あの23人のころから、ずっといてくれた人に、聞いてほしいことがあって" },
+        { "who": "haru", "text": "迷惑じゃなかったら、なんだけど……" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "びっくりした……。僕でよければ、聞くよ", "reactions": [
+            [{ "who": "haru", "text": "ほんと!? ありがとう……！" }, { "who": "haru", "text": "じゃあ、通話……してもいい？ 文字だとうまく言えなくて" }]
+          ] },
+          { "type": "good", "text": "本物……？ ごめん、手が震えてる。もちろん聞くよ", "reactions": [
+            [{ "who": "haru", "text": "本物だよ〜！ 震えないで！ わたしも震えてるけど！" }, { "who": "haru", "text": "……よかったら、通話してもいい？" }]
+          ] },
+          { "type": "normal", "text": "どうしたの？", "reactions": [
+            [{ "who": "haru", "text": "えっとね、ちょっと長くなりそうだから……通話でもいいかな？" }]
+          ] },
+          { "type": "good", "style": "mitsugi", "text": "（とりあえず、ほしい物リストのアイスを全部買う）", "echo": "ほしい物リストのアイス、全部買っておいた！", "reactions": [
+            [{ "who": "haru", "text": "えっ、アイス30箱届くの!? 冷凍庫入らない！" }, { "who": "haru", "text": "……もう。ありがと。通話、してもいい？",
+              "by": { "queen": { "text": "ふふ、気が利くね。……通話、しよっか" } } }]
+          ] },
+          { "type": "trap", "text": "やっぱり！ 前から僕のこと気になってたんでしょ？", "reactions": [
+            [{ "who": "haru", "text": "……" }, { "who": "haru", "text": "ち、ちがっ……相談！ 相談だから！" }]
+          ] },
+          { "type": "bad", "text": "詐欺？ 本物なら配信で証明して", "reactions": [
+            [{ "who": "haru", "text": "本物だよ！ 詐欺じゃないよ！" }, { "who": "haru", "text": "……そう思われるの、ちょっとショック……" }, { "who": "haru", "text": "通話したら、信じてくれる？" }]
+          ] },
+          { "type": "gag", "delta": -5, "text": "（あえて既読スルーで3日寝かせる）", "echo": false, "reactions": [
+            [{ "who": "narr", "text": "──既読をつけたまま、3日が過ぎた。" }, { "who": "haru", "text": "……生きてる？" }, { "who": "haru", "text": "あの、通話……とか……" }]
+          ] },
+          { "type": "gag", "delta": 3, "text": "（スクロール12回分の長文で返信する）", "echo": "まずは、あの深夜二時のことから話させてください。眠れなかった僕が、おすすめ欄の端っこで……（以下、スクロール12回分）", "reactions": [
+            [{ "who": "haru", "text": "長っ!? 読むのに10分かかった！" }, { "who": "haru", "text": "……でも、全部読んだよ。ちょっと泣いた。通話、してもいい？",
+              "by": { "geinin": { "text": "長文の圧！ 卒業文集か！ ……全部読んだけど！ 通話しよ！" } } }]
+          ] },
+          { "type": "out", "text": "スクショしてXに上げていい？", "end": "sarashi", "reactions": [
+            [{ "who": "haru", "text": "……え" }, { "who": "sys", "text": "このアカウントはあなたをブロックしました" }]
+          ] }
+        ]
+      }
+    },
+    {
+      "id": "3-2",
+      "moodHint": true,
+      "lines": [
+        { "who": "narr", "text": "──着信。画面に「天音ハル」の文字。" },
+        { "who": "haru", "face": "shy", "text": "も、もしもし……？ 聞こえてる……？" },
+        { "who": "narr", "text": "配信のときより、少しだけ小さい声だった。" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "聞こえてるよ。配信のときより声やわらかいね", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "そ、そうかな……配信だと、ちょっと気合い入れてるから……" }, { "who": "haru", "face": "happy", "text": "こっちが素、かも。えへへ" }]
+          ] },
+          { "type": "good", "text": "うん、聞こえてる。ゆっくりでいいよ", "reactions": [
+            [{ "who": "haru", "face": "relaxed", "text": "……ありがと。ちょっと緊張ほぐれた" }]
+          ] },
+          { "type": "normal", "text": "もしもし", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "あ、よかった！ つながった！" }]
+          ] },
+          { "type": "trap", "text": "配信のキャラって、やっぱ作ってるの？", "reactions": [
+            [{ "who": "haru", "face": "sad", "text": "……作ってる、ように見えるかな……" }]
+          ] },
+          { "type": "bad", "text": "配信と声ちがくない？", "reactions": [
+            [{ "who": "haru", "face": "sad", "text": "え……そ、そんなに違う……？" }, { "who": "haru", "face": "sad", "text": "地声だと変かな……" }]
+          ] },
+          { "type": "gag", "delta": 3, "text": "もしもし、こちら地球防衛軍", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "地球防衛軍!? かけ間違えた!?" }, { "who": "haru", "face": "happy", "text": "……って、{name}さんでしょ！ もう、びっくりした！",
+              "by": { "geinin": { "face": "happy", "text": "地球防衛軍て！ 第一声それ!? ……緊張してたの、どっか行ったわ！" } } }]
+          ] },
+          { "type": "gag", "delta": -3, "text": "BGMに般若心経流しとくね", "reactions": [
+            [{ "who": "haru", "face": "panic", "text": "なんで!? なんで般若心経!?" }, { "who": "haru", "face": "relaxed", "text": "……でも、ちょっと落ち着く……かも……？" }]
+          ] },
+          { "type": "out", "text": "通話、録音してまーす", "end": "tsuho", "reactions": [
+            [{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "angry", "text": "切るね。" }, { "who": "sys", "text": "通話が終了しました" }]
+          ] }
+        ]
+      }
+    },
+    {
+      "id": "3-3",
+      "variantBy": "persona",
+      "variants": {
+        "angel": {
+          "lines": [
+            { "who": "haru", "face": "neutral", "text": "相談っていうのはね……人が増えて、うれしいんだけど" },
+            { "who": "haru", "face": "sad", "text": "みんなの期待に応えなきゃって思うと、こわくなっちゃって" },
+            { "who": "haru", "face": "sad", "text": "23人のころみたいに、ひとりひとりにちゃんと返せなくなってて……それが、苦しくて" }
+          ],
+          "choice": { "pool": [
+            { "type": "good", "text": "全員に返せなくても、ハルちゃんの声はちゃんと届いてるよ", "reactions": [
+              [{ "who": "haru", "face": "surprised", "text": "……届いてる？" }, { "who": "haru", "face": "relaxed", "text": "……そっか。返せなくても、届いてるんだ。……ありがと" }]
+            ] },
+            { "type": "good", "text": "苦しいって言えるの、えらいよ。たまには休もう", "reactions": [
+              [{ "who": "haru", "face": "shy", "text": "休んでいいのかな……" }, { "who": "haru", "face": "relaxed", "text": "……うん。{name}さんがそう言うなら、休んでみる" }]
+            ] },
+            { "type": "normal", "text": "がんばりすぎないでね", "reactions": [
+              [{ "who": "haru", "face": "relaxed", "text": "……うん。ありがと" }]
+            ] },
+            { "type": "trap", "text": "人気者は大変だね。もう僕たち古参のことなんて見えてないでしょ", "reactions": [
+              [{ "who": "haru", "face": "sad", "text": "……そんなこと、ないのに" }]
+            ] },
+            { "type": "bad", "text": "それが人気になるってことだよ。我慢しなきゃ", "reactions": [
+              [{ "who": "haru", "face": "sad", "text": "我慢……そっか、我慢かぁ……" }]
+            ] },
+            { "type": "gag", "delta": 4, "text": "じゃあ僕のコメントには返さなくていいよ。代わりにザリガニに返して", "reactions": [
+              [{ "who": "haru", "face": "happy", "text": "あはは！ ザリガニさん、優先順位高すぎ！" }, { "who": "haru", "face": "relaxed", "text": "……ありがと。ちょっと肩の力抜けた" }]
+            ] }
+          ] }
+        },
+        "queen": {
+          "lines": [
+            { "who": "haru", "face": "neutral", "text": "相談っていうのはね……最近、スパチャ読みの時間がいちばん長いの" },
+            { "who": "haru", "face": "sad", "text": "投げてくれる人のことは大事。でも……みんな、お金でしかわたしを見てない気がして" },
+            { "who": "haru", "face": "sad", "text": "……わたしが、そうさせちゃったのかな。女王様キャラ、楽しかったはずなのに" }
+          ],
+          "choice": { "pool": [
+            { "type": "good", "text": "お金がなくても、23人のころの配信がいちばん好きだったよ", "reactions": [
+              [{ "who": "haru", "face": "surprised", "text": "……お金が、なくても" }, { "who": "haru", "face": "shy", "text": "……そっか。そういう人も、いてくれたんだ" }]
+            ] },
+            { "type": "good", "text": "女王様のハルちゃんも好きだけど、無理してるなら脱いでいいよ", "reactions": [
+              [{ "who": "haru", "face": "shy", "text": "……脱いで、いい……" }, { "who": "haru", "face": "relaxed", "text": "女王様、ちょっと疲れてたかも。……ありがと" }]
+            ] },
+            { "type": "normal", "text": "お金も応援のひとつだよ", "reactions": [
+              [{ "who": "haru", "face": "relaxed", "text": "……うん。それは、わかってる" }]
+            ] },
+            { "type": "good", "style": "mitsugi", "text": "じゃあ、僕はこれからスパチャ0円で、コメントだけ送るね", "reactions": [
+              [{ "who": "haru", "face": "surprised", "text": "……いちばん投げてくれてた{name}さんが？" }, { "who": "haru", "face": "shy", "text": "……ふふ。それ、ちょっとうれしいかも" }]
+            ] },
+            { "type": "trap", "style": "mitsugi", "styleW": 2, "text": "大丈夫、僕はこれからも一番投げるから", "reactions": [
+              [{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そう、だよね。ありがと" }]
+            ] },
+            { "type": "bad", "text": "自業自得じゃない？", "reactions": [
+              [{ "who": "haru", "face": "sad", "text": "……うん。わかってる" }]
+            ] },
+            { "type": "gag", "delta": 3, "text": "女王様も、たまには庶民のアイス食べてみたら？", "reactions": [
+              [{ "who": "haru", "face": "happy", "text": "庶民のアイス！ ……当たり付きの、食べたいかも" }]
+            ] }
+          ] }
+        },
+        "geinin": {
+          "lines": [
+            { "who": "haru", "face": "neutral", "text": "相談っていうのはね……最近、『ツッコミの人』って呼ばれてて" },
+            { "who": "haru", "face": "sad", "text": "おもしろくないと、見てもらえない気がするの。ボケが来ないと、何話していいか分からなくて" },
+            { "who": "haru", "face": "sad", "text": "……素のわたしって、つまんないのかな" }
+          ],
+          "choice": { "pool": [
+            { "type": "good", "text": "ツッコミより前の、アイスの話してるハルちゃんが好きだった", "reactions": [
+              [{ "who": "haru", "face": "surprised", "text": "アイスの話……無限アイス編……" }, { "who": "haru", "face": "shy", "text": "……覚えててくれたんだ。……素でも、いいのかな" }]
+            ] },
+            { "type": "good", "text": "今、こうして話してるハルちゃん、全然つまんなくないよ", "reactions": [
+              [{ "who": "haru", "face": "shy", "text": "……今、ツッコんでないのに？" }, { "who": "haru", "face": "relaxed", "text": "……そっか。ありがと" }]
+            ] },
+            { "type": "normal", "text": "おもしろいから大丈夫", "reactions": [
+              [{ "who": "haru", "face": "relaxed", "text": "……ありがと。そう言ってくれると助かる" }]
+            ] },
+            { "type": "trap", "text": "でも、ハルちゃんからツッコミ取ったら何が残るの？", "reactions": [
+              [{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そう、だよね" }]
+            ] },
+            { "type": "bad", "text": "芸人目指せば？", "reactions": [
+              [{ "who": "haru", "face": "sad", "text": "……VTuberなんだけどな、わたし" }]
+            ] },
+            { "type": "gag", "delta": 5, "text": "じゃあ今日は僕がツッコむから、ハルちゃんがボケて", "reactions": [
+              [{ "who": "haru", "face": "surprised", "text": "えっ、わたしがボケ!?" }, { "who": "haru", "face": "happy", "text": "……えっと、えっと……ふ、ふとんがふっとんだ！" }, { "who": "haru", "face": "panic", "text": "……今のナシ！ カットで！" }]
+            ] }
+          ] }
+        }
+      }
+    },
+    {
+      "id": "3-4",
+      "lines": [
+        { "who": "haru", "face": "relaxed", "text": "……ふぅ。話したら、すっきりした" },
+        { "who": "haru", "face": "happy", "text": "あとね、もうひとつ相談！ 恋愛相談の企画をやりたいの。恋バナ枠、ずっと人気でしょ？" },
+        { "who": "haru", "face": "shy", "text": "でも、わたし……その……" },
+        { "who": "haru", "face": "panic", "text": "け、経験がなくて！ 恋愛の！ 何も言えないの！" },
+        { "who": "haru", "face": "sad", "text": "相談に乗る資格、ないのかなって……" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "経験がなくても、聞いてくれる人がいるだけで救われるよ", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "……そう、かな" }, { "who": "haru", "face": "relaxed", "text": "うん……そうだね。わたしも、{name}さんのコメントに救われてたし" }]
+          ] },
+          { "type": "good", "text": "ハルちゃんが一緒に悩んでくれるのが一番の価値だと思う", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "いっしょに、悩む……" }, { "who": "haru", "face": "happy", "text": "うん！ それならできる！ ありがとう！" }]
+          ] },
+          { "type": "normal", "text": "本とか読んでみたら？", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "本か〜！ 恋愛小説、読んでみようかな" }]
+          ] },
+          { "type": "trap", "text": "そのリスナー、たぶん脈ないよ。諦めさせてあげたら？", "reactions": [
+            [{ "who": "haru", "face": "sad", "text": "……そっか。そういう考え方もある、よね……" }]
+          ] },
+          { "type": "bad", "text": "恋愛はまず年収", "reactions": [
+            [{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "夢がなさすぎるよ……" }]
+          ] },
+          { "type": "gag", "delta": 4, "text": "恋愛経験なら僕が貸すよ。0件だけど", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "0件じゃ貸せないじゃん!?" }, { "who": "haru", "face": "happy", "text": "あはは！ ……でも、ちょっと安心した" }]
+          ] },
+          { "type": "gag", "moodDelta": { "cheerful": 8, "sleepy": 4, "hyper": -6 }, "text": "じゃあ今から僕と恋愛経験を作ろう", "reactions": [
+            [{ "who": "haru", "face": "panic", "motion": "jump", "text": "つ、つく、作る!? い、今のナシ！ カットで！" }, { "who": "haru", "face": "shy", "text": "……カットできないね、通話だもんね……" }]
+          ] }
+        ]
+      }
+    },
+    {
+      "id": "3-5",
+      "set": { "ui": "stream", "bg": "room", "stream": { "title": "【雑談】最近ちょっといいことあった", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──次の日の配信。いつもと同じ、たくさんの人の中のひとりとして見ていた。" },
+        { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日は、ちょっと気分がいいの！" },
+        { "who": "mob", "text": "なんかあった？" },
+        { "who": "haru", "face": "shy", "text": "ひみつ！ ……えっと、大事な人に、話を聞いてもらえて" },
+        { "who": "haru", "face": "panic", "text": "あ、ち、ちがう、リスナーさんの話！ みんなの話！" },
+        { "who": "narr", "text": "──彼女は一瞬だけ、昨日の通話で決めた合図を言った。『今日のアイスは、当たり』。" },
+        { "who": "haru", "face": "relaxed", "text": "……今日のアイスは、当たりでした" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "（何も言わず、いつも通り）こんハル。当たりおめでとう", "echo": "こんハル。当たりおめでとう！", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "……ありがと。うん、当たりだったよ" }]
+          ] },
+          { "type": "good", "text": "（合図には触れずに）今日の配信、なんか楽しそうでいいね", "echo": "今日の配信、なんか楽しそうでいいね", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "でしょ！ 楽しいの！ ……みんなのおかげ！" }]
+          ] },
+          { "type": "normal", "text": "いいことあってよかったね", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "うん！ ありがと！" }]
+          ] },
+          { "type": "good", "style": "mitsugi", "text": "¥120 アイス代（当たりのお祝い）", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "……ふふ。アイス代、ありがと。明日も当たるといいな" }]
+          ] },
+          { "type": "trap", "text": "今の合図って、僕宛てだよね？", "reactions": [
+            [{ "who": "mob", "text": "合図？" }, { "who": "mob", "text": "え、なに" }, { "who": "haru", "face": "panic", "text": "な、なんのことかな〜!? アイスの話だよ!?" }]
+          ] },
+          { "type": "bad", "text": "大事な人って誰？ 彼氏？", "reactions": [
+            [{ "who": "mob", "text": "彼氏!?" }, { "who": "haru", "face": "angry", "text": "ちがいます！ そういう詮索はナシ！" }]
+          ] },
+          { "type": "gag", "delta": 4, "text": "僕のアイスはハズレでした（報告）", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "あはは！ 報告ありがと！ ハズレも大事！",
+              "by": { "geinin": { "face": "happy", "text": "ハズレ報告いらんて！ ……いや、いる！ アイス界のバランス！" } } }]
+          ] },
+          { "type": "out", "text": "昨日の通話、楽しかったね！ また夜にかけるね", "end": "nioase", "reactions": [
+            [{ "who": "mob", "text": "は？" }, { "who": "mob", "text": "通話？？" }, { "who": "mob", "text": "繋がってるやつおる" }, { "who": "haru", "face": "blank", "text": "……" }, { "who": "sys", "text": "配信は終了しました" }]
+          ] }
+        ]
+      }
+    },
+    {
+      "id": "3-6",
+      "set": { "ui": "call", "bg": "call" },
+      "lines": [
+        { "who": "narr", "text": "──それから、夜の通話は日課になった。" },
+        { "who": "haru", "face": "relaxed", "text": "……ふぁ。ごめん、ちょっと眠くなってきた……" },
+        { "who": "haru", "face": "relaxed", "text": "でも、まだ切りたくないな……" },
+        { "who": "haru", "face": "shy", "text": "……ねえ、このまま寝落ちしても、いい……？" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "いいよ。おやすみ、また明日", "reactions": [
+            [{ "who": "haru", "face": "relaxed", "text": "……うん。また、あした……" }, { "who": "narr", "text": "──小さな寝息が聞こえるまで、通話を切らなかった。" }]
+          ] },
+          { "type": "good", "text": "眠るまで、今日の配信の好きだったとこ話してるね", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "……それ、いちばんよく眠れるやつ……" }, { "who": "narr", "text": "──三つ目を話し終えるころ、返事はなくなっていた。" }]
+          ] },
+          { "type": "normal", "text": "おやすみ", "reactions": [
+            [{ "who": "haru", "face": "relaxed", "text": "……おやすみ、なさい……" }]
+          ] },
+          { "type": "trap", "text": "寝息、録音して目覚ましにしていい？", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "……え？ ……一気に目が覚めたよ？" }]
+          ] },
+          { "type": "bad", "text": "寝落ちはちょっと……明日早いから切るね", "reactions": [
+            [{ "who": "haru", "face": "sad", "text": "あ、そ、そうだよね！ ごめんね、引き止めて！" }]
+          ] },
+          { "type": "gag", "delta": 3, "text": "（子守唄を歌う：般若心経）", "echo": "ぎゃーてーぎゃーてー……", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "……ふふっ、なんで般若心経……" }, { "who": "narr", "text": "──笑い声は、そのまま寝息に変わっていった。" }]
+          ] }
+        ]
+      }
+    },
+    {
+      "id": "3-7",
+      "lines": [
+        { "who": "haru", "face": "shy", "text": "あの、それでね……お願いがあるんだけど……" },
+        { "who": "haru", "face": "shy", "text": "企画の練習に……デートの会話の、練習相手になってくれる……？" },
+        { "who": "haru", "face": "panic", "text": "あ、あくまで練習だからね！ 企画のためだからね！" }
+      ],
+      "choice": {
+        "pool": [
+          { "type": "good", "text": "喜んで。……練習でも、ちゃんと楽しませるね", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "た、楽しませる……" }, { "who": "haru", "face": "shy", "text": "……お、お手やわらかにお願いします……" }]
+          ] },
+          { "type": "good", "text": "練習でも本気でいくよ？", "reactions": [
+            [{ "who": "haru", "face": "shy", "text": "ほ、本気……" }, { "who": "haru", "face": "panic", "text": "……い、今のナシ！ ……じゃなくて、よろしくお願いします！" }]
+          ] },
+          { "type": "normal", "text": "いいよ", "reactions": [
+            [{ "who": "haru", "face": "happy", "text": "ほんと!? ありがとー！" }]
+          ] },
+          { "type": "trap", "text": "練習ね。じゃあ僕の元カノ役やって", "reactions": [
+            [{ "who": "haru", "face": "angry", "text": "なんでわたしが元カノ役なの!?" }],
+            [{ "who": "haru", "face": "blank", "text": "……その元カノさんの話、くわしく聞いてもいい？" }]
+          ] },
+          { "type": "bad", "text": "練習相手なら母に頼んで", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "お母さん!?" }, { "who": "haru", "face": "sad", "text": "……そっか。ごめんね、変なお願いして" }]
+          ] },
+          { "type": "gag", "delta": 3, "moodDelta": { "cheerful": 5 }, "text": "じゃあ今からプロポーズの練習ね", "reactions": [
+            [{ "who": "haru", "face": "panic", "motion": "jump", "text": "段階飛ばしすぎ！！" }, { "who": "haru", "face": "shy", "text": "……でも、いつかは、その……なんでもない！" }]
+          ] },
+          { "type": "gag", "delta": 2, "text": "了解。まずは手紙を書くところから。羊皮紙で", "reactions": [
+            [{ "who": "haru", "face": "surprised", "text": "羊皮紙!? 中世!?" }, { "who": "haru", "face": "happy", "text": "封蝋もする？ ……ちょっと楽しそうなの悔しい" }]
+          ] }
+        ]
+      },
+      "after": [{ "who": "narr", "text": "──その夜の通話は、気付けば二時間を過ぎていた。" }],
+      "gate": {
+        "min": 75,
+        "fail": "friend",
+        "pass": [
+          { "who": "haru", "face": "shy", "text": "あのね……{call}。今度、企画の取材ってことで……" },
+          { "who": "haru", "face": "shy", "text": "……会って、みない？" },
+          { "who": "haru", "face": "panic", "text": "しゅ、取材だからね！ 取材！" }
+        ]
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { Engine } from '../js/engine.js';
 import { createRng } from '../js/rng.js';
 import { newState } from '../js/state.js';
 import { EXPRESSIONS } from '../js/avatar.js';
+import { loadScenario } from '../js/data.js';
 
 const out = document.getElementById('out');
 const status = document.getElementById('status');
@@ -15,7 +16,7 @@ const fail = (msg) => {
   log(`✗ ${msg}`);
 };
 
-const data = await fetch('../data/scenario.json', { cache: 'no-store' }).then((r) => r.json());
+const data = await loadScenario('../data/');
 
 // ------------------------------------------------------------ static checks
 
@@ -35,6 +36,10 @@ function checkLines(lines, where) {
     if (typeof l.text !== 'string' || !l.text) fail(`${where}: empty text`);
     if (l.face && !EXPRESSIONS[l.face]) fail(`${where}: unknown face ${l.face}`);
     if (l.voice && !data.voice?.clips?.[l.voice]) fail(`${where}: unknown voice ${l.voice}`);
+    for (const [p, o] of Object.entries(l.by ?? {})) {
+      if (!data.personas[p]) fail(`${where}: unknown persona in by: ${p}`);
+      if (o.face && !EXPRESSIONS[o.face]) fail(`${where}: unknown face ${o.face} (by.${p})`);
+    }
   }
 }
 
@@ -63,11 +68,20 @@ for (const ch of data.chapters) {
     for (const [k, v] of Object.entries(sc.variants ?? {})) {
       checkLines(v.lines, `${w}/${k}`);
       if (v.choice) checkChoice(v.choice, `${w}/${k}`);
-      if (!v.choice && !sc.choice) fail(`${w}/${k}: no choice`);
+      if (sc.topic && !v.choice && !sc.choice) fail(`${w}/${k}: no choice`);
+      if (sc.variantBy === 'persona' && k !== 'default' && !data.personas[k]) fail(`${w}: unknown persona variant ${k}`);
     }
   }
 }
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);
+for (const [id, r] of Object.entries(data.rares)) checkLines(r.lines, `rare ${id}`);
+for (const [id, p] of Object.entries(data.personas)) checkLines(p.becomes, `persona ${id}`);
+for (const [id, routes] of Object.entries(data.routes ?? {})) {
+  for (const r of routes) if (!data.endings[r.to]) fail(`route ${id}: unknown ending ${r.to}`);
+}
+for (const ch of data.chapters) {
+  for (const m of Object.values(data.moods)) if (!m.hint[ch.id]) fail(`mood ${m.label}: no hint for chapter ${ch.id}`);
+}
 for (const m of Object.values(data.moods)) for (const [k, l] of Object.entries(m.hint)) checkLines(l, `mood ${m.label}/${k}`);
 log(`静的チェック: ${sceneCount}シーン、エンド${Object.keys(data.endings).length}種`);
 

@@ -6,6 +6,7 @@
 
 import { ABORT } from './engine.js';
 import { sound } from './sound.js';
+import { viewersFor, subsFor, fmtCount } from './stats.js';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MODES = ['stream', 'dm', 'call', 'adv'];
@@ -13,7 +14,7 @@ const MODES = ['stream', 'dm', 'call', 'adv'];
 // Illustrated backgrounds: img/bg/<name>.(jpg|webp|png|svg), first file found
 // wins, so dropping in station.jpg replaces the bundled station.svg.
 // Other backgrounds (room, night, call) are CSS gradients only.
-const IMAGE_BGS = ['station', 'cafe', 'sunset'];
+const IMAGE_BGS = ['station', 'cafe', 'arcade', 'sunset'];
 const BG_EXTS = ['jpg', 'webp', 'png', 'svg'];
 const bgCache = {};
 function resolveBg(name) {
@@ -31,13 +32,6 @@ function resolveBg(name) {
     next();
   });
   return bgCache[name];
-}
-// Popularity 0..100 -> concurrent viewers (23 to about 20,000) and subscribers (180 to about 72,000).
-export const viewersFor = (pop) => Math.round(23 * 870 ** (pop / 100));
-export const subsFor = (pop) => Math.round(180 * 400 ** (pop / 100));
-export function fmtCount(n) {
-  if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}万`;
-  return n.toLocaleString('ja-JP');
 }
 
 export const preloadBackgrounds = () => IMAGE_BGS.forEach(resolveBg);
