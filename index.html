@@ -4,8 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1b1430">
-  <meta name="description" content="新人VTuber・天音ハルとの恋愛シミュレーションゲーム">
-  <title>おつハル！ 〜画面の向こうの恋〜</title>
+  <meta name="description" content="推しVTuberを落とせ！ 新人VTuber・天音ハルを配信のコメントから攻略する、スマホで遊べる恋愛シミュレーションゲーム">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="推しVTuberを落とせ！ 〜新人VTuber・天音ハル攻略作戦〜">
+  <meta property="og:description" content="配信のコメントから始まる恋。選択肢しだいで恋人にも、一発BANにも。スマホで遊べる10分恋愛ゲーム">
+  <meta property="og:url" content="https://satoshim1992.github.io/otsuharu/">
+  <meta name="twitter:card" content="summary">
+  <title>推しVTuberを落とせ！ 〜新人VTuber・天音ハル攻略作戦〜</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap">
@@ -26,11 +31,12 @@
 
   <!-- タイトル -->
   <section id="screen-title" class="screen is-active">
+    <button class="sound-toggle title-sound" aria-label="音のオン・オフ">🔊</button>
     <div class="title-sky"></div>
     <div id="title-avatar" class="title-avatar"></div>
     <div class="title-logo">
-      <p class="title-sub">〜画面の向こうの恋〜</p>
-      <h1>おつハル！</h1>
+      <p class="title-sub">〜新人VTuber・天音ハル攻略作戦〜</p>
+      <h1><span class="t-small">推しVTuberを</span><span class="t-big">落とせ！</span></h1>
     </div>
     <nav class="title-menu">
       <button class="btn btn-primary" data-action="new">はじめから</button>
@@ -58,6 +64,7 @@
       <span id="hud-chapter" class="hud-chapter"></span>
       <span id="hud-debug" class="hud-debug" hidden></span>
       <div class="heart-meter" aria-label="好感度"><span id="heart-fill" class="heart-fill"></span></div>
+      <button class="hud-menu sound-toggle" aria-label="音のオン・オフ">🔊</button>
       <button id="btn-menu" class="hud-menu" aria-label="メニュー">☰</button>
     </header>
 
@@ -112,6 +119,11 @@
       <h2 id="ending-title"></h2>
       <p id="ending-desc" class="ending-desc"></p>
       <p id="ending-progress" class="hint"></p>
+      <div class="share">
+        <button class="btn btn-x" data-action="share-x">𝕏 でシェア</button>
+        <button class="btn" data-action="share">シェア／コピー</button>
+      </div>
+      <p id="share-msg" class="hint" aria-live="polite"></p>
       <button class="btn btn-primary" data-action="title">タイトルへ</button>
     </div>
   </section>

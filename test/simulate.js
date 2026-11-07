@@ -19,7 +19,7 @@ const data = await fetch('../data/scenario.json', { cache: 'no-store' }).then((r
 
 // ------------------------------------------------------------ static checks
 
-const TYPES = ['good', 'normal', 'bad', 'gag', 'out'];
+const TYPES = ['good', 'normal', 'bad', 'trap', 'gag', 'out'];
 const WHO = ['haru', 'me', 'mob', 'narr', 'sys'];
 const CMDS = ['flag', 'set', 'face', 'motion', 'wait'];
 const UIS = ['stream', 'dm', 'call', 'adv'];
@@ -58,6 +58,7 @@ for (const ch of data.chapters) {
     checkLines(sc.after, w);
     if (sc.choice) checkChoice(sc.choice, w);
     if (sc.gate && !data.endings[sc.gate.fail]) fail(`${w}: unknown gate ending`);
+    if (sc.rareEnd && !data.endings[sc.rareEnd.ending]) fail(`${w}: unknown rareEnd ending`);
     for (const [k, v] of Object.entries(sc.variants ?? {})) {
       checkLines(v.lines, `${w}/${k}`);
       if (v.choice) checkChoice(v.choice, `${w}/${k}`);
@@ -106,6 +107,12 @@ const fakeAvatar = { setModel() {}, setExpression() {}, setTalking() {}, playMot
 const policies = {
   random: (o, rng) => rng.int(o.length),
   alwaysGood: (o) => o.findIndex((x) => x.type === 'good'),
+  // a player who usually spots the good answer but misses 1 in 4 times
+  mostlyGood: (o, rng) => {
+    if (rng.chance(0.75)) return o.findIndex((x) => x.type === 'good');
+    const ok = o.map((x, i) => [x, i]).filter(([x]) => x.type !== 'good' && x.type !== 'out');
+    return rng.pick(ok)[1];
+  },
   noOut: (o, rng) => {
     const ok = o.map((x, i) => [x, i]).filter(([x]) => x.type !== 'out');
     return rng.pick(ok)[1];
@@ -151,7 +158,7 @@ function fmtCounts(c, runs) {
 
 const RUNS = 3000;
 const results = {};
-for (const [name, opts] of [['random', {}], ['noOut', {}], ['alwaysGood', {}], ['random', { rare: 'all' }]]) {
+for (const [name, opts] of [['random', {}], ['noOut', {}], ['mostlyGood', {}], ['alwaysGood', {}], ['random', { rare: 'all' }]]) {
   const label = opts.rare ? `${name}+rare` : name;
   const r = await simulate(name, RUNS, opts);
   results[label] = r;
@@ -160,7 +167,8 @@ for (const [name, opts] of [['random', {}], ['noOut', {}], ['alwaysGood', {}], [
   log(`  レア: ${JSON.stringify(r.rares)}`);
 }
 
-if (Object.keys(results.alwaysGood.counts).join() !== 'lover') fail('alwaysGood should always reach lover');
+const notLover = Object.keys(results.alwaysGood.counts).filter((id) => id !== 'lover' && data.endings[id].cat !== 'rare');
+if (notLover.length) fail(`alwaysGood should reach lover (or a rare ending), got ${notLover.join(', ')}`);
 
 const reached = new Set(Object.values(results).flatMap((r) => Object.keys(r.counts)));
 const missing = Object.keys(data.endings).filter((id) => !reached.has(id));

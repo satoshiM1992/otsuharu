@@ -9,6 +9,7 @@ import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery } f
 import { Engine } from './engine.js';
 import { UI } from './ui.js';
 import { Avatar } from './avatar.js';
+import { sound } from './sound.js';
 
 const params = new URLSearchParams(location.search);
 const options = {
@@ -55,7 +56,7 @@ ui.onMenuTitle = () => ui.abort();
 // ---------------------------------------------------------------- screens
 
 const endingIds = Object.keys(data.endings);
-const CATEGORY = { main: 'メインエンド', out: '一発アウトエンド', hidden: '隠しエンド' };
+const CATEGORY = { main: 'メインエンド', out: '一発アウトエンド', hidden: '隠しエンド', rare: '超レアエンド' };
 
 function progressText() {
   const g = loadGallery();
@@ -63,6 +64,7 @@ function progressText() {
 }
 
 function showTitle() {
+  sound.bgm('title');
   $('title-progress').textContent = progressText();
   document.querySelector('[data-action="continue"]').hidden = !loadGame();
   ui.showScreen('title');
@@ -114,6 +116,42 @@ function galleryItem(e, got) {
   return row;
 }
 
+// ---------------------------------------------------------------- sharing
+
+const GAME_TITLE = '推しVTuberを落とせ！';
+const HASHTAG = '推しVTuberを落とせ';
+let lastEnding = null;
+
+function shareText() {
+  const e = data.endings[lastEnding];
+  const rare = e.cat === 'rare' ? '【超レア】' : '';
+  return `「${GAME_TITLE}」で${rare}${e.emoji}${e.title}を見た！（エンド回収 ${progressText()}）\n#${HASHTAG}`;
+}
+
+function shareUrl() {
+  return location.origin + location.pathname;
+}
+
+function shareToX() {
+  const q = new URLSearchParams({ text: shareText(), url: shareUrl() });
+  window.open(`https://x.com/intent/post?${q}`, '_blank', 'noopener');
+}
+
+async function shareNative() {
+  const text = shareText();
+  const url = shareUrl();
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: GAME_TITLE, text, url });
+      return;
+    }
+    await navigator.clipboard.writeText(`${text}\n${url}`);
+    $('share-msg').textContent = 'コピーしました！';
+  } catch (e) {
+    if (e?.name !== 'AbortError') $('share-msg').textContent = 'シェアできませんでした';
+  }
+}
+
 function showEnding(id) {
   const e = data.endings[id];
   $('ending-cat').textContent = CATEGORY[e.cat];
@@ -122,6 +160,10 @@ function showEnding(id) {
   $('ending-desc').textContent = e.desc ?? '';
   $('ending-progress').textContent = `エンド回収 ${progressText()}`;
   $('screen-ending').dataset.cat = e.cat;
+  sound.bgm(null);
+  sound.se(id === 'lover' || id === 'gyaku' ? 'lover' : e.cat === 'out' ? 'fail' : e.cat === 'rare' ? 'rare' : 'ending');
+  $('share-msg').textContent = '';
+  lastEnding = id;
   ui.showScreen('ending');
 }
 
@@ -141,7 +183,10 @@ async function play(state) {
     options,
     hooks: {
       onSave: (s) => saveGame(s),
-      onRare: (id) => recordGallery('rares', id),
+      onRare: (id) => {
+        recordGallery('rares', id);
+        sound.se('rare');
+      },
     },
   });
   const result = await engine.run();
@@ -182,6 +227,12 @@ document.addEventListener('click', (e) => {
       if (s) play(s);
       break;
     }
+    case 'share-x':
+      shareToX();
+      break;
+    case 'share':
+      shareNative();
+      break;
     case 'gallery':
       showGallery();
       break;
@@ -191,5 +242,29 @@ document.addEventListener('click', (e) => {
       break;
   }
 });
+
+// ------------------------------------------------------------------ sound
+
+// Browsers only allow audio after a user gesture; resume on every tap
+// (iOS suspends the context when the page goes to the background).
+document.addEventListener('pointerdown', () => sound.unlock(), true);
+
+function refreshSoundButtons() {
+  document.querySelectorAll('.sound-toggle').forEach((b) => {
+    b.textContent = sound.enabled ? '🔊' : '🔇';
+    b.setAttribute('aria-pressed', String(sound.enabled));
+  });
+}
+document.addEventListener(
+  'click',
+  (e) => {
+    if (!e.target.closest('.sound-toggle')) return;
+    e.stopPropagation();
+    sound.setEnabled(!sound.enabled);
+    refreshSoundButtons();
+  },
+  true,
+);
+refreshSoundButtons();
 
 showTitle();

@@ -5,6 +5,7 @@
 //   mode-stream (配信サイト), mode-dm (メッセージアプリ), mode-call (通話), mode-adv (ノベル)
 
 import { ABORT } from './engine.js';
+import { sound } from './sound.js';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MODES = ['stream', 'dm', 'call', 'adv'];
@@ -94,6 +95,7 @@ export class UI {
       const p = this.pending;
       this.pending = null;
       this.game.classList.remove('wait-tap');
+      sound.se('tap');
       p.resolve();
     }
   }
@@ -124,10 +126,20 @@ export class UI {
     this.stopTimers();
     if (mode === 'stream') this.startMobComments();
     if (mode === 'call') this.startCallTimer();
+    if (mode === 'call') sound.se('ring');
+    this.updateBgm();
   }
 
   setBackground(bg) {
     this.$('stage').dataset.bg = bg;
+    this.bg = bg;
+    this.updateBgm();
+  }
+
+  updateBgm() {
+    const m = this.mode;
+    if (!m) return;
+    sound.bgm(m === 'stream' ? 'stream' : m === 'adv' && this.bg !== 'night' ? 'date' : 'night');
   }
 
   setStream({ title, mob, viewers }) {
@@ -194,6 +206,7 @@ export class UI {
   addComment({ who, name, text }) {
     const row = document.createElement('div');
     row.className = 'comment';
+    if (who === 'me') sound.se('post');
     if (who === 'me') row.classList.add('is-me');
     if (who === 'sys') row.classList.add('is-sys');
     if (/^¥/.test(text)) row.classList.add('is-sc');
@@ -218,6 +231,7 @@ export class UI {
       await this.wait(Math.min(1200, 450 + text.length * 18));
       typing.remove();
       this.addBubble('haru', text);
+      sound.se('dm');
       await this.waitTap();
     } else if (who === 'me') {
       this.addBubble('me', text);
@@ -267,6 +281,7 @@ export class UI {
           e.stopPropagation();
           if (this.pending?.kind !== 'choice') return;
           this.pending = null;
+          sound.se('select');
           box.hidden = true;
           resolve(i);
         });
@@ -284,6 +299,9 @@ export class UI {
     el.textContent = d > 0 ? `好感度 +${d} 💗` : d < 0 ? `好感度 ${d} 💀` : '好感度 ±0';
     this.$('popups').append(el);
     setTimeout(() => el.remove(), 1700);
+    if (d > 0) sound.se('up');
+    else if (d <= -10) sound.se('bigdown');
+    else if (d < 0) sound.se('down');
     if (d <= -10) {
       this.game.classList.remove('shake');
       void this.game.offsetWidth;
@@ -296,6 +314,7 @@ export class UI {
     card.querySelector('.card-sub').textContent = sub ?? '';
     card.querySelector('.card-title').textContent = title ?? '';
     card.hidden = false;
+    sound.se('card');
     try {
       await this.waitTap();
     } finally {

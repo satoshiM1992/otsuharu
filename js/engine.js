@@ -8,6 +8,7 @@ export const TYPE_LABEL = {
   good: '💗好印象',
   normal: '🙂普通',
   bad: '💀ダメ',
+  trap: '💣地雷',
   gag: '🤪ギャグ',
   out: '☠️一発アウト',
 };
@@ -72,6 +73,10 @@ export class Engine {
 
   async playScene(scene) {
     const { state, data } = this;
+    // rareEnd: { ending, chance, if?, at?: 'start' } ends the game early with a
+    // very rare ending, either before the scene or right before its choice.
+    const rareEnd = scene.rareEnd;
+    if (rareEnd?.at === 'start' && this.rareEndHit(rareEnd)) return { end: rareEnd.ending };
     let v = scene;
     if (scene.topic) {
       const all = Object.keys(scene.variants);
@@ -96,6 +101,8 @@ export class Engine {
       await this.playLines(data.rares.cat.lines);
       extra = data.rares.cat.choice;
     }
+
+    if (rareEnd && rareEnd.at !== 'start' && this.rareEndHit(rareEnd)) return { end: rareEnd.ending };
 
     const choiceDef = v.choice ?? scene.choice;
     if (choiceDef) {
@@ -168,7 +175,7 @@ export class Engine {
 
   /**
    * Draws the choices shown for one scene:
-   * always one 💗, one 🤪 when the pool has any, a ☠️ with probability outRate,
+   * always one 💗, one 🤪 and one 💣 when the pool has any, a ☠️ with probability outRate,
    * the rest from the remaining pool. The order is shuffled.
    */
   drawChoices(def, scene) {
@@ -177,7 +184,8 @@ export class Engine {
     const goods = pool.filter((c) => c.type === 'good');
     const gags = pool.filter((c) => c.type === 'gag');
     const outs = pool.filter((c) => c.type === 'out');
-    const count = def.count ?? 3;
+    const traps = pool.filter((c) => c.type === 'trap');
+    const count = def.count ?? this.rules.choiceCount ?? 3;
     const picked = [];
 
     let good = rng.pick(goods);
@@ -188,6 +196,7 @@ export class Engine {
     picked.push(good);
 
     if (gags.length && picked.length < count) picked.push(rng.pick(gags));
+    if (traps.length && picked.length < count) picked.push(rng.pick(traps));
     const outRate = def.outRate ?? this.rules.outRate;
     if (outs.length && picked.length < count && rng.chance(outRate)) picked.push(rng.pick(outs));
 
@@ -226,6 +235,13 @@ export class Engine {
     const forced = this.options.rare;
     const isForced = forced === 'all' || (forced ?? '').split(',').includes(id);
     return this.rng.chance(isForced ? 1 : (this.data.rares[id]?.chance ?? 0));
+  }
+
+  // Rare endings are forced only when named explicitly (?rare=neochi), never by ?rare=all.
+  rareEndHit(r) {
+    if (!this.test(r.if)) return false;
+    const forced = (this.options.rare ?? '').split(',').includes(r.ending);
+    return this.rng.chance(forced ? 1 : r.chance);
   }
 
   async playEnding(id) {

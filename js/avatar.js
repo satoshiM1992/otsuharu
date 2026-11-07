@@ -239,6 +239,10 @@ export class Avatar {
     this.vrm = null;
     this.model = 'none';
     this.expr = 'neutral';
+    if (vrmUrls) {
+      host.classList.add('vrm-loading');
+      host.dataset.loading = '3Dモデル準備中…';
+    }
     this.ready = vrmUrls ? this.loadVrm(vrmUrls) : Promise.resolve(null);
   }
 
@@ -251,6 +255,7 @@ export class Avatar {
       return this.vrm;
     } catch (e) {
       console.warn('[avatar] VRM unavailable, using placeholder:', e);
+      this.host.classList.remove('vrm-loading');
       this.vrm = null;
       return null;
     }

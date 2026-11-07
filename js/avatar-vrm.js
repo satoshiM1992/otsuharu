@@ -91,11 +91,19 @@ function initStage() {
   stage.tick = tick; // for test/vrm-check.html
 }
 
+// Returns { promise, progress (bytes received), listeners } shared per URL.
+// Bytes, not a percentage: GitHub Pages gzips .vrm, so Content-Length (compressed)
+// is smaller than the bytes received and a percentage would pass 100%.
 function loadVrm(url) {
   if (!stage.cache.has(url)) {
+    const entry = { progress: 0, listeners: new Set() };
+    const onProgress = (e) => {
+      entry.progress = e.loaded;
+      entry.listeners.forEach((fn) => fn(entry.progress));
+    };
     const loader = new GLTFLoader();
     loader.register((parser) => new VRMLoaderPlugin(parser));
-    const p = loader.loadAsync(url).then((gltf) => {
+    const p = loader.loadAsync(url, onProgress).then((gltf) => {
       const vrm = gltf.userData.vrm;
       if (!vrm) throw new Error(`${url} is not a VRM`);
       VRMUtils.removeUnnecessaryVertices(gltf.scene);
@@ -110,9 +118,19 @@ function loadVrm(url) {
       return vrm;
     });
     p.catch(() => stage.cache.delete(url)); // allow a retry later
-    stage.cache.set(url, p);
+    entry.promise = p;
+    stage.cache.set(url, entry);
   }
   return stage.cache.get(url);
+}
+
+// Loading badge over the avatar (styled by .vrm-loading in css/style.css).
+// bytes: bytes received so far, or false to hide.
+export function setLoading(host, bytes) {
+  host.classList.toggle('vrm-loading', bytes !== false);
+  if (bytes === false) return;
+  const mb = bytes > 0 ? ` ${(bytes / 1048576).toFixed(1)}MB` : '';
+  host.dataset.loading = `3Dモデル読み込み中…${mb}`;
 }
 
 function isShown(el) {
@@ -178,15 +196,26 @@ export class VrmView {
     this.model = name;
     const url = this.urls[name];
     if (!url) {
+      setLoading(this.host, false);
       this.setVrm(null);
       return Promise.resolve(null);
     }
-    return loadVrm(url).then(
+    const entry = loadVrm(url);
+    const show = (p) => this.model === name && setLoading(this.host, p);
+    entry.listeners.add(show);
+    show(entry.progress);
+    const done = () => {
+      entry.listeners.delete(show);
+      if (this.model === name) setLoading(this.host, false);
+    };
+    return entry.promise.then(
       (vrm) => {
+        done();
         if (this.model === name) this.setVrm(vrm);
         return vrm;
       },
       (err) => {
+        done();
         console.warn('[vrm] load failed, using placeholder:', err);
         if (this.model === name) this.setVrm(null);
         return null;
