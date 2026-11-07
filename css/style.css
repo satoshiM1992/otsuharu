@@ -145,6 +145,16 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .hud-chapter { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .hud-debug { font-size: 11px; background: rgba(255, 255, 255, .15); padding: 2px 8px; border-radius: 6px; }
+.hud-subs-wrap { font-size: 11px; font-weight: 700; background: rgba(255, 255, 255, .14); padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+.hud-subs-wrap b { font-size: 13px; }
+.heart-meter[hidden] { display: none; }
+.heart-meter.reveal { animation: heart-reveal 1.4s ease-out; }
+@keyframes heart-reveal {
+  0% { transform: scale(0); }
+  40% { transform: scale(2.2); filter: drop-shadow(0 0 10px #ff7fb0); }
+  60% { transform: scale(1.6); }
+  100% { transform: scale(1); }
+}
 .heart-meter {
   position: relative;
   width: 24px;
@@ -476,6 +486,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .popup.up { color: var(--pink); }
 .popup.down { color: #fff; background: #3b3355; font-size: 26px; }
 .popup.zero { color: var(--ink-soft); }
+.popup.pop { top: 20%; font-size: 15px; padding: 4px 12px; color: #fff; background: rgba(43, 140, 90, .85); }
+.popup.pop.down { background: rgba(80, 70, 110, .85); font-size: 15px; }
 @keyframes float-up {
   0% { transform: translate(-50%, 20px) scale(.7); opacity: 0; }
   15% { transform: translate(-50%, 0) scale(1.1); opacity: 1; }

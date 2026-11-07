@@ -136,6 +136,10 @@ class Sound {
         n(79, 0, 0.08, { wave: 'triangle', vol: 0.18 });
         n(86, 0.06, 0.12, { wave: 'triangle', vol: 0.18 });
         break;
+      case 'coin':
+        n(88, 0, 0.06, { wave: 'square', vol: 0.05 });
+        n(95, 0.05, 0.12, { wave: 'square', vol: 0.05 });
+        break;
       case 'post':
         this.note(520, t, 0.09, { slide: 980, vol: 0.12 });
         break;

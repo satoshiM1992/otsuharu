@@ -13,6 +13,13 @@ export const TYPE_LABEL = {
   out: '☠️一発アウト',
 };
 
+export const STYLE_LABEL = { kind: '😇', mitsugi: '💰', neta: '🎤' };
+
+// Three hidden-ish stats drive the story besides affection:
+//   pop      0..100 popularity, shown as viewers / subscribers
+//   persona  'angel' | 'queen' | 'geinin', re-evaluated at the end of each
+//            chapter from the comment styles chosen in it (kind / mitsugi / neta)
+//   revealed affection is hidden (no meter, no popups) until {cmd: "reveal"}
 export class Engine {
   /**
    * @param {object} p
@@ -54,11 +61,16 @@ export class Engine {
           if (resumed || state.sceneIndex === 0) {
             await this.ui.card(ch.subtitle, ch.title);
             resumed = false;
+            if (state.sceneIndex === 0 && state.personaChanged) {
+              state.personaChanged = false;
+              await this.playLines(data.personas?.[state.persona]?.becomes);
+            }
           }
           const result = await this.playScene(scene);
           if (result?.end) return await this.playEnding(result.end);
           state.sceneIndex++;
         }
+        if (ch.evalPersona !== false) this.updatePersona();
         state.chapterIndex++;
         state.sceneIndex = 0;
       }
@@ -134,7 +146,8 @@ export class Engine {
       options.map((o) => ({
         text: this.fmt(o.text),
         type: o.type,
-        tag: this.options.debug ? TYPE_LABEL[o.type] : null,
+        style: this.styleOf(o),
+        tag: this.options.debug ? `${TYPE_LABEL[o.type]}${STYLE_LABEL[this.styleOf(o)] ?? ''}` : null,
       })),
     );
     const c = options[idx];
@@ -149,6 +162,7 @@ export class Engine {
       const t = data.rares.tategaki;
       const r = this.rng.chance(t.noticeRate) ? t.noticed : t.missed;
       this.changeAffection(r.delta);
+      this.applyStyle({ type: 'good' });
       await this.playLines(r.lines);
       return null;
     }
@@ -159,6 +173,7 @@ export class Engine {
     }
 
     this.changeAffection(this.computeDelta(c));
+    this.applyStyle(c);
 
     const pin = data.rares.pin;
     if (c.type === 'good' && pin.chapters.includes(this.chapter.id) && this.rareHit('pin')) {
@@ -246,23 +261,74 @@ export class Engine {
 
   async playEnding(id) {
     const { state, data } = this;
-    if (id === 'friend' && state.flags.zarigani) id = 'zarigani';
-    if (id === 'listener' && state.flags.cat) id = 'nyanko';
+    id = this.routeEnding(id);
     const ending = data.endings[id];
     if (!ending) throw new Error(`unknown ending: ${id}`);
     await this.playLines(ending.lines);
     return { type: 'ending', id };
   }
 
+  // data.routes: { friend: [{ if: {...}, to: 'zarigani' }, ...] } — the first
+  // matching route replaces the ending (followed again, so routes can chain).
+  routeEnding(id) {
+    for (let hops = 0; hops < 8; hops++) {
+      const next = this.data.routes?.[id]?.find((r) => this.test(r.if))?.to;
+      if (!next) break;
+      id = next;
+    }
+    return id;
+  }
+
+  // ------------------------------------------------------------ pop / persona
+
+  styleOf(c) {
+    return c.style ?? this.rules.typeStyle?.[c.type] ?? null;
+  }
+
+  applyStyle(c) {
+    const style = this.styleOf(c);
+    const s = this.state;
+    if (style) s.chapterStyles[style] = (s.chapterStyles[style] ?? 0) + (c.styleW ?? 1);
+    const d = c.pop ?? this.rules.stylePop?.[style] ?? 0;
+    if (d) this.changePop(d);
+  }
+
+  changePop(d) {
+    const s = this.state;
+    const before = s.pop;
+    s.pop = Math.max(0, Math.min(100, s.pop + d));
+    if (s.pop !== before) this.ui.popPopularity?.(s.pop - before);
+    this.refreshHud();
+  }
+
+  /** Switches persona when another style led the chapter by rules.personaMargin. */
+  updatePersona() {
+    const s = this.state;
+    const personas = this.data.personas ?? {};
+    const byStyle = Object.fromEntries(Object.entries(personas).map(([id, p]) => [p.style, id]));
+    const count = (st) => s.chapterStyles[st] ?? 0;
+    const cur = personas[s.persona]?.style;
+    const [top] = Object.keys(byStyle).sort((a, b) => count(b) - count(a));
+    if (top && top !== cur && count(top) - count(cur) >= (this.rules.personaMargin ?? 1)) {
+      s.persona = byStyle[top];
+      s.personaChanged = true;
+      s.flags[`was_${s.persona}`] = true;
+    }
+    s.chapterStyles = {};
+  }
+
   // ----------------------------------------------------------------- lines
 
   async playLines(lines) {
-    for (const line of lines ?? []) {
+    for (let line of lines ?? []) {
       if (!this.test(line.if)) continue;
       if (line.cmd) {
         await this.runCmd(line);
         continue;
       }
+      // by: { queen: { text, face, motion } } overrides fields for a persona
+      const by = line.by?.[this.state.persona];
+      if (by) line = { ...line, ...by };
       if (line.who === 'haru' && line.face) this.avatar.setExpression(line.face);
       if (line.motion) this.avatar.playMotion(line.motion);
       await this.ui.say({
@@ -302,6 +368,17 @@ export class Engine {
       case 'wait':
         await this.ui.wait(line.ms ?? 500);
         break;
+      case 'pop':
+        this.changePop(line.value ?? 0);
+        break;
+      case 'affection':
+        this.changeAffection(line.value ?? 0);
+        break;
+      case 'reveal':
+        this.state.revealed = true;
+        this.ui.revealAffection?.();
+        this.refreshHud();
+        break;
       default:
         throw new Error(`unknown cmd: ${line.cmd}`);
     }
@@ -334,10 +411,11 @@ export class Engine {
 
   callName() {
     const { handle, flags, affection } = this.state;
-    switch (this.chapter?.id) {
-      case 1:
+    // chapter.call: 'listener' (until noticed) | 'san' (くん from affection 75) | 'kun'
+    switch (this.chapter?.call ?? 'kun') {
+      case 'listener':
         return flags.noticed ? `${handle}さん` : 'リスナーさん';
-      case 2:
+      case 'san':
         return affection >= 75 ? `${handle}くん` : `${handle}さん`;
       default:
         return `${handle}くん`;
@@ -359,6 +437,11 @@ export class Engine {
     if (cond.minAff != null && s.affection < cond.minAff) return false;
     if (cond.maxAff != null && s.affection > cond.maxAff) return false;
     if (cond.chapter != null && cond.chapter !== this.chapter?.id) return false;
+    if (cond.persona && ![].concat(cond.persona).includes(s.persona)) return false;
+    if (cond.notPersona && [].concat(cond.notPersona).includes(s.persona)) return false;
+    if (cond.minPop != null && s.pop < cond.minPop) return false;
+    if (cond.maxPop != null && s.pop > cond.maxPop) return false;
+    if (cond.revealed != null && !!s.revealed !== cond.revealed) return false;
     return true;
   }
 
@@ -367,17 +450,20 @@ export class Engine {
   changeAffection(d) {
     const s = this.state;
     s.affection = Math.max(0, Math.min(this.rules.max, s.affection + d));
-    this.ui.popDelta(d);
+    if (s.revealed) this.ui.popDelta(d); // hidden phase: Haru's reaction is the only feedback
     this.refreshHud();
   }
 
   refreshHud() {
     const s = this.state;
-    this.ui.setAffection(s.affection / this.rules.max);
+    this.ui.setAffection(s.revealed ? s.affection / this.rules.max : null);
+    this.ui.setPopularity?.(s.pop);
     this.ui.setChapter(this.chapter?.title ?? '');
     if (this.options.debug) {
       const mood = this.data.moods[s.mood]?.label ?? '-';
-      this.ui.setDebug(`♥${s.affection} ${mood} seed:${s.seed}`);
+      const p = this.data.personas?.[s.persona]?.label ?? s.persona;
+      const st = Object.entries(s.chapterStyles).map(([k, v]) => `${STYLE_LABEL[k] ?? k}${v}`).join('');
+      this.ui.setDebug(`♥${s.affection} 📈${s.pop} ${p}${st ? ` (${st})` : ''} ${mood}`);
     }
   }
 }

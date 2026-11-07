@@ -1,17 +1,22 @@
 // Game state and persistence (localStorage). Every storage access is guarded,
 // because storage can be unavailable (private browsing, blocked site data, tests).
 
-const SAVE_KEY = 'otsuharu.save.v1';
+const SAVE_KEY = 'otsuharu.save.v2';
 const GALLERY_KEY = 'otsuharu.gallery.v1';
 
 export function newState({ seed, handle, flags = {} }) {
   return {
-    v: 1,
+    v: 2,
     seed,
     rngState: seed,
     handle,
     haruName: 'ハル',
     affection: 0,
+    revealed: false, // affection meter shown (after the first DM)
+    pop: 0, // popularity 0..100
+    persona: 'angel', // angel | queen | geinin
+    personaChanged: false,
+    chapterStyles: {}, // comment styles chosen this chapter: { kind, mitsugi, neta }
     mood: null,
     moodChapter: null,
     chapterIndex: 0,
@@ -52,7 +57,7 @@ export function saveGame(state) {
 
 export function loadGame() {
   const s = readJson(SAVE_KEY);
-  return s && s.v === 1 ? s : null;
+  return s && s.v === 2 ? s : null;
 }
 
 export function clearSave() {

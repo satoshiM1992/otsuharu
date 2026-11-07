@@ -1,6 +1,6 @@
 // DOM side of the game. The engine talks to it only through:
-//   setMode, setBackground, setStream, setAffection, setChapter, setDebug,
-//   say, choose, card, popDelta, wait
+//   setMode, setBackground, setStream, setAffection, setPopularity, setChapter,
+//   setDebug, revealAffection, say, choose, card, popDelta, popPopularity, wait
 // Four layouts are switched with a class on #screen-game:
 //   mode-stream (配信サイト), mode-dm (メッセージアプリ), mode-call (通話), mode-adv (ノベル)
 
@@ -32,6 +32,14 @@ function resolveBg(name) {
   });
   return bgCache[name];
 }
+// Popularity 0..100 -> concurrent viewers (23 to about 20,000) and subscribers (180 to about 72,000).
+export const viewersFor = (pop) => Math.round(23 * 870 ** (pop / 100));
+export const subsFor = (pop) => Math.round(180 * 400 ** (pop / 100));
+export function fmtCount(n) {
+  if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}万`;
+  return n.toLocaleString('ja-JP');
+}
+
 export const preloadBackgrounds = () => IMAGE_BGS.forEach(resolveBg);
 
 export class UI {
@@ -171,15 +179,31 @@ export class UI {
     sound.bgm(m === 'stream' ? 'stream' : m === 'adv' && this.bg !== 'night' ? 'date' : 'night');
   }
 
-  setStream({ title, mob, viewers }) {
+  setStream({ title, mob }) {
     if (title) this.$('stream-title').textContent = title;
     if (mob) this.mobKey = mob;
-    if (viewers) this.viewers = viewers;
-    this.$('viewers').textContent = this.viewers;
   }
 
+  // ratio 0..1, or null while affection is still hidden
   setAffection(ratio) {
-    this.$('heart-fill').style.height = `${Math.round(ratio * 100)}%`;
+    this.$('heart-meter').hidden = ratio == null;
+    if (ratio != null) this.$('heart-fill').style.height = `${Math.round(ratio * 100)}%`;
+  }
+
+  revealAffection() {
+    const m = this.$('heart-meter');
+    m.hidden = false;
+    m.classList.remove('reveal');
+    void m.offsetWidth;
+    m.classList.add('reveal');
+    sound.se('rare');
+  }
+
+  setPopularity(pop) {
+    this.pop = pop;
+    this.viewers = viewersFor(pop);
+    this.$('viewers').textContent = fmtCount(this.viewers);
+    this.$('hud-subs').textContent = fmtCount(subsFor(pop));
   }
 
   setChapter(label) {
@@ -339,6 +363,15 @@ export class UI {
     }
   }
 
+  popPopularity(d) {
+    const el = document.createElement('div');
+    el.className = `popup pop ${d > 0 ? 'up' : 'down'}`;
+    el.textContent = `📈 人気 ${d > 0 ? '+' : ''}${d}`;
+    this.$('popups').append(el);
+    setTimeout(() => el.remove(), 1500);
+    sound.se(d > 0 ? 'coin' : 'down');
+  }
+
   async card(sub, title) {
     const card = this.$('card');
     card.querySelector('.card-sub').textContent = sub ?? '';
@@ -369,9 +402,11 @@ export class UI {
         name: names[Math.floor(Math.random() * names.length)],
         text: pool[Math.floor(Math.random() * pool.length)],
       });
-      this.viewers = Math.max(12, this.viewers + Math.round(Math.random() * 4 - 1.6));
-      this.$('viewers').textContent = this.viewers;
-      this.timers.mob = setTimeout(tick, 1100 + Math.random() * 1700);
+      // viewers wobble around the popularity-based count; busier chat when popular
+      const base = viewersFor(this.pop ?? 0);
+      this.$('viewers').textContent = fmtCount(Math.max(5, Math.round(base * (0.93 + Math.random() * 0.14))));
+      const speed = 1 + (this.pop ?? 0) / 25;
+      this.timers.mob = setTimeout(tick, (1100 + Math.random() * 1700) / speed);
     };
     this.timers.mob = setTimeout(tick, 600);
   }

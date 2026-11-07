@@ -5,7 +5,39 @@
     "choiceCount": 4,
     "loverMin": 85,
     "loverGagMin": 95,
-    "typeDelta": { "good": 10, "normal": 3, "bad": -15, "trap": -8, "gag": 0 }
+    "typeDelta": { "good": 10, "normal": 3, "bad": -15, "trap": -8, "gag": 0 },
+    "typeStyle": { "good": "kind", "normal": "kind", "gag": "neta" },
+    "stylePop": { "kind": 2, "mitsugi": 5, "neta": 3 },
+    "personaMargin": 2
+  },
+
+  "personas": {
+    "angel": {
+      "label": "😇天使",
+      "style": "kind",
+      "becomes": [
+        { "who": "narr", "text": "──最近のハルは、前よりもっと、ひとりひとりのコメントを大事に読むようになった。" }
+      ]
+    },
+    "queen": {
+      "label": "👑女王様",
+      "style": "mitsugi",
+      "becomes": [
+        { "who": "narr", "text": "──最近のハルは、スパチャ読みのときだけ、やけに声が弾むようになった。" }
+      ]
+    },
+    "geinin": {
+      "label": "🎤芸人",
+      "style": "neta",
+      "becomes": [
+        { "who": "narr", "text": "──最近のハルは、どんな変なコメントにも、キレのあるツッコミを返すようになった。" }
+      ]
+    }
+  },
+
+  "routes": {
+    "friend": [{ "if": { "flag": "zarigani" }, "to": "zarigani" }],
+    "listener": [{ "if": { "flag": "cat" }, "to": "nyanko" }]
   },
 
   "moods": {
@@ -147,6 +179,7 @@
       "id": 1,
       "title": "第一章 配信編",
       "subtitle": "画面の向こうの、明るい声",
+      "call": "listener",
       "defaults": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル" },
       "scenes": [
         {
@@ -162,7 +195,7 @@
         },
         {
           "id": "1-1",
-          "set": { "stream": { "title": "【雑談】初見さん大歓迎！ 深夜のゆるトーク", "mob": "chat", "viewers": 23 } },
+          "set": { "stream": { "title": "【雑談】初見さん大歓迎！ 深夜のゆるトーク", "mob": "chat" } },
           "moodHint": true,
           "lines": [
             { "who": "haru", "face": "happy", "text": "こんハル〜！ 天音ハルだよ！" },
@@ -389,19 +422,19 @@
           ],
           "choice": {
             "pool": [
-              { "type": "good", "text": "¥500 いつも元気もらってます", "reactions": [
+              { "type": "good", "style": "mitsugi", "text": "¥500 いつも元気もらってます", "reactions": [
                 [{ "who": "haru", "face": "happy", "text": "{name}さん、スパチャありがとう！ 元気あげられてるならよかった！" }, { "who": "haru", "face": "shy", "text": "……わたしも、コメントから元気もらってるよ" }]
               ] },
-              { "type": "good", "text": "¥1,000 今日の配信も最高だった。体調だけは気をつけて", "reactions": [
+              { "type": "good", "style": "mitsugi", "text": "¥1,000 今日の配信も最高だった。体調だけは気をつけて", "reactions": [
                 [{ "who": "haru", "face": "shy", "text": "{name}さん……優しい……！ ちゃんと寝ます！ ……たぶん！" }]
               ] },
-              { "type": "normal", "text": "¥100 ジュース代", "reactions": [
+              { "type": "normal", "style": "mitsugi", "pop": 2, "text": "¥100 ジュース代", "reactions": [
                 [{ "who": "haru", "face": "happy", "text": "{name}さん、ありがと！ 今日はちょっといいジュース買うね！" }]
               ] },
-              { "type": "trap", "text": "¥10,000 これで好きなもの買って。返事はいらないから", "reactions": [
+              { "type": "trap", "style": "mitsugi", "styleW": 2, "pop": 8, "text": "¥10,000 これで好きなもの買って。返事はいらないから", "reactions": [
                 [{ "who": "haru", "face": "surprised", "motion": "jump", "text": "い、いちまん!?" }, { "who": "haru", "face": "sad", "text": "うれしいけど……無理はしないでね？ ほんとに" }]
               ] },
-              { "type": "bad", "text": "¥50,000 結婚してください", "delta": -8, "reactions": [
+              { "type": "bad", "style": "mitsugi", "styleW": 2, "pop": 10, "text": "¥50,000 結婚してください", "delta": -8, "reactions": [
                 [{ "who": "haru", "face": "panic", "motion": "jump", "text": "けっ……!? ご、ごまんえん!?" }, { "who": "haru", "face": "sad", "text": "あの……気持ちは嬉しいけど……重いよ……！ 金額も言葉も！" }]
               ] },
               { "type": "gag", "text": "¥0（気持ちだけ）", "delta": 2, "reactions": [
@@ -410,7 +443,7 @@
               { "type": "gag", "text": "¥1 一円を笑う者は一円に泣く", "reactions": [
                 [{ "who": "haru", "face": "happy", "text": "{name}さん、ことわざ付きの1円ありがとう！ 大事にするね！" }]
               ] },
-              { "type": "gag", "text": "¥3,000 このお金でハルちゃんの家の電気代を払ってください", "delta": -2, "reactions": [
+              { "type": "gag", "style": "mitsugi", "text": "¥3,000 このお金でハルちゃんの家の電気代を払ってください", "delta": -2, "reactions": [
                 [{ "who": "haru", "face": "surprised", "text": "電気代!? 生活感がすごい！" }, { "who": "haru", "face": "panic", "text": "ていうか、なんでうちの電気代が高いの知ってるの!?" }]
               ] },
               { "type": "out", "text": "¥10,000 オフで会ってくれたら倍払います", "end": "deaikei", "reactions": [
@@ -422,7 +455,7 @@
         },
         {
           "id": "1-4",
-          "set": { "stream": { "title": "【恋バナ】リスナーさんの恋のお悩み聞くよ！", "mob": "koibana", "viewers": 41 } },
+          "set": { "stream": { "title": "【恋バナ】リスナーさんの恋のお悩み聞くよ！", "mob": "koibana" } },
           "lines": [
             { "who": "narr", "text": "──それから毎晩、彼女の配信に通うようになった。" },
             { "who": "haru", "face": "happy", "text": "今日は恋バナ相談枠〜！ みんなの恋の話、聞かせて！" },
@@ -506,6 +539,7 @@
       "id": 2,
       "title": "第二章 相談編",
       "subtitle": "配信の外の、小さな声",
+      "call": "san",
       "defaults": { "ui": "call", "model": "vtuber", "bg": "call", "haruName": "ハル" },
       "scenes": [
         {
@@ -515,6 +549,9 @@
           "lines": [
             { "who": "narr", "text": "──数日後の夜。スマホに、見慣れない通知が届いた。" },
             { "who": "sys", "text": "天音ハル からメッセージが届きました" },
+            { "who": "narr", "text": "……え？ 天音ハルって、あの？" },
+            { "cmd": "reveal" },
+            { "who": "sys", "text": "💗 好感度が表示されるようになりました" },
             { "who": "haru", "text": "急にごめんね！" },
             { "who": "haru", "text": "いつもコメントくれる{name}さん、だよね？" },
             { "who": "haru", "text": "ちょっと相談したいことがあって……" },
@@ -813,7 +850,7 @@
         { "who": "haru", "face": "shy", "text": "……はい。わたしも、好きです" },
         { "who": "haru", "face": "happy", "text": "これからよろしくね、{name}。" },
         { "who": "narr", "text": "──数日後。" },
-        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【恋バナ】恋のお悩み相談、再び！", "mob": "koibana", "viewers": 88 } },
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【恋バナ】恋のお悩み相談、再び！", "mob": "koibana" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日は恋バナ枠だよ！" },
         { "who": "mob", "name": "ねこまんま", "text": "ハルちゃんの恋バナは？" },
         { "who": "haru", "face": "shy", "text": "わ、わたしは……最近ちょっと、いいことあって……" },
@@ -931,7 +968,7 @@
       "hint": "ある甲殻類のことを覚えていると……",
       "lines": [
         { "who": "narr", "text": "──それから一か月後。" },
-        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【コラボ】ザリガニVTuberさんと！", "mob": "chat", "viewers": 64 } },
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【コラボ】ザリガニVTuberさんと！", "mob": "chat" } },
         { "who": "haru", "face": "happy", "text": "今日はなんと、ザリガニVTuberの{name}さんとコラボです！" },
         { "who": "me", "text": "どうも、ザリガニです" },
         { "who": "haru", "face": "surprised", "text": "ハサミで握手しよ！ ……って、本当にザリガニだ!?" },
@@ -981,7 +1018,7 @@
         { "who": "haru", "face": "shy", "motion": "nod", "text": "{name}くん。……好きです" },
         { "who": "haru", "face": "happy", "text": "……えへへ。言えた。配信より、ずっと緊張した" },
         { "who": "narr", "text": "──数日後。" },
-        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【ご報告】……じゃなくて雑談！", "mob": "koibana", "viewers": 120 } },
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【ご報告】……じゃなくて雑談！", "mob": "koibana" } },
         { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日はね、カットなしでいくって決めたの！" },
         { "who": "mob", "name": "ねこまんま", "text": "何かあった？" },
         { "who": "haru", "face": "shy", "text": "ひみつ！ ……でも、すっごくいいこと！" },

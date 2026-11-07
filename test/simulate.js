@@ -21,7 +21,7 @@ const data = await fetch('../data/scenario.json', { cache: 'no-store' }).then((r
 
 const TYPES = ['good', 'normal', 'bad', 'trap', 'gag', 'out'];
 const WHO = ['haru', 'me', 'mob', 'narr', 'sys'];
-const CMDS = ['flag', 'set', 'face', 'motion', 'wait'];
+const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal'];
 const UIS = ['stream', 'dm', 'call', 'adv'];
 
 function checkLines(lines, where) {
@@ -84,11 +84,20 @@ class FakeUI {
   setBackground() {}
   setStream() {}
   setAffection(r) {
-    if (r < 0 || r > 1) throw new Error(`affection ratio ${r}`);
+    if (r != null && (r < 0 || r > 1)) throw new Error(`affection ratio ${r}`);
+  }
+  setPopularity(p) {
+    if (p < 0 || p > 100) throw new Error(`popularity ${p}`);
+  }
+  popPopularity() {}
+  revealAffection() {
+    this.revealed = true;
   }
   setChapter() {}
   setDebug() {}
-  popDelta() {}
+  popDelta() {
+    if (!this.revealed) throw new Error('affection popup while hidden');
+  }
   async card() {}
   async wait() {}
   async say(line) {
@@ -114,6 +123,15 @@ const policies = {
     const ok = o.map((x, i) => [x, i]).filter(([x]) => x.type !== 'good' && x.type !== 'out');
     return rng.pick(ok)[1];
   },
+  // style players: always take a 💰 superchat / 🤪 joke when offered, else the 💗
+  tipper: (o) => {
+    const i = o.findIndex((x) => x.style === 'mitsugi' && x.type !== 'out');
+    return i >= 0 ? i : o.findIndex((x) => x.type === 'good');
+  },
+  joker: (o) => {
+    const i = o.findIndex((x) => x.style === 'neta' && x.type !== 'out');
+    return i >= 0 ? i : o.findIndex((x) => x.type === 'good');
+  },
   noOut: (o, rng) => {
     const ok = o.map((x, i) => [x, i]).filter(([x]) => x.type !== 'out');
     return rng.pick(ok)[1];
@@ -123,6 +141,8 @@ const policies = {
 async function simulate(name, runs, extraOptions = {}) {
   const counts = {};
   const rares = {};
+  const personas = {};
+  let popSum = 0;
   let lines = 0;
   const pickRng = createRng(12345);
   for (let i = 0; i < runs; i++) {
@@ -141,13 +161,15 @@ async function simulate(name, runs, extraOptions = {}) {
     try {
       const r = await engine.run();
       counts[r.id] = (counts[r.id] ?? 0) + 1;
+      personas[state.persona] = (personas[state.persona] ?? 0) + 1;
+      popSum += state.pop;
     } catch (e) {
       fail(`${name} seed=${seed}: ${e.message}`);
       break;
     }
     lines += ui.lines;
   }
-  return { counts, rares, avgLines: Math.round(lines / runs) };
+  return { counts, rares, personas, avgPop: Math.round(popSum / runs), avgLines: Math.round(lines / runs) };
 }
 
 function fmtCounts(c, runs) {
@@ -159,16 +181,17 @@ function fmtCounts(c, runs) {
 
 const RUNS = 3000;
 const results = {};
-for (const [name, opts] of [['random', {}], ['noOut', {}], ['mostlyGood', {}], ['alwaysGood', {}], ['random', { rare: 'all' }]]) {
+for (const [name, opts] of [['random', {}], ['noOut', {}], ['mostlyGood', {}], ['alwaysGood', {}], ['tipper', {}], ['joker', {}], ['random', { rare: 'all' }]]) {
   const label = opts.rare ? `${name}+rare` : name;
   const r = await simulate(name, RUNS, opts);
   results[label] = r;
   log(`\n[${label}] ${RUNS}回  平均セリフ数 ${r.avgLines}`);
   log(`  エンド: ${fmtCounts(r.counts, RUNS)}`);
+  log(`  最終の性格: ${fmtCounts(r.personas, RUNS)}  平均人気 ${r.avgPop}`);
   log(`  レア: ${JSON.stringify(r.rares)}`);
 }
 
-const notLover = Object.keys(results.alwaysGood.counts).filter((id) => id !== 'lover' && data.endings[id].cat !== 'rare');
+const notLover = Object.keys(results.alwaysGood.counts).filter((id) => !id.startsWith('lover') && data.endings[id].cat !== 'rare');
 if (notLover.length) fail(`alwaysGood should reach lover (or a rare ending), got ${notLover.join(', ')}`);
 
 const reached = new Set(Object.values(results).flatMap((r) => Object.keys(r.counts)));
