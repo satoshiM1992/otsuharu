@@ -45,7 +45,9 @@ BGMと効果音は、音声ファイルを使わず `js/sound.js` でブラウ�
 
 ## 3Dモデル（VRM）
 
-- 今は仮モデルとして、pixiv公式のサンプル `models/sample.vrm`（VRM1_Constraint_Twist_Sample、© 2022 pixiv Inc.、再配布可・クレジット不要）を VTuber版・リアル版の両方に使っています。
+- VTuber版（天音ハル）: `models/Vtuber_red.vrm`（VRoidで作成、作者 SatoshiM）
+- リアル版（春川ひなの）: `models/Human_red.vrm`（VRoidで作成、作者 SatoshiM）
+- `models/sample.vrm` はpixiv公式のサンプル（VRM1_Constraint_Twist_Sample、© 2022 pixiv Inc.、再配布可・クレジット不要）で、今はゲームでは使っていません。
 - 差し替えるときは、VRMファイルを `models/` に置き、`js/main.js` の `VRM_MODELS` を書き換えます。
 - VRMが読み込めないとき（オフラインなど）は、SVGの仮アバターで表示されます。`?vrm=0` を付けると、SVGで表示されます。
 - 表情と口パクの見た目は http://localhost:8080/test/vrm-check.html で一覧できます。

@@ -115,6 +115,8 @@ function loadVrm(url) {
       const head = new THREE.Vector3();
       vrm.humanoid.getRawBoneNode('head').getWorldPosition(head);
       vrm.scene.userData.headY = head.y;
+      // top of the model (hair, ears, accessories) so the bust shot never cuts it
+      vrm.scene.userData.topY = new THREE.Box3().setFromObject(vrm.scene).max.y;
       return vrm;
     });
     p.catch(() => stage.cache.delete(url)); // allow a retry later
@@ -254,7 +256,8 @@ export class VrmView {
     // Square host (call screen icon): face close-up. Otherwise: bust shot.
     const close = aspect > 0.9;
     const viewH = close ? 0.38 : 0.8;
-    const y = close ? headY + 0.04 : headY - 0.1;
+    const topY = this.vrm.scene.userData.topY ?? headY + 0.25;
+    const y = close ? headY + 0.04 : Math.min(headY - 0.1, topY + 0.06 - viewH / 2);
     camera.aspect = aspect;
     camera.fov = 28;
     const dist = viewH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
@@ -299,7 +302,8 @@ export class VrmView {
       if (p >= 1) this.blinkAt = t + 2 + Math.random() * 3.5;
       else blink = Math.sin(p * Math.PI);
     }
-    target.blink = blink;
+    // happy/relaxed already close the eyes on VRoid models; blinking on top distorts them
+    target.blink = blink * Math.max(0, 1 - (target.happy + target.relaxed) * 1.5);
 
     for (const [k, v] of Object.entries(target)) {
       const rate = k === 'blink' ? 1 : VISEMES.includes(k) ? Math.min(1, dt * 22) : Math.min(1, dt * 9);

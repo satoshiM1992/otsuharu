@@ -665,7 +665,7 @@
             { "who": "narr", "text": "──日曜日、午後一時。駅前の時計台の下。" },
             { "who": "narr", "text": "約束の時間まで、あと五分。" },
             { "cmd": "set", "model": "real", "face": "shy" },
-            { "who": "narr", "text": "眼鏡をかけた女の子が、おそるおそる近づいてくる。" },
+            { "who": "narr", "text": "赤いパーカーの女の子が、おそるおそる近づいてくる。" },
             { "who": "haru", "face": "shy", "text": "あ、あの……{name}さん、ですか……？" }
           ],
           "choice": {

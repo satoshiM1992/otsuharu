@@ -28,7 +28,8 @@
 import { Avatar } from '../js/avatar.js';
 const log = (s) => (document.getElementById('log').textContent += s + '\n');
 const host = document.getElementById('host');
-const av = new Avatar(host, { vrmUrls: { vtuber: '../models/sample.vrm' } });
+const modelUrl = '../models/' + (new URLSearchParams(location.search).get('model') ?? 'Vtuber_red.vrm');
+const av = new Avatar(host, { vrmUrls: { vtuber: modelUrl } });
 av.setModel('vtuber');
 const vrm = await av.ready;
 if (!vrm?.vrm) { log('vrm FAILED'); throw new Error('no vrm'); }

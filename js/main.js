@@ -16,11 +16,10 @@ const options = {
   debug: params.has('debug'),
   rare: params.get('rare'),
 };
-// VRM models per avatar. Both use the VRM consortium sample for now; replace
-// with the VRoid models (VTuber 天音ハル / real 春川ひなの) when they exist.
+// VRM models per avatar (VRoid, by the author): VTuber 天音ハル / real 春川ひなの.
 const VRM_MODELS = {
-  vtuber: 'models/sample.vrm',
-  real: 'models/sample.vrm',
+  vtuber: 'models/Vtuber_red.vrm',
+  real: 'models/Human_red.vrm',
 };
 const vrmUrls = params.get('vrm') === '0' ? null : VRM_MODELS;
 
