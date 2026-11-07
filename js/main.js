@@ -7,7 +7,7 @@
 import { createRng, randomSeed } from './rng.js';
 import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery } from './state.js';
 import { Engine } from './engine.js';
-import { UI } from './ui.js';
+import { UI, preloadBackgrounds } from './ui.js';
 import { Avatar } from './avatar.js';
 import { sound } from './sound.js';
 
@@ -47,6 +47,8 @@ const titleAvatar = new Avatar($('title-avatar'), { vrmUrls });
 titleAvatar.setModel('vtuber');
 titleAvatar.setExpression('happy');
 
+sound.setVoices(data.voice);
+preloadBackgrounds();
 const ui = new UI({ avatar, mob: data.mob, debug: options.debug });
 let engine = null;
 

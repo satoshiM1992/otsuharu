@@ -38,6 +38,21 @@
     }
   },
 
+  "voice": {
+    "rate": 0.6,
+    "cooldownMs": 3500,
+    "volume": 1,
+    "byFace": { "happy": "laugh", "relaxed": "laugh", "smug": "laugh", "surprised": "surprise", "panic": "panic", "shy": "shy", "angry": "angry", "sad": "sad" },
+    "clips": {
+      "laugh": ["ふふっ", "えへへ", "あはは"],
+      "surprise": ["わっ", "えっ！？"],
+      "panic": ["ひゃっ", "わわっ"],
+      "shy": ["えへへ…", "うぅ…"],
+      "angry": ["むぅ"],
+      "sad": ["はぁ…"]
+    }
+  },
+
   "mob": {
     "names": ["ねこまんま", "うさぎ饅頭", "たこやき大臣", "夜ふかし勢", "名無しの民", "ゆるふわ係長", "しめじ", "深夜のプリン", "かぼちゃ", "ぽんず", "ハル推し3号", "眠れない羊"],
     "pools": {

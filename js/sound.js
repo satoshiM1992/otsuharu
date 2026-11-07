@@ -1,9 +1,11 @@
-// Sound: BGM and sound effects, all synthesized with Web Audio (no audio files).
+// Sound: BGM and sound effects synthesized with Web Audio (no audio files),
+// plus Haru's short voice clips loaded from voice/ when they exist.
 //
 //   sound.unlock()        call from a user gesture (browsers block audio before one)
 //   sound.bgm(name|null)  'title' | 'stream' | 'night' | 'date'; null stops
 //   sound.se(name)        see SE below
 //   sound.setEnabled(on)  mute toggle, remembered in localStorage
+//   sound.setVoices(cfg)  data.voice from scenario.json; sound.voice(key, forced)
 
 const STORE_KEY = 'oshi-vtuber-sound';
 const midi = (n) => 440 * 2 ** ((n - 69) / 12);
@@ -80,6 +82,7 @@ class Sound {
       this.seBus.connect(this.master);
     }
     if (this.ctx.state === 'suspended' && this.enabled) this.ctx.resume();
+    this.loadVoices();
     if (this.track !== this.playing) this.bgm(this.track);
   }
 
@@ -180,6 +183,49 @@ class Sound {
       default:
         break;
     }
+  }
+
+  // ---------------------------------------------------------------- voice
+  // Haru's short voice clips. data.voice.clips lists the lines per key; the
+  // files are voice/<key>_<n>.mp3 (n from 1, same order as the list). Missing
+  // files are simply skipped, so the game works with any subset of recordings.
+
+  setVoices(cfg) {
+    this.voiceCfg = cfg ?? null;
+    this.lastVoice = -Infinity;
+    if (this.ctx) this.loadVoices();
+  }
+
+  loadVoices() {
+    if (this.voiceBufs || !this.voiceCfg) return;
+    this.voiceBufs = {};
+    for (const [key, lines] of Object.entries(this.voiceCfg.clips ?? {})) {
+      lines.forEach((_, i) => {
+        fetch(new URL(`../voice/${key}_${i + 1}.mp3`, import.meta.url))
+          .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(r.status))))
+          .then((b) => this.ctx.decodeAudioData(b))
+          .then((buf) => (this.voiceBufs[key] ??= []).push(buf))
+          .catch(() => {}); // not recorded yet
+      });
+    }
+  }
+
+  voice(key, forced = false) {
+    if (!this.ctx || !this.enabled || !this.voiceCfg) return;
+    const bufs = this.voiceBufs?.[key];
+    if (!bufs?.length) return;
+    const now = performance.now();
+    if (!forced) {
+      if (now - this.lastVoice < (this.voiceCfg.cooldownMs ?? 0)) return;
+      if (Math.random() > (this.voiceCfg.rate ?? 1)) return;
+    }
+    this.lastVoice = now;
+    const src = this.ctx.createBufferSource();
+    src.buffer = bufs[Math.floor(Math.random() * bufs.length)];
+    const g = this.ctx.createGain();
+    g.gain.value = this.voiceCfg.volume ?? 1;
+    src.connect(g).connect(this.master);
+    src.start();
   }
 
   // ------------------------------------------------------------------ BGM

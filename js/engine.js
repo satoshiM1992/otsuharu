@@ -269,8 +269,20 @@ export class Engine {
         who: line.who,
         name: this.speakerName(line),
         text: this.fmt(line.text),
+        voice: this.voiceFor(line),
       });
     }
+  }
+
+  // Short voice clip for one of Haru's lines: { key, forced } or null.
+  // line.voice: "laugh" forces a clip, false suppresses it; otherwise the face
+  // set on the line picks one (data.voice.byFace) and the sound layer applies
+  // rate/cooldown.
+  voiceFor(line) {
+    if (line.who !== 'haru' || line.voice === false) return null;
+    if (line.voice) return { key: line.voice, forced: true };
+    const key = this.data.voice?.byFace?.[line.face];
+    return key ? { key, forced: false } : null;
   }
 
   async runCmd(line) {

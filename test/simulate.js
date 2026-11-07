@@ -34,6 +34,7 @@ function checkLines(lines, where) {
     if (!WHO.includes(l.who)) fail(`${where}: unknown who "${l.who}"`);
     if (typeof l.text !== 'string' || !l.text) fail(`${where}: empty text`);
     if (l.face && !EXPRESSIONS[l.face]) fail(`${where}: unknown face ${l.face}`);
+    if (l.voice && !data.voice?.clips?.[l.voice]) fail(`${where}: unknown voice ${l.voice}`);
   }
 }
 

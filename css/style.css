@@ -166,6 +166,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
 .stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 .stage-bg { transition: background .6s; }
+/* illustration / photo on top of the gradient (set by UI.setBackground), slightly
+   blurred like a shallow depth of field so the 3D model stands out */
+.stage-bg::after {
+  content: ''; position: absolute; inset: -6px;
+  background: var(--bg-img, none) center 30% / cover no-repeat;
+  filter: blur(1.2px) saturate(1.05);
+}
 .stage[data-bg="room"] .stage-bg {
   background:
     radial-gradient(circle at 15% 22%, rgba(255, 255, 255, .7) 0 2px, transparent 3px),

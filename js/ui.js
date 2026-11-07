@@ -10,6 +10,30 @@ import { sound } from './sound.js';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MODES = ['stream', 'dm', 'call', 'adv'];
 
+// Illustrated backgrounds: img/bg/<name>.(jpg|webp|png|svg), first file found
+// wins, so dropping in station.jpg replaces the bundled station.svg.
+// Other backgrounds (room, night, call) are CSS gradients only.
+const IMAGE_BGS = ['station', 'cafe', 'sunset'];
+const BG_EXTS = ['jpg', 'webp', 'png', 'svg'];
+const bgCache = {};
+function resolveBg(name) {
+  if (!IMAGE_BGS.includes(name)) return Promise.resolve(null);
+  bgCache[name] ??= new Promise((resolve) => {
+    let i = 0;
+    const next = () => {
+      if (i >= BG_EXTS.length) return resolve(null);
+      const url = `img/bg/${name}.${BG_EXTS[i++]}`;
+      const img = new Image();
+      img.onload = () => resolve(url);
+      img.onerror = next;
+      img.src = url;
+    };
+    next();
+  });
+  return bgCache[name];
+}
+export const preloadBackgrounds = () => IMAGE_BGS.forEach(resolveBg);
+
 export class UI {
   constructor({ avatar, mob, debug = false }) {
     this.$ = (id) => document.getElementById(id);
@@ -131,8 +155,13 @@ export class UI {
   }
 
   setBackground(bg) {
-    this.$('stage').dataset.bg = bg;
+    const stage = this.$('stage');
+    stage.dataset.bg = bg;
     this.bg = bg;
+    stage.style.removeProperty('--bg-img');
+    resolveBg(bg).then((url) => {
+      if (url && this.bg === bg) stage.style.setProperty('--bg-img', `url("${url}")`);
+    });
     this.updateBgm();
   }
 
@@ -165,6 +194,7 @@ export class UI {
 
   async say(line) {
     this.check();
+    if (line.voice && this.mode !== 'dm') sound.voice(line.voice.key, line.voice.forced);
     if (this.mode === 'dm') return this.sayDm(line);
     if (this.mode === 'stream' && line.who !== 'haru' && line.who !== 'narr') {
       this.addComment(line);
