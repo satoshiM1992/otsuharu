@@ -74,6 +74,7 @@ for (const ch of data.chapters) {
     }
   }
 }
+if (data.spice) checkChoice({ pool: [{ type: 'good' }, ...data.spice] }, 'spice');
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);
 for (const [id, r] of Object.entries(data.rares)) checkLines(r.lines, `rare ${id}`);
 for (const [id, p] of Object.entries(data.personas)) checkLines(p.becomes, `persona ${id}`);
@@ -99,6 +100,7 @@ class FakeUI {
   }
   setMode(m) {
     if (!UIS.includes(m)) throw new Error(`bad mode ${m}`);
+    this.mode = m;
   }
   setBackground() {}
   setStream() {}
@@ -127,6 +129,7 @@ class FakeUI {
   async choose(options) {
     if (options.length < 2) throw new Error('fewer than 2 choices');
     if (!options.some((o) => o.type === 'good')) throw new Error('no good choice shown');
+    if (this.mode === 'stream' && !options.some((o) => o.spice)) throw new Error('stream choices without a spice comment');
     if (new Set(options.map((o) => o.text)).size !== options.length) throw new Error('duplicate choice');
     return this.policy(options);
   }

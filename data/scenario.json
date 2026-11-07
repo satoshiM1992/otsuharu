@@ -8,7 +8,8 @@
     "typeDelta": { "good": 6, "normal": 2, "bad": -15, "trap": -8, "gag": 0 },
     "typeStyle": { "good": "kind", "normal": "kind", "gag": "neta" },
     "stylePop": { "kind": 1, "mitsugi": 4, "neta": 2 },
-    "personaMargin": 2
+    "personaMargin": 2,
+    "spiceRate": { "meme": 0.5, "bad": 0.4, "out": 0.1 }
   },
 
   "personas": {
@@ -242,6 +243,198 @@
       ]
     }
   },
+
+  "spice": [
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 3,
+      "text": "大草原不可避ｗｗｗｗｗｗ",
+      "reactions": [[{ "who": "haru", "face": "happy", "text": "草を生やすな！ ……いや、生やしていいけど！", "by": { "geinin": { "face": "happy", "text": "刈るぞ!? その草ぜんぶ刈り取るぞ！" } } }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "ｷﾀ━━━━(ﾟ∀ﾟ)━━━━!!",
+      "reactions": [[{ "who": "haru", "face": "surprised", "text": "顔文字が平成！" }, { "who": "haru", "face": "happy", "text": "……でもちょっとうれしい。キタよ〜！" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "勝ったな、風呂入ってくる",
+      "reactions": [
+        [
+          { "who": "haru", "face": "panic", "text": "フラグ立てないで!?" },
+          {
+            "who": "haru",
+            "face": "happy",
+            "text": "……え、ほんとにお風呂行った？ 湯冷めしないでね",
+            "by": { "geinin": { "face": "happy", "text": "負けフラグやめろ！ ちゃんと肩までつかってこい！" } }
+          }
+        ]
+      ]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 4,
+      "text": "ハルしか勝たん",
+      "reactions": [[{ "who": "haru", "face": "shy", "text": "勝たんって……えへへ。……ありがと", "by": { "queen": { "face": "smug", "text": "当然でしょ？ ……ま、知ってたけど" } } }]]
+    },
+    { "spice": "meme", "type": "gag", "delta": 2, "text": "あっ（察し）", "reactions": [[{ "who": "haru", "face": "panic", "text": "何を察したの!? 何も察さないで！" }]] },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "ここテストに出ます",
+      "reactions": [[{ "who": "haru", "face": "happy", "text": "出ません！ ……え、出るの？ なんのテスト？" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 3,
+      "text": "限界オタク「ア゛ッ……（尊死）」",
+      "reactions": [[{ "who": "haru", "face": "surprised", "text": "死なないで!?" }, { "who": "haru", "face": "happy", "text": "生きて！ 明日も来て！" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "全米が泣いた",
+      "reactions": [
+        [
+          {
+            "who": "haru",
+            "face": "happy",
+            "text": "全米どころか、いま同接{viewers}人だよ!?",
+            "by": { "geinin": { "face": "happy", "text": "全米おらんわ！ 同接{viewers}人や！" } }
+          }
+        ]
+      ]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 1,
+      "text": "それってあなたの感想ですよね？",
+      "reactions": [[{ "who": "haru", "face": "smug", "text": "感想です！ 配信ってだいたい感想だよ！" }]]
+    },
+    {
+      "spice": "meme",
+      "type": "gag",
+      "delta": 2,
+      "text": "これは神回",
+      "reactions": [[{ "who": "haru", "face": "surprised", "text": "まだ始まって五分だよ!?" }, { "who": "haru", "face": "happy", "text": "……神回にしちゃう？ がんばる！" }]]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "personaDelta": { "geinin": 12 },
+      "text": "うんこ",
+      "reactions": [
+        [
+          { "who": "haru", "face": "blank", "text": "……" },
+          { "who": "haru", "face": "sad", "text": "……小学生？ もう寝る時間だよ？", "by": { "geinin": { "face": "happy", "text": "小学生か！ ……ふふっ、ちょっと笑った自分がくやしい！" } } }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "personaDelta": { "geinin": 12 },
+      "text": "おっぱい！ おっぱい！",
+      "reactions": [
+        [
+          { "who": "haru", "face": "angry", "text": "選挙みたいに連呼しないで!?", "by": { "geinin": { "face": "happy", "text": "選挙カーか！ 清き一票いらんわ！" } } },
+          { "who": "mob", "text": "小学生おるやん" },
+          { "who": "mob", "text": "BANしろ" }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "text": "ハルちゃんって、胸ないよね（笑）",
+      "reactions": [
+        [
+          { "who": "haru", "face": "angry", "text": "……は？" },
+          {
+            "who": "haru",
+            "face": "angry",
+            "text": "アバターの話だよね？ ……アバターの話でも怒るけど!?",
+            "by": { "queen": { "face": "smug", "text": "……今の人、スパチャで謝罪ね。一万円から" } }
+          },
+          { "who": "mob", "text": "デリカシーどこ" }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "text": "ﾄﾞｩﾌﾌｗ ハルたその吸った空気、瓶詰めで売ってほしいでござる",
+      "reactions": [
+        [
+          { "who": "haru", "face": "blank", "text": "……" },
+          { "who": "haru", "face": "sad", "text": "……ちょっと、こわい……" },
+          { "who": "mob", "text": "キモすぎて草も生えない" }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "bad",
+      "text": "ハルちゃんの声で毎晩寝てます（意味深）",
+      "reactions": [[{ "who": "haru", "face": "panic", "text": "意味深つけないで!?" }, { "who": "haru", "face": "sad", "text": "普通に「ASMRで寝てます」って言って……" }]]
+    },
+    {
+      "spice": "gesu",
+      "type": "out",
+      "end": "sekuhara",
+      "text": "今日のパンツ何色？",
+      "reactions": [
+        [
+          { "who": "haru", "face": "blank", "text": "……" },
+          { "who": "haru", "face": "blank", "text": "はい、BANです" },
+          { "who": "sys", "text": "{name}さんはモデレーターによりチャンネルからブロックされました" },
+          { "who": "mob", "text": "通報しといた" },
+          { "who": "mob", "text": "さすがにアウト" }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "out",
+      "end": "sekuhara",
+      "text": "（ここには書けない下ネタ）",
+      "echo": "（※このコメントは表示できません）",
+      "reactions": [
+        [
+          { "who": "haru", "face": "blank", "text": "……" },
+          { "who": "haru", "face": "angry", "text": "モデさん、お願いします" },
+          { "who": "sys", "text": "{name}さんはモデレーターによりチャンネルからブロックされました" },
+          { "who": "mob", "text": "通報しといた" },
+          { "who": "mob", "text": "さすがにアウト" }
+        ]
+      ]
+    },
+    {
+      "spice": "gesu",
+      "type": "out",
+      "end": "sekuhara",
+      "text": "ハルちゃん、今夜ホテルでふたりきりのオフコラボしよ",
+      "reactions": [
+        [
+          { "who": "haru", "face": "blank", "text": "……" },
+          { "who": "haru", "face": "angry", "text": "しません。BANです" },
+          { "who": "sys", "text": "{name}さんはモデレーターによりチャンネルからブロックされました" },
+          { "who": "mob", "text": "通報しといた" },
+          { "who": "mob", "text": "さすがにアウト" }
+        ]
+      ]
+    }
+  ],
 
   "routes": {
     "lover": [
@@ -524,6 +717,14 @@
       "desc": "夜の通話は、録るものじゃなくて、聞くもの。",
       "hint": "夜の通話で、ふたりだけの声を外に出そうとすると……",
       "lines": [{ "who": "narr", "text": "──それきり、スマホが鳴ることはなかった。" }]
+    },
+    "sekuhara": {
+      "cat": "out",
+      "emoji": "🚫",
+      "title": "セクハラBANエンド",
+      "desc": "コメント欄は、言っていいことと悪いことがある場所です。",
+      "hint": "配信のコメント欄で、一線を越えた冗談を言うと……",
+      "lines": [{ "who": "narr", "text": "──そのコメントは、もう誰の目にも届かない。" }]
     },
     "zarigani": {
       "cat": "hidden",

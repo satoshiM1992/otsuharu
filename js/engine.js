@@ -177,6 +177,7 @@ export class Engine {
         text: this.fmt(o.text),
         type: o.type,
         style: this.styleOf(o),
+        spice: o.spice ?? null,
         tag: this.options.debug ? `${TYPE_LABEL[o.type]}${STYLE_LABEL[this.styleOf(o)] ?? ''}` : null,
       })),
     );
@@ -222,6 +223,8 @@ export class Engine {
    * Draws the choices shown for one scene:
    * always one 💗, one 🤪, one 💰 and one 💣 when the pool has any, a ☠️ with probability outRate,
    * the rest from the remaining pool. The order is shuffled.
+   * In a stream, one slot always holds a "spice" comment from data.spice
+   * (a net meme 🤪, or a creepy / dirty comment 💀☠️) — the 🤪 slot when a ☠️ takes the free slot.
    */
   drawChoices(def, scene) {
     const { rng, data } = this;
@@ -231,6 +234,8 @@ export class Engine {
     const outs = pool.filter((c) => c.type === 'out');
     const traps = pool.filter((c) => c.type === 'trap');
     const count = def.count ?? this.rules.choiceCount ?? 3;
+    const spice = this.uiMode === 'stream' && !def.noSpice ? (data.spice ?? []).filter((c) => this.test(c.if)) : [];
+    const memes = spice.filter((c) => c.spice === 'meme');
     const picked = [];
 
     let good = rng.pick(goods);
@@ -240,14 +245,18 @@ export class Engine {
     }
     picked.push(good);
 
-    if (gags.length && picked.length < count) picked.push(rng.pick(gags));
+    const outRate = def.outRate ?? this.rules.outRate;
+    const outRoll = outs.length > 0 && rng.chance(outRate);
+    // with a ☠️ there is no free slot left, so the 🤪 slot carries the meme
+    const gagPool = outRoll && memes.length ? memes : gags;
+    if (gagPool.length && picked.length < count) picked.push(rng.pick(gagPool));
     // a 💰 superchat when the pool has one (so a tipping player can keep tipping)
     const tips = pool.filter((c) => this.styleOf(c) === 'mitsugi' && c.type !== 'out' && !picked.includes(c));
     if (tips.length && picked.length < count) picked.push(rng.pick(tips));
     const freeTraps = traps.filter((c) => !picked.includes(c));
     if (freeTraps.length && picked.length < count) picked.push(rng.pick(freeTraps));
-    const outRate = def.outRate ?? this.rules.outRate;
-    if (outs.length && picked.length < count && rng.chance(outRate)) picked.push(rng.pick(outs));
+    if (outRoll && picked.length < count) picked.push(rng.pick(outs));
+    if (spice.length && !picked.some((c) => spice.includes(c)) && picked.length < count) picked.push(this.pickSpice(spice));
 
     const rest = pool.filter((c) => c.type !== 'good' && c.type !== 'out' && !picked.includes(c));
     for (const c of rng.shuffle(rest)) {
@@ -259,6 +268,23 @@ export class Engine {
       if (!picked.includes(c)) picked.push(c);
     }
     return rng.shuffle(picked);
+  }
+
+  // rules.spiceRate { meme, bad, out }: chance of each kind of spice comment
+  pickSpice(spice) {
+    const rate = this.rules.spiceRate ?? {};
+    const kinds = [
+      ['meme', (c) => c.spice === 'meme'],
+      ['bad', (c) => c.spice !== 'meme' && c.type !== 'out'],
+      ['out', (c) => c.spice !== 'meme' && c.type === 'out'],
+    ].filter(([, f]) => spice.some(f));
+    const total = kinds.reduce((t, [k]) => t + (rate[k] ?? 1), 0);
+    let r = this.rng.next() * total;
+    for (const [k, f] of kinds) {
+      r -= rate[k] ?? 1;
+      if (r < 0) return this.rng.pick(spice.filter(f));
+    }
+    return this.rng.pick(spice);
   }
 
   computeDelta(c) {
