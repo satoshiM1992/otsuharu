@@ -1,0 +1,75 @@
+// Game state and persistence (localStorage). Every storage access is guarded,
+// because storage can be unavailable (private browsing, blocked site data, tests).
+
+const SAVE_KEY = 'otsuharu.save.v1';
+const GALLERY_KEY = 'otsuharu.gallery.v1';
+
+export function newState({ seed, handle, flags = {} }) {
+  return {
+    v: 1,
+    seed,
+    rngState: seed,
+    handle,
+    haruName: 'ハル',
+    affection: 0,
+    mood: null,
+    moodChapter: null,
+    chapterIndex: 0,
+    sceneIndex: 0,
+    flags: { ...flags },
+    topicsUsed: [],
+  };
+}
+
+function storage() {
+  try {
+    return typeof localStorage === 'undefined' ? null : localStorage;
+  } catch {
+    return null;
+  }
+}
+
+function readJson(key) {
+  try {
+    const raw = storage()?.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeJson(key, value) {
+  try {
+    storage()?.setItem(key, JSON.stringify(value));
+  } catch {
+    /* storage unavailable: the game still works, it just cannot resume */
+  }
+}
+
+export function saveGame(state) {
+  writeJson(SAVE_KEY, state);
+}
+
+export function loadGame() {
+  const s = readJson(SAVE_KEY);
+  return s && s.v === 1 ? s : null;
+}
+
+export function clearSave() {
+  try {
+    storage()?.removeItem(SAVE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+export function loadGallery() {
+  const g = readJson(GALLERY_KEY) ?? {};
+  return { endings: g.endings ?? {}, rares: g.rares ?? {} };
+}
+
+export function recordGallery(kind, id) {
+  const g = loadGallery();
+  g[kind][id] = true;
+  writeJson(GALLERY_KEY, g);
+}
