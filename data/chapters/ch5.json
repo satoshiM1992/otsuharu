@@ -322,10 +322,210 @@
   "scenes": [
     { "id": "5-1", "topic": "events", "moodHint": "before", "after": [{ "who": "narr", "text": "──帰り道。ひなのは、行きよりも少しだけ近くを歩いていた。" }] },
     {
+      "id": "5-1c",
+      "bgm": "crisis",
+      "set": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【雑談】今日もゆるっと", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──デートの次の日。いつものように、ハルの配信を開いた。" },
+        { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日もゆる〜く、おしゃべりしていくね！" },
+        { "who": "mob", "text": "昨日、駅前でハルちゃんっぽい人見た" },
+        { "who": "mob", "text": "男と一緒だったよね？" },
+        { "who": "mob", "text": "写真あるけど貼っていい？" },
+        { "who": "narr", "text": "──コメント欄の空気が、一瞬で変わった。" },
+        { "cmd": "pop", "value": -5 },
+        { "who": "haru", "face": "blank", "text": "……え、えっと……" },
+        { "who": "haru", "face": "panic", "text": "ひ、人違いじゃないかな！ ……あはは。あ、今日の話題はね……" },
+        { "who": "mob", "text": "否定しないんだ" },
+        { "who": "mob", "text": "ガチ恋勢、息してる？" }
+      ],
+      "choice": {
+        "noSpice": true,
+        "pool": [
+          {
+            "type": "good",
+            "text": "人違いでしょ。それより今日の配信、楽しみにしてた",
+            "reactions": [
+              [
+                { "who": "mob", "text": "それな" },
+                { "who": "mob", "text": "話戻そ" },
+                { "who": "haru", "face": "relaxed", "text": "……う、うん！ ありがと。……今日はね、最近ハマってる漫画の話！" }
+              ]
+            ]
+          },
+          {
+            "type": "good",
+            "text": "憶測で写真を回すのはやめよう。ハルちゃんが困ってる",
+            "reactions": [
+              [
+                { "who": "mob", "text": "確かに" },
+                { "who": "mob", "text": "やめよ" },
+                { "who": "mob", "text": "写真はなしで" },
+                { "who": "haru", "face": "shy", "text": "……ありがと、みんな。……ほんとに、ありがと" }
+              ]
+            ]
+          },
+          {
+            "type": "normal",
+            "echo": false,
+            "text": "（何も書かずに、見守る）",
+            "reactions": [[{ "who": "narr", "text": "──しばらくして、コメント欄は少しずつ落ち着いていった。" }, { "who": "haru", "face": "relaxed", "text": "……えっと、じゃあ、今日の話題ね" }]]
+          },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "pop": 4,
+            "text": "¥10,000 話題変えよ！ 今日の雑談テーマは？",
+            "reactions": [
+              [
+                { "who": "mob", "text": "赤スパきた" },
+                { "who": "mob", "text": "ナイス" },
+                { "who": "haru", "face": "surprised", "text": "い、一万円!?" },
+                {
+                  "who": "haru",
+                  "face": "happy",
+                  "text": "……ありがと！ 今日のテーマはね……！",
+                  "by": { "queen": { "face": "smug", "text": "……ふふ、気が利くじゃない。じゃあ今日のテーマは、あなたが決めて" } }
+                }
+              ]
+            ]
+          },
+          {
+            "type": "trap",
+            "flag": "crisis_worse",
+            "text": "その男、僕です（冗談）",
+            "reactions": [
+              [
+                { "who": "mob", "text": "は？" },
+                { "who": "mob", "text": "お前かよ" },
+                { "who": "mob", "text": "冗談でも笑えない" },
+                { "who": "haru", "face": "panic", "text": "じょ、冗談だよね!? 冗談だからね、みんな！" }
+              ]
+            ]
+          },
+          {
+            "type": "bad",
+            "flag": "crisis_worse",
+            "text": "彼氏いるなら、言ってほしかったな",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "sad", "text": "……ち、ちがうよ……" },
+                { "who": "mob", "text": "泣きそうになってない？" }
+              ]
+            ]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "写真の男、ザリガニでは？",
+            "reactions": [
+              [
+                { "who": "mob", "text": "ザリガニで草" },
+                { "who": "mob", "text": "ザリガニ説" },
+                { "who": "haru", "face": "happy", "text": "……ザリガニ！ そう、ザリガニとお散歩してました！ ……あははっ" }
+              ]
+            ]
+          },
+          {
+            "type": "out",
+            "end": "nioase",
+            "text": "ごめん、それ僕。付き合ってます！",
+            "reactions": [
+              [
+                { "who": "mob", "text": "!?!?" },
+                { "who": "mob", "text": "マジかよ" },
+                { "who": "mob", "text": "特定班いけ" },
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "narr", "text": "──配信は、そのまま終了した。" }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "5-1d",
+      "bgm": "crisis",
+      "set": { "ui": "call", "bg": "call", "model": "real", "haruName": "ひなの" },
+      "lines": [
+        { "who": "narr", "text": "──配信が終わって、すぐ。スマホが鳴った。" },
+        { "who": "haru", "face": "sad", "text": "……もしもし。……配信、見てた？" },
+        { "who": "haru", "face": "blank", "text": "……あのコメント、どうして？ ……ちょっと、びっくりした", "if": { "flag": "crisis_worse" } },
+        { "who": "haru", "face": "sad", "text": "……ごめんね。わたしのせいで、{name}くんまで巻き込んで" },
+        { "who": "haru", "face": "sad", "text": "……しばらく、会わないほうがいいのかな" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "crisis_ok",
+            "text": "会えない時間があっても、待ってる。今は、ハルちゃんの居場所を守るのが先だよ",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……待ってて、くれるの？" }, { "who": "haru", "face": "shy", "text": "……うん。……そう言ってもらえるなら、がんばれる" }]]
+          },
+          {
+            "type": "good",
+            "delta": 6,
+            "flag": "crisis_ok",
+            "text": "こそこそするのは、もうやめよう。落ち着いたら、ちゃんと二人のこと考えよう",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……二人のこと" }, { "who": "haru", "face": "shy", "text": "……うん。ちゃんと、考える。……逃げないで" }]]
+          },
+          { "type": "normal", "text": "ひなのさんは、どうしたい？", "reactions": [[{ "who": "haru", "face": "sad", "text": "……わかんない。……わかんないよ" }]] },
+          {
+            "type": "trap",
+            "text": "配信やめれば、気にせず会えるよ",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "angry", "text": "……それは、言わないでほしかった" }]]
+          },
+          {
+            "type": "trap",
+            "style": "mitsugi",
+            "delta": -10,
+            "text": "セキュリティのいい部屋に引っ越そう。お金は僕が出すから",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……え" }, { "who": "haru", "face": "sad", "text": "……そこまでしてもらうのは、ちがうよ" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "crisis_break",
+            "text": "じゃあ、もう会わないでおこう",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "blank", "text": "……そっか" },
+                { "who": "haru", "face": "sad", "text": "……そう、だよね。……うん" }
+              ]
+            ]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "変装用に、ザリガニの着ぐるみ買っておくね",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "着ぐるみ!?" },
+                {
+                  "who": "haru",
+                  "face": "happy",
+                  "text": "……あはは。……もう、ばか。……ちょっと元気出た",
+                  "by": { "itazura": { "face": "smug", "text": "……じゃあ、わたしはエビの着ぐるみね。……ふふ、ちょっと元気出た" } }
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "5-1e",
+      "if": { "flag": "crisis_break" },
+      "bgm": "bad",
+      "lines": [{ "who": "narr", "text": "──それから、ひなのから連絡が来ることは、なくなった。" }],
+      "end": "surechigai"
+    },
+    {
       "id": "5-2",
       "set": { "ui": "call", "bg": "call", "model": "real" },
       "lines": [
-        { "who": "narr", "text": "──その夜。スマホが鳴った。" },
+        { "who": "narr", "text": "──数日後の夜。スマホが鳴った。" },
         { "who": "haru", "face": "relaxed", "text": "……もしもし。ごめんね、急に。声、聞きたくなって" },
         { "who": "haru", "face": "sad", "text": "あのね。今日の配信、ちょっとだけ上の空だったの" },
         {

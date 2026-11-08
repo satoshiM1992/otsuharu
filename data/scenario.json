@@ -1128,6 +1128,22 @@
         { "who": "narr", "text": "──彼女が最後に本気で泣いたのがいつだったか、もう誰も知らない。" }
       ]
     },
+    "surechigai": {
+      "cat": "bad",
+      "emoji": "🍂",
+      "title": "すれ違いエンド",
+      "desc": "画面の向こうに戻った彼女とは、もう、画面越しにしか会えない。",
+      "hint": "二人の関係がバレかけたとき、手を離してしまうと……",
+      "lines": [
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【雑談】今日もゆる〜く", "mob": "chat" } },
+        { "who": "narr", "text": "──数週間後。" },
+        { "who": "haru", "face": "happy", "text": "こんハル〜！ 今日もゆる〜く、おしゃべりしていくね！" },
+        { "who": "mob", "text": "こんハル〜" },
+        { "who": "mob", "text": "今日も声いいね" },
+        { "who": "narr", "text": "──画面の向こうのハルは、何も変わらず笑っている。" },
+        { "who": "narr", "text": "──コメント欄に打ちかけた言葉を、そっと消した。" }
+      ]
+    },
     "zarigani": {
       "cat": "hidden",
       "emoji": "🦞",
