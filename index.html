@@ -47,6 +47,7 @@
       <button class="btn btn-primary" data-action="new">はじめから</button>
       <button class="btn" data-action="continue" hidden>つづきから</button>
       <button class="btn" data-action="gallery">ギャラリー</button>
+      <button class="btn btn-ghost title-howto" data-action="howto">あそびかた</button>
     </nav>
     <p class="title-foot">エンド回収 <span id="title-progress">0/14</span></p>
   </section>
@@ -146,6 +147,77 @@
       </div>
       <p id="share-msg" class="hint" aria-live="polite"></p>
       <button class="btn btn-primary" data-action="title">タイトルへ</button>
+    </div>
+  </section>
+
+  <!-- あそびかた -->
+  <section id="screen-howto" class="screen" aria-label="あそびかた">
+    <div class="howto">
+      <div id="howto-track" class="howto-track">
+
+        <article class="howto-page">
+          <div class="howto-emoji">🌙</div>
+          <h2>深夜2時、同接23人。</h2>
+          <p>あなたは、新人VTuber・<b>天音ハル</b>の小さな配信を見つけたリスナー。</p>
+          <div class="howto-mock">
+            <span class="mock-live">● LIVE</span><span class="mock-viewers">👤 23</span>
+            <p class="mock-haru"><b>ハル</b>こんハル〜！ 今日もゆる〜くいくね！</p>
+            <p class="mock-me"><b>あなた</b>深夜にこの明るさ、助かる</p>
+          </div>
+          <p>コメントを送って、画面の向こうの推しとの距離を、少しずつ縮めていこう。</p>
+        </article>
+
+        <article class="howto-page">
+          <div class="howto-emoji">💬</div>
+          <h2>コメントは5つから選ぶ</h2>
+          <p>選んだコメントで、ハルの反応が変わる。コメントには、こんな種類がある。</p>
+          <ul class="howto-list">
+            <li><i>💗</i><span><b>やさしいコメント</b>好感度が上がる</span></li>
+            <li><i>🤪</i><span><b>ネタコメント</b>笑ってくれる……かも</span></li>
+            <li><i>💰</i><span><b>スパチャ</b>人気が上がる。でも、やりすぎると……</span></li>
+            <li><i>💣</i><span><b>地雷</b>やさしそうで、実は重い・押しつけがましい</span></li>
+            <li><i>☠️</i><span><b>一発アウト</b>特定・晒し・セクハラは、即おしまい</span></li>
+          </ul>
+          <p class="howto-note">ゲーム中、種類は表示されません。<br>ことば選びで見抜こう！</p>
+        </article>
+
+        <article class="howto-page">
+          <div class="howto-emoji">📈</div>
+          <h2>見えるもの、見えないもの</h2>
+          <ul class="howto-list">
+            <li><i>👤</i><span><b>人気</b>同接と登録者の数で、画面に表示される。配信でのコメントで伸びていく</span></li>
+            <li><i>💗</i><span><b>好感度</b>しばらくは見えない。ハルの表情と、セリフで読み取ろう</span></li>
+            <li><i>🎭</i><span><b>ハルの性格</b>あなたのコメントの傾向で、天使にも、女王様にも、芸人にも変わっていく</span></li>
+          </ul>
+          <p class="howto-note">配信の外の「中の人」の性格も、あなたしだい。</p>
+        </article>
+
+        <article class="howto-page">
+          <div class="howto-emoji">⏩</div>
+          <h2>便利なボタン</h2>
+          <ul class="howto-list">
+            <li><i>⏩</i><span><b>既読スキップ</b>一度読んだセリフを早送り。まだ読んでいないセリフで止まる</span></li>
+            <li><i>☰</i><span><b>メニュー</b>ログ（読み返し）と、タイトルへもどる</span></li>
+            <li><i>🔊</i><span><b>音</b>BGMと効果音のオン・オフ</span></li>
+            <li><i>💾</i><span><b>自動セーブ</b>途中でやめても「つづきから」で、その場面の最初から再開</span></li>
+          </ul>
+          <p class="howto-note">画面をタップすると、セリフが進むよ。</p>
+        </article>
+
+        <article class="howto-page">
+          <div class="howto-emoji">🎬</div>
+          <h2>エンドは<span class="howto-endings">32</span>種</h2>
+          <p>恋人になれるのは、ほんのひと握り。<br>友達止まりも、BANも、炎上も、迷走も。</p>
+          <p>見つけたエンドは<b>ギャラリー</b>に記録されて、まだ見ていないエンドの<b>ヒント</b>も読めるよ。</p>
+          <p class="howto-note">何度でも、推しに会いにいこう。</p>
+        </article>
+
+      </div>
+    </div>
+    <div id="howto-dots" class="howto-dots"></div>
+    <div class="howto-foot">
+      <button class="btn btn-ghost" data-action="howto-prev">もどる</button>
+      <button class="btn btn-primary" data-action="howto-next">つぎへ</button>
     </div>
   </section>
 

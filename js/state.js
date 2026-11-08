@@ -89,3 +89,12 @@ export function loadRead() {
 export function saveRead(set) {
   writeJson(READ_KEY, [...set]);
 }
+
+// The how-to-play pages are shown automatically before the first new game.
+const HOWTO_KEY = 'otsuharu.howto.v1';
+export function hasSeenHowto() {
+  return !!readJson(HOWTO_KEY);
+}
+export function markHowtoSeen() {
+  writeJson(HOWTO_KEY, true);
+}

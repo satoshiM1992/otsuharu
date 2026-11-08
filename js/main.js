@@ -6,7 +6,7 @@
 
 import { createRng, randomSeed } from './rng.js';
 import { loadScenario } from './data.js';
-import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery } from './state.js';
+import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery, hasSeenHowto, markHowtoSeen } from './state.js';
 import { Engine } from './engine.js';
 import { UI, preloadBackgrounds } from './ui.js';
 import { Avatar } from './avatar.js';
@@ -72,6 +72,67 @@ function showName() {
   $('name-msg').textContent = '';
   ui.showScreen('name');
   $('name-input').focus();
+}
+
+// ------------------------------------------------------------- how to play
+
+const howto = { page: 0, then: null };
+const howtoPages = () => document.querySelectorAll('.howto-page');
+
+function showHowto(then = null) {
+  howto.then = then; // called after the last page (first game: name entry)
+  document.querySelector('.howto-endings').textContent = String(endingIds.length);
+  const dots = $('howto-dots');
+  dots.innerHTML = '';
+  howtoPages().forEach(() => dots.append(document.createElement('span')));
+  setHowtoPage(0);
+  ui.showScreen('howto');
+}
+
+function setHowtoPage(i) {
+  const n = howtoPages().length;
+  howto.page = Math.max(0, Math.min(n - 1, i));
+  $('howto-track').style.transform = `translateX(${-100 * howto.page}%)`;
+  [...$('howto-dots').children].forEach((d, j) => d.classList.toggle('is-on', j === howto.page));
+  const last = howto.page === n - 1;
+  document.querySelector('[data-action="howto-next"]').textContent = last ? (howto.then ? 'はじめる' : 'とじる') : 'つぎへ';
+  document.querySelector('[data-action="howto-prev"]').textContent = howto.page === 0 ? 'タイトルへ' : 'もどる';
+  howtoPages()[howto.page].scrollTop = 0;
+}
+
+function howtoNext() {
+  if (howto.page < howtoPages().length - 1) return setHowtoPage(howto.page + 1);
+  markHowtoSeen();
+  const then = howto.then;
+  howto.then = null;
+  (then ?? showTitle)();
+}
+
+function howtoPrev() {
+  if (howto.page > 0) return setHowtoPage(howto.page - 1);
+  showTitle();
+}
+
+// swipe between pages
+{
+  let x0 = null;
+  let y0 = null;
+  const track = $('howto-track');
+  track.addEventListener('pointerdown', (e) => {
+    x0 = e.clientX;
+    y0 = e.clientY;
+  });
+  track.addEventListener('pointerup', (e) => {
+    if (x0 == null) return;
+    const dx = e.clientX - x0;
+    const dy = e.clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) {
+      if (howto.page < howtoPages().length - 1) setHowtoPage(howto.page + 1);
+    } else setHowtoPage(howto.page - 1);
+  });
+  track.addEventListener('pointercancel', () => (x0 = null));
 }
 
 function showGallery() {
@@ -217,7 +278,18 @@ document.addEventListener('click', (e) => {
   if (screen === 'screen-game') return; // handled by UI
   switch (action) {
     case 'new':
-      showName();
+      // first game: the how-to pages come first, then the name entry
+      if (hasSeenHowto()) showName();
+      else showHowto(showName);
+      break;
+    case 'howto':
+      showHowto();
+      break;
+    case 'howto-next':
+      howtoNext();
+      break;
+    case 'howto-prev':
+      howtoPrev();
       break;
     case 'continue': {
       const s = loadGame();

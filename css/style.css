@@ -562,6 +562,51 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .ending-emoji { font-size: 64px; line-height: 1.2; }
 .ending-desc { line-height: 1.7; font-size: 14px; }
 
+/* ------------------------------------------------------------ howto */
+
+.title-howto { color: #fff; padding: 6px; font-size: 14px; }
+#screen-howto { background: linear-gradient(170deg, #ffc6dc, #c9b6ff); }
+.howto { flex: 1; min-height: 0; overflow: hidden; padding-top: var(--safe-t); -webkit-user-select: none; user-select: none; }
+.howto-track { display: flex; height: 100%; transition: transform .3s ease; touch-action: pan-y; }
+.howto-page {
+  flex: 0 0 100%; height: 100%; overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 28px 22px 12px; text-align: center; color: var(--ink);
+  line-height: 1.7; font-size: 15px;
+}
+.howto-page h2 { font-size: 22px; line-height: 1.4; }
+.howto-emoji { font-size: 52px; line-height: 1; filter: drop-shadow(0 4px 0 rgba(43, 35, 64, .12)); }
+.howto-note { font-size: 13px; font-weight: 700; color: #d33f78; }
+.howto-list { list-style: none; display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: left; }
+.howto-list li { display: flex; gap: 10px; align-items: center; background: rgba(255, 255, 255, .85); border-radius: 14px; padding: 9px 12px; font-size: 13px; line-height: 1.5; }
+.howto-list i { font-style: normal; font-size: 22px; flex: none; width: 28px; text-align: center; }
+.howto-list b { display: block; font-size: 14px; }
+.howto-mock { position: relative; width: 100%; background: #fff; border-radius: 16px; padding: 38px 12px 12px; text-align: left; font-size: 13px; box-shadow: 0 4px 14px rgba(43, 35, 64, .12); }
+.mock-live, .mock-viewers { position: absolute; top: 10px; font-size: 11px; font-weight: 800; color: #fff; padding: 2px 8px; border-radius: 6px; }
+.mock-live { left: 12px; background: #ff3b5c; }
+.mock-viewers { left: 70px; background: rgba(43, 35, 64, .55); }
+.mock-haru, .mock-me { padding: 4px 8px; border-radius: 8px; line-height: 1.5; }
+.mock-haru b, .mock-me b { margin-right: .6em; font-size: 11px; }
+.mock-haru b { color: var(--pink); }
+.mock-me { background: var(--pink-soft); margin-top: 4px; }
+.mock-me b { color: #d33f78; }
+.howto-dots { display: flex; justify-content: center; gap: 8px; padding: 8px 0; }
+.howto-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, .7); transition: width .2s, background .2s; }
+.howto-dots span.is-on { width: 22px; border-radius: 999px; background: var(--pink); }
+.howto-foot { display: flex; gap: 10px; padding: 4px 16px calc(14px + var(--safe-b)); }
+.howto-foot .btn { flex: 1; }
+/* short phones (iPhone SE etc.): fit each page on one screen */
+@media (max-height: 700px) {
+  .howto-page { gap: 8px; padding: 16px 18px 8px; font-size: 13px; line-height: 1.6; }
+  .howto-page h2 { font-size: 19px; }
+  .howto-emoji { font-size: 36px; }
+  .howto-list { gap: 6px; }
+  .howto-list li { padding: 6px 10px; font-size: 12px; line-height: 1.4; }
+  .howto-list b { font-size: 13px; }
+  .howto-list i { font-size: 18px; width: 24px; }
+  .howto-note { font-size: 12px; }
+}
+
 /* ----------------------------------------------------------- gallery */
 
 #screen-gallery { background: var(--paper); }
