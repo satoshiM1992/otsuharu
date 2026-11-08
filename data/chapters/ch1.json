@@ -312,6 +312,330 @@
             }
           ]
         }
+      },
+      "teiden": {
+        "set": { "stream": { "title": "【雑談】雨の日は、まったりと", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "relaxed", "text": "外、すっごい雨だね〜。雷も鳴ってる……" },
+          { "who": "narr", "text": "──ピカッ。" },
+          { "who": "narr", "text": "──画面が、真っ暗になった。" },
+          { "who": "narr", "text": "──数分後。配信が、再開された。" },
+          { "who": "haru", "face": "panic", "text": "ご、ごめん！ 停電しちゃって……！ みんな、まだいる……？" },
+          { "who": "narr", "text": "──同接：1。" },
+          { "who": "haru", "face": "surprised", "text": "……1人。" },
+          { "who": "haru", "face": "shy", "text": "……待っててくれたの、{call}だけ……？" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "おかえり。雷、大丈夫だった？",
+              "reactions": [[{ "who": "haru", "face": "shy", "text": "……うん。ただいま" }, { "who": "haru", "face": "relaxed", "text": "えへへ。今日は、{call}のためだけの配信だね" }]]
+            },
+            {
+              "type": "good",
+              "echo": "ずっと待ってたよ",
+              "text": "（待機画面のまま、ずっと待ってた）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ずっと!?" }, { "who": "haru", "face": "shy", "text": "……ありがと。なんか、ちょっと泣きそう" }]]
+            },
+            { "type": "normal", "text": "停電、こわかったね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "うん……でも、もう大丈夫！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥500 懐中電灯代",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "懐中電灯代!? ……ふふ、ありがと。次の停電に備えます！" }]]
+            },
+            {
+              "type": "trap",
+              "text": "1人ってことは、今日は僕専用の配信だね",
+              "reactions": [[{ "who": "haru", "face": "panic", "text": "せ、専用ってわけじゃ……！" }, { "who": "haru", "face": "sad", "text": "……みんなが戻ってくるまで、ね" }]]
+            },
+            { "type": "bad", "text": "やっぱり人いないね、この配信", "reactions": [[{ "who": "haru", "face": "sad", "text": "……だね。あはは……" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "停電中、真っ暗な画面に向かってずっと拍手してました",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "真っ暗な画面に!?" }, { "who": "haru", "face": "happy", "text": "……あはは！ なにそれ、見たかった！" }]]
+            },
+            { "type": "gag", "delta": 2, "text": "雷様、空気読んで", "reactions": [[{ "who": "haru", "face": "happy", "text": "雷様に言っても無理だよ!?" }]] }
+          ]
+        },
+        "after": [{ "who": "mob", "text": "停電やばかった" }, { "who": "mob", "text": "戻ってきた" }, { "who": "haru", "face": "happy", "text": "あ、みんな戻ってきた！ おかえり〜！" }]
+      },
+      "pinpon": {
+        "set": { "stream": { "title": "【雑談】最近ハマってること", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "happy", "text": "最近ね、ハマってるのが──" },
+          { "who": "narr", "text": "──ピンポーン。" },
+          { "who": "haru", "face": "panic", "text": "あっ、ごめん、ちょっと待ってて！ ミュートにするね！" },
+          { "who": "narr", "text": "──三分後。" },
+          { "who": "haru", "face": "happy", "text": "おまたせ〜！ 通販で頼んでたやつ、届いた！ ……配信で開けちゃう？" },
+          { "who": "mob", "text": "開封の儀" },
+          { "who": "mob", "text": "なになに" },
+          { "who": "haru", "face": "surprised", "text": "……猫のおやつ、30袋……？ わたし、こんなに頼んだっけ……" }
+        ],
+        "choice": {
+          "pool": [
+            { "type": "good", "text": "猫ちゃん、大喜びだね", "reactions": [[{ "who": "haru", "face": "happy", "text": "そうなの！ ……でも30袋は、喜びすぎちゃうかも" }]] },
+            {
+              "type": "good",
+              "text": "深夜の通販、あるあるだよ。気にしないで",
+              "reactions": [[{ "who": "haru", "face": "relaxed", "text": "だよね!? ……よかった、わたしだけじゃなかった" }]]
+            },
+            { "type": "normal", "text": "多くない？", "reactions": [[{ "who": "haru", "face": "panic", "text": "多いよね!?" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥1,000 猫ちゃんのおやつ代（31袋目）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "31袋目!?" }, { "who": "haru", "face": "happy", "text": "……ありがと。猫の代わりにお礼言います！" }]]
+            },
+            {
+              "type": "trap",
+              "text": "僕も同じおやつ買ったよ。おそろいだね",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……おそろい" }, { "who": "haru", "face": "panic", "text": "う、うん……そうだね……？" }]]
+            },
+            { "type": "bad", "text": "配信中に通販開けるとか、ネタないの？", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめんね" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "おやつの袋を全部並べて、ドミノしよう",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ドミノ!?" }, { "who": "haru", "face": "happy", "text": "……ちょっと、やりたいかも" }]]
+            },
+            { "type": "gag", "delta": 2, "text": "30袋あれば、僕も一袋もらえますか", "reactions": [[{ "who": "haru", "face": "happy", "text": "猫用だよ!?" }]] },
+            {
+              "type": "out",
+              "end": "tokutei",
+              "text": "その箱の伝票、もうちょっとカメラに近づけて？",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "blank", "text": "……" },
+                  { "who": "haru", "face": "blank", "text": "……伝票は、映しません" },
+                  { "who": "mob", "text": "特定しようとしてて草" },
+                  { "who": "mob", "text": "こわ" }
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "ramen": {
+        "set": { "stream": { "title": "【料理】深夜2時のカップ麺アレンジ", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "happy", "text": "今日は料理配信！ ……と言っても、カップ麺のアレンジなんだけど！" },
+          { "who": "haru", "face": "smug", "text": "お湯を入れて……3分待つ間、雑談しよっか" },
+          { "who": "haru", "face": "relaxed", "text": "みんなは、夜中にお腹すいたらどうしてる？" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "ハルちゃんの配信見てたら、お腹すいてきた",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "飯テロ成功〜！" }, { "who": "haru", "face": "shy", "text": "……一緒に食べてる気分になれたら、うれしいな" }]]
+            },
+            {
+              "type": "good",
+              "text": "3分の雑談、なんか好き。ラジオみたい",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ラジオ？" }, { "who": "haru", "face": "relaxed", "text": "……いいね。今度、雑談ラジオ枠もやってみようかな" }]]
+            },
+            { "type": "normal", "text": "寝る", "reactions": [[{ "who": "haru", "face": "happy", "text": "えらい！ ……わたしは食べるけど！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥800 トッピング代。チーズ乗せて",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "チーズ!? 天才！ 乗せます！" }]]
+            },
+            { "type": "trap", "text": "夜中のカップ麺は体に悪いよ。やめたほうがいい", "reactions": [[{ "who": "haru", "face": "sad", "text": "……う、うん。そうだよね……" }]] },
+            { "type": "bad", "text": "料理配信なのにカップ麺？ 手抜きじゃん", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ごめん、料理、あんまり得意じゃなくて" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "あっ、3分過ぎてる",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "panic", "text": "えっ!? あっ、のびてる！ のびてるーー！" },
+                  { "who": "haru", "face": "happy", "text": "……もう、のびのびアレンジってことで！" }
+                ]
+              ]
+            },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "カップ麺の3分で、人生について語ってください",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "3分で!?" }, { "who": "haru", "face": "smug", "text": "……人生は、待ってる時間がいちばんおいしい。……どう？" }]]
+            }
+          ]
+        }
+      },
+      "juken": {
+        "set": { "stream": { "title": "【雑談】眠れない人、あつまれ〜", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "relaxed", "text": "こんな時間まで起きてる人〜？" },
+          { "who": "mob", "text": "明日、受験です。眠れない", "name": "受験生くん" },
+          { "who": "haru", "face": "surprised", "text": "えっ、明日!? 寝なきゃだめだよ!?" },
+          { "who": "haru", "face": "sad", "text": "……でも、眠れないよね。わかる。わたしも初配信の前の日、ぜんぜん眠れなかったもん" },
+          { "who": "haru", "face": "shy", "text": "ねえ、みんな。受験生くんに、なにか言ってあげて" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "ここまでがんばった自分を信じて。おやすみ！",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "いいこと言う〜！" }, { "who": "haru", "face": "relaxed", "text": "受験生くん、聞いた？ ……ちゃんと寝てね" }]]
+            },
+            {
+              "type": "good",
+              "text": "ハルちゃんの声なら眠れるかも。ゆっくり話してあげて",
+              "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……そっか。じゃあ今日は、ゆっくりしゃべるね" }]]
+            },
+            { "type": "normal", "text": "がんばれ", "reactions": [[{ "who": "haru", "face": "happy", "text": "がんばれ〜！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥2,525 にこにこ合格祈願",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "2525!? にこにこ!?" },
+                  { "who": "haru", "face": "happy", "text": "……縁起いい！ 受験生くん、このパワーもらっちゃいな！" }
+                ]
+              ]
+            },
+            {
+              "type": "trap",
+              "text": "受験生がこんな時間に配信見てちゃダメでしょ",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そ、そうだけど、眠れない夜もあるよ……" }]]
+            },
+            {
+              "type": "bad",
+              "text": "落ちたらどうするの？",
+              "reactions": [[{ "who": "haru", "face": "angry", "text": "それ今言う!?" }, { "who": "haru", "face": "sad", "text": "……受験生くん、気にしないでね" }]]
+            },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "僕の受験の前の夜は、ザリガニの夢を見ました",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ザリガニの夢!?" }, { "who": "haru", "face": "happy", "text": "……受かったの!? 落ちたの!? どっち!?" }]]
+            },
+            {
+              "type": "gag",
+              "echo": "さ……く……ら……さ……く",
+              "delta": 3,
+              "text": "（「さくらさく」で縦読みコメントを送る）",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "縦読み！ さくらさく！ 受験生くん、見た!?" }]]
+            }
+          ]
+        },
+        "after": [{ "who": "mob", "text": "寝ます。ありがとうございました", "name": "受験生くん" }, { "who": "narr", "text": "──数週間後。『合格しました！』というコメントが、ハルの配信に流れた。" }]
+      },
+      "maegami": {
+        "set": { "stream": { "title": "【重大発表】みんなに、大事なお知らせがあります", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "shy", "text": "……えっと。今日は、大事なお知らせがあります" },
+          { "who": "mob", "text": "え" },
+          { "who": "mob", "text": "引退？" },
+          { "who": "mob", "text": "まって" },
+          { "who": "narr", "text": "──コメント欄が、ざわつく。" },
+          { "who": "haru", "face": "shy", "text": "……前髪、切りました！" },
+          { "who": "mob", "text": "は？" },
+          { "who": "mob", "text": "前髪ｗｗｗ" },
+          { "who": "mob", "text": "アバター変わってないが？" },
+          { "who": "haru", "face": "panic", "text": "中の人の前髪です！！" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "おめでとう（？） きっと似合ってると思う",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "見えてないのに!?" }, { "who": "haru", "face": "shy", "text": "……でも、ありがと。ちょっと切りすぎて、へこんでたんだ" }]]
+            },
+            {
+              "type": "good",
+              "text": "引退じゃなくてよかった……本気で焦った",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "そんなに!?" }, { "who": "haru", "face": "shy", "text": "……ごめんね。でも、焦ってくれたの、ちょっとうれしい" }]]
+            },
+            { "type": "normal", "text": "前髪かい", "reactions": [[{ "who": "haru", "face": "happy", "text": "前髪です！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥1,000 前髪の新規実装おめでとう",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "新規実装!? ……ありがと、ver2.0です！" }]]
+            },
+            {
+              "type": "trap",
+              "text": "中の人の写真、見せてよ。前髪確認したい",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……見せません" }, { "who": "haru", "face": "sad", "text": "そういうのは、ちょっと……" }]]
+            },
+            { "type": "bad", "text": "釣りタイトル、正直萎えるわ", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめん。軽い気持ちで……" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "アバターの前髪も、今から切ってください",
+              "reactions": [[{ "who": "haru", "face": "panic", "text": "アバターは切れないよ!?" }, { "who": "haru", "face": "happy", "text": "……ママ（絵師さん）に頼んでみる？" }]]
+            },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "前髪、何センチ切りましたか",
+              "reactions": [[{ "who": "haru", "face": "smug", "text": "……3センチ" }, { "who": "haru", "face": "panic", "text": "切りすぎだよね!? わかってる！" }]]
+            }
+          ]
+        }
+      },
+      "birthday": {
+        "set": { "stream": { "title": "【雑談】なんでもない日", "mob": "chat" } },
+        "lines": [
+          { "who": "haru", "face": "relaxed", "text": "今日は特に企画もない、なんでもない日の雑談〜" },
+          { "who": "haru", "face": "shy", "text": "……じ、実はね。今日、わたしの誕生日なんだ。あはは、告知し忘れちゃって" },
+          { "who": "mob", "text": "え!?" },
+          { "who": "mob", "text": "おめでとう！" },
+          { "who": "mob", "text": "なんで言わないの" },
+          { "who": "haru", "face": "shy", "text": "だって、祝って〜って言うの、恥ずかしくて……" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "誕生日おめでとう！ 生まれてきてくれて、ありがとう",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "……そ、そこまで!?" }, { "who": "haru", "face": "shy", "text": "……えへへ。……ありがと。今年いちばんうれしい" }]]
+            },
+            {
+              "type": "good",
+              "text": "みんな、ハッピーバースデー歌おう！",
+              "reactions": [
+                [
+                  { "who": "mob", "text": "はっぴばーすでーとぅーゆー" },
+                  { "who": "mob", "text": "はっぴばーすでーとぅーゆー" },
+                  { "who": "haru", "face": "shy", "text": "……な、なにこれ……泣く……" },
+                  { "who": "haru", "face": "happy", "text": "みんな、ありがと〜！" }
+                ]
+              ]
+            },
+            { "type": "normal", "text": "おめでとう", "reactions": [[{ "who": "haru", "face": "happy", "text": "ありがと〜！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥5,000 お誕生日おめでとう！ ケーキ代に",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ケーキ代!?" }, { "who": "haru", "face": "happy", "text": "……ありがと！ 明日、ちょっといいケーキ買う！" }]]
+            },
+            { "type": "trap", "text": "教えてくれなかったの、ちょっとショックだな", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめん……" }]] },
+            {
+              "type": "bad",
+              "text": "で、何歳になったの？",
+              "reactions": [[{ "who": "haru", "face": "angry", "text": "……ひみつです！" }, { "who": "haru", "face": "sad", "text": "そういうのは、聞かないでほしいな……" }]]
+            },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "おめでとう！ 今日から僕も同じ誕生日にします",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "変えられないよ!?" }, { "who": "haru", "face": "happy", "text": "……あはは。じゃあ来年は、一緒に祝おうね" }]]
+            },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "ケーキのろうそく、何本ですか（年齢は聞いてない）",
+              "reactions": [[{ "who": "haru", "face": "smug", "text": "……ろうそくは、1本です" }, { "who": "haru", "face": "happy", "text": "ハル年齢は、1歳です！" }]]
+            }
+          ]
+        }
       }
     }
   },

@@ -4,6 +4,328 @@
   "subtitle": "見つかってしまった、わたしたちの配信",
   "call": "listener",
   "defaults": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル" },
+  "topics": {
+    "events": {
+      "member": {
+        "set": { "stream": { "title": "【お知らせ】メンバーシップはじめました！", "mob": "buzz" } },
+        "lines": [
+          { "who": "haru", "face": "happy", "text": "今日はお知らせ！ メンバーシップ、はじめました！" },
+          {
+            "who": "haru",
+            "face": "shy",
+            "text": "メン限では、寝落ち雑談とか、ゆるい配信をやろうと思ってて……",
+            "by": {
+              "queen": { "face": "smug", "text": "ランクは三つ。いちばん上は月一万円で、わたしが毎朝おはようって言ってあげる♪" },
+              "geinin": { "face": "happy", "text": "メン限では、マシュマロに全力でツッコむ配信とかやります！ 生ツッコミです！" }
+            }
+          },
+          {
+            "who": "haru",
+            "face": "neutral",
+            "text": "無理して入らなくていいからね！ 見てくれるだけでうれしいから！",
+            "by": { "queen": { "face": "smug", "text": "……入らない理由、ある？" } }
+          }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "おめでとう！ 無理しない範囲で続けてね",
+              "reactions": [
+                [
+                  {
+                    "who": "haru",
+                    "face": "relaxed",
+                    "text": "……うん。そう言ってもらえると、ほっとする",
+                    "by": { "queen": { "face": "neutral", "text": "……ふーん。入らないんだ。ま、いいけど" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "¥490 さっそく入りました！ 一番安いプランで",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "メンバー第一号!? {name}さん、ありがとう！" }]]
+            },
+            { "type": "normal", "text": "メン限で何するの？", "reactions": [[{ "who": "haru", "face": "happy", "text": "ゆる〜い雑談とか、歌の練習とか！ 気になったらぜひ！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "styleW": 2,
+              "pop": 7,
+              "text": "¥10,000 最高ランクに入りました。毎朝おはようお願いします",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "最高ランク!? え、本気!?" },
+                  {
+                    "who": "haru",
+                    "face": "shy",
+                    "text": "……お、おはようって言えばいいの……？ がんばる……",
+                    "by": { "queen": { "face": "smug", "text": "ふふ、いい子。毎朝おはようって言ってあげる。……寝坊しないでね？" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "trap",
+              "text": "メン限でしか見せない顔、ちゃんと見せてくれるんだよね？",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "そういう意味のメン限じゃないよ……？" }]]
+            },
+            {
+              "type": "bad",
+              "text": "結局お金かー",
+              "reactions": [[{ "who": "haru", "face": "sad", "text": "……そう、見えちゃうよね。ごめんね", "by": { "queen": { "face": "angry", "text": "そうだけど？ 文句ある？" } } }]]
+            },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "メンバーの呼び名、「はるっ子」はやめて。せめて「ハルの民」で",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "なんでわたしが考えてた候補知ってるの!?" },
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "……「ハルの民」、採用で！",
+                    "by": { "geinin": { "face": "happy", "text": "民て！ 国家か！ ……でも採用！ 今日からみんな「ハルの民」！" } }
+                  }
+                ]
+              ]
+            },
+            { "type": "gag", "delta": 2, "text": "メン限の内容、ザリガニも入れますか？", "reactions": [[{ "who": "haru", "face": "happy", "text": "甲殻類は……要相談で！" }]] }
+          ]
+        }
+      },
+      "isho": {
+        "set": { "stream": { "title": "【新衣装】ついに……お披露目します！", "mob": "anni" } },
+        "lines": [
+          { "who": "haru", "face": "shy", "text": "今日は……新衣装、お披露目です！" },
+          { "who": "narr", "text": "──カウントダウンのあと、画面が光った。" },
+          {
+            "who": "haru",
+            "face": "happy",
+            "text": "じゃーん！ 夏服バージョン！ ママ（絵師さん）が描いてくれたの！",
+            "motion": "jump",
+            "by": {
+              "queen": { "face": "smug", "text": "じゃーん！ 女王様の正装よ。……ひ、ひれ伏しなさい？" },
+              "geinin": { "face": "happy", "text": "じゃーん！ ツッコミしやすいように、袖短めにしてもろた！" }
+            }
+          },
+          { "who": "mob", "text": "かわいい！！" },
+          { "who": "mob", "text": "神" },
+          { "who": "mob", "text": "ママありがとう" },
+          { "who": "haru", "face": "shy", "text": "……ど、どうかな" }
+        ],
+        "choice": {
+          "pool": [
+            { "type": "good", "text": "かわいい。……23人の頃から見てきて、よかった", "reactions": [[{ "who": "haru", "face": "shy", "text": "……そういうの、ずるい" }]] },
+            { "type": "good", "text": "ママさんの絵も、ハルちゃんの笑顔も最高", "reactions": [[{ "who": "haru", "face": "happy", "text": "ママにも伝えとくね！" }]] },
+            { "type": "normal", "text": "かわいい", "reactions": [[{ "who": "haru", "face": "happy", "text": "ありがと〜！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "pop": 6,
+              "text": "¥10,000 新衣装おめでとう！ 赤スパで祝わせて",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "赤スパ!?" },
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "……ありがと！ 衣装代、ちょっと回収できた！",
+                    "by": { "queen": { "face": "smug", "text": "……ふふ、わかってるじゃない。新衣装には赤が似合うのよ" } }
+                  }
+                ]
+              ]
+            },
+            { "type": "trap", "text": "前の衣装のほうが好きだったかな", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そ、そっか……" }]] },
+            { "type": "bad", "text": "スカート、もうちょっと短くてもよかったのに", "reactions": [[{ "who": "haru", "face": "angry", "text": "……そういう目で見ないで" }]] },
+            {
+              "type": "gag",
+              "delta": 3,
+              "text": "新衣装の第一声、「おつハル」でお願いします",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "始まったばっかりで終わらせないで!?", "by": { "geinin": { "face": "happy", "text": "お披露目三秒で締めさすな！" } } }]]
+            },
+            { "type": "gag", "delta": 2, "text": "僕のアイコンも新衣装にしてください", "reactions": [[{ "who": "haru", "face": "happy", "text": "リスナーの衣装は管轄外だよ!?" }]] }
+          ]
+        }
+      },
+      "anken": {
+        "set": { "stream": { "title": "【PR】はじめての、お仕事配信です！", "mob": "buzz" } },
+        "lines": [
+          { "who": "haru", "face": "panic", "text": "き、今日は……はじめての、企業案件です……！" },
+          { "who": "haru", "face": "shy", "text": "エナジードリンク『ハイパーギガMAX』さんの、ご紹介を……" },
+          {
+            "who": "haru",
+            "face": "panic",
+            "text": "えっと、えっと……台本、どこ……",
+            "by": { "queen": { "face": "panic", "text": "えっと……女王様だって、案件は緊張するのよ！ 台本どこ!?" } }
+          },
+          { "who": "mob", "text": "がんばれ" },
+          { "who": "mob", "text": "噛んでて草" },
+          { "who": "mob", "text": "案件おめでとう" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "落ち着いて。いつものハルちゃんでいいよ",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "relaxed", "text": "……うん。……ふぅ。いつも通り、いつも通り" },
+                  { "who": "haru", "face": "happy", "text": "えー、ハイパーギガMAXは、とにかく、おいしい！" }
+                ]
+              ]
+            },
+            { "type": "good", "text": "案件おめでとう！ 23人の頃からは想像できなかった", "reactions": [[{ "who": "haru", "face": "shy", "text": "……ほんとにね。……ありがと" }]] },
+            { "type": "normal", "text": "飲んでみたい", "reactions": [[{ "who": "haru", "face": "happy", "text": "ぜひ！ ……あ、これPRです！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "pop": 5,
+              "text": "¥3,000 ハイパーギガMAX、箱で買いました（今買った）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "箱で!?" }, { "who": "haru", "face": "happy", "text": "……案件主さん、見てますか！ 売れました！" }]]
+            },
+            { "type": "trap", "text": "案件とかやるようになって、変わっちゃったね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……変わってないよ。……変わってない、よね？" }]] },
+            { "type": "bad", "text": "ステマじゃん", "reactions": [[{ "who": "haru", "face": "angry", "text": "PRって書いてあるよ!?" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "飲んだら、ツッコミの速度も上がりますか",
+              "reactions": [
+                [
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "上がらないよ!? ……たぶん！",
+                    "by": { "geinin": { "face": "happy", "text": "上がるかい！ ……いや、今ちょっと上がった気がする！" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "ハイパーギガMAXって、名前だけで元気出ますね",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "でしょ!? ……あっ、それ台本に書いてあるセリフ！" }]]
+            }
+          ]
+        }
+      },
+      "ohanashi": {
+        "set": { "stream": { "title": "【告知】オンラインお話し会、やります！", "mob": "buzz" } },
+        "lines": [
+          { "who": "haru", "face": "happy", "text": "今度、オンラインお話し会をやります！ ひとり1分、画面越しにお話しできるよ！" },
+          { "who": "mob", "text": "絶対行く" },
+          { "who": "mob", "text": "抽選かな" },
+          { "cmd": "set", "ui": "call", "bg": "call" },
+          { "who": "narr", "text": "──お話し会当日。抽選に当たった。持ち時間は、1分。" },
+          { "who": "haru", "face": "happy", "text": "こんハル〜！ 来てくれてありがと！ ……あ、もしかして、{name}さん？" },
+          { "who": "haru", "face": "shy", "text": "名前、ずっと見てたよ。23人の頃から" }
+        ],
+        "choice": {
+          "pool": [
+            { "type": "good", "text": "いつも、元気もらってます。……ありがとう", "reactions": [[{ "who": "haru", "face": "shy", "text": "……こちらこそ。……あっ、もう時間！ またね！" }]] },
+            { "type": "good", "text": "名前、覚えててくれたんだ……うれしい", "reactions": [[{ "who": "haru", "face": "happy", "text": "当たり前だよ！ ……あ、時間だ。またね！" }]] },
+            {
+              "type": "normal",
+              "echo": "あ、あの……えっと……",
+              "text": "（緊張して、何も言えない）",
+              "reactions": [[{ "who": "haru", "face": "relaxed", "text": "ふふ、緊張するよね。わたしも！ ……またね！" }]]
+            },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "echo": "……実は、10回分申し込みました",
+              "text": "（実は10回分申し込んでいて、10分話す）",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "10回分!?" },
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "……じゃあ、あと9分、なに話そっか？",
+                    "by": { "queen": { "face": "smug", "text": "……ふふ、わかってるじゃない。あと9分、たっぷり付き合ってあげる" } }
+                  }
+                ]
+              ]
+            },
+            { "type": "trap", "text": "1分じゃ足りない。延長できない？", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ごめんね、そういうルールだから" }]] },
+            { "type": "bad", "text": "思ってたより、普通の声だね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そ、そっか" }]] },
+            {
+              "type": "gag",
+              "echo": "あの、ザリガニって脱皮するんですけど……",
+              "delta": 4,
+              "text": "（1分間、ずっとザリガニの話をする）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "なんで!?" }, { "who": "haru", "face": "happy", "text": "……ザリガニのことしか覚えてない！ 楽しかった！" }]]
+            },
+            {
+              "type": "out",
+              "end": "deaikei",
+              "text": "この券代で、個人的に会ってくれない？",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "blank", "text": "……" },
+                  { "who": "haru", "face": "blank", "text": "……そういうのは、だめです" },
+                  { "who": "narr", "text": "──スタッフに、退室させられた。" }
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "doji": {
+        "set": { "stream": { "title": "【同時視聴】ホラー映画、一緒に見よ！", "mob": "game" } },
+        "lines": [
+          { "who": "haru", "face": "smug", "text": "今日はホラー映画の同時視聴！ ホラゲで鍛えたから、もう怖くないもんね〜" },
+          { "who": "narr", "text": "──開始十分。" },
+          {
+            "who": "haru",
+            "face": "panic",
+            "text": "ひゃあああ!? い、今の見た!? 見た!?",
+            "motion": "jump",
+            "by": { "geinin": { "face": "panic", "text": "うわああ!? 今のなんやねん!? 説明して!?" } }
+          },
+          { "who": "mob", "text": "叫び声助かる" },
+          { "who": "mob", "text": "鍛えた成果は？" },
+          { "who": "haru", "face": "panic", "text": "む、無理……一人で見てたら絶対無理だった……" }
+        ],
+        "choice": {
+          "pool": [
+            { "type": "good", "text": "大丈夫、みんなで見てるから一人じゃないよ", "reactions": [[{ "who": "haru", "face": "shy", "text": "……うん。……みんながいて、よかった" }]] },
+            {
+              "type": "good",
+              "echo": "……次、来るよ",
+              "text": "（怖いシーンの前に、そっと「来るよ」とコメントする）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "教えてくれるの!?" }, { "who": "haru", "face": "happy", "text": "ありがと！ 心の準備でき……ひゃあ！ やっぱ無理！" }]]
+            },
+            { "type": "normal", "text": "がんばって", "reactions": [[{ "who": "haru", "face": "panic", "text": "がんばる……！" }]] },
+            { "type": "good", "style": "mitsugi", "text": "¥500 お守り代", "reactions": [[{ "who": "haru", "face": "shy", "text": "お守り……ありがと。握りしめとく" }]] },
+            {
+              "type": "trap",
+              "text": "怖いなら、通話つないで一緒に見ようか？",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "panic", "text": "そ、それはちょっと……！" }]]
+            },
+            { "type": "bad", "text": "叫びすぎて、映画の音が聞こえない", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめん……" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "今のシーン、犯人ザリガニだったよ",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "そんな映画じゃないよ!?" }, { "who": "haru", "face": "happy", "text": "……ちょっと怖さ和らいだ。ありがと" }]]
+            },
+            {
+              "type": "gag",
+              "echo": "うしろ",
+              "delta": 2,
+              "text": "（ずっと「うしろ」とだけコメントする）",
+              "reactions": [[{ "who": "haru", "face": "panic", "text": "やめて!? ほんとに後ろ見ちゃうから!!" }]]
+            }
+          ]
+        }
+      }
+    }
+  },
   "scenes": [
     {
       "id": "2-0",
@@ -97,54 +419,7 @@
         ]
       }
     },
-    {
-      "id": "2-2",
-      "set": { "stream": { "title": "【お知らせ】メンバーシップはじめました！", "mob": "buzz" } },
-      "lines": [
-        { "who": "narr", "text": "──人気が出てから、ハルの配信は少しずつ変わっていった。" },
-        { "who": "haru", "face": "happy", "text": "今日はお知らせ！ メンバーシップ、はじめました！" },
-        { "who": "haru", "face": "shy", "text": "メン限では、寝落ち雑談とか、ゆるい配信をやろうと思ってて……",
-          "by": {
-            "queen": { "face": "smug", "text": "ランクは三つ。いちばん上は月一万円で、わたしが毎朝おはようって言ってあげる♪" },
-            "geinin": { "face": "happy", "text": "メン限では、マシュマロに全力でツッコむ配信とかやります！ 生ツッコミです！" }
-          } },
-        { "who": "haru", "face": "neutral", "text": "無理して入らなくていいからね！ 見てくれるだけでうれしいから！",
-          "by": { "queen": { "face": "smug", "text": "……入らない理由、ある？" } } }
-      ],
-      "choice": {
-        "pool": [
-          { "type": "good", "text": "おめでとう！ 無理しない範囲で続けてね", "reactions": [
-            [{ "who": "haru", "face": "relaxed", "text": "……うん。そう言ってもらえると、ほっとする",
-              "by": { "queen": { "face": "neutral", "text": "……ふーん。入らないんだ。ま、いいけど" } } }]
-          ] },
-          { "type": "good", "style": "mitsugi", "text": "¥490 さっそく入りました！ 一番安いプランで", "reactions": [
-            [{ "who": "haru", "face": "happy", "text": "メンバー第一号!? {name}さん、ありがとう！" }]
-          ] },
-          { "type": "normal", "text": "メン限で何するの？", "reactions": [
-            [{ "who": "haru", "face": "happy", "text": "ゆる〜い雑談とか、歌の練習とか！ 気になったらぜひ！" }]
-          ] },
-          { "type": "good", "style": "mitsugi", "styleW": 2, "pop": 7, "text": "¥10,000 最高ランクに入りました。毎朝おはようお願いします", "reactions": [
-            [{ "who": "haru", "face": "surprised", "text": "最高ランク!? え、本気!?" }, { "who": "haru", "face": "shy", "text": "……お、おはようって言えばいいの……？ がんばる……",
-              "by": { "queen": { "face": "smug", "text": "ふふ、いい子。毎朝おはようって言ってあげる。……寝坊しないでね？" } } }]
-          ] },
-          { "type": "trap", "text": "メン限でしか見せない顔、ちゃんと見せてくれるんだよね？", "reactions": [
-            [{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "そういう意味のメン限じゃないよ……？" }]
-          ] },
-          { "type": "bad", "text": "結局お金かー", "reactions": [
-            [{ "who": "haru", "face": "sad", "text": "……そう、見えちゃうよね。ごめんね",
-              "by": { "queen": { "face": "angry", "text": "そうだけど？ 文句ある？" } } }]
-          ] },
-          { "type": "gag", "delta": 4, "text": "メンバーの呼び名、「はるっ子」はやめて。せめて「ハルの民」で", "reactions": [
-            [{ "who": "haru", "face": "surprised", "text": "なんでわたしが考えてた候補知ってるの!?" },
-             { "who": "haru", "face": "happy", "text": "……「ハルの民」、採用で！",
-               "by": { "geinin": { "face": "happy", "text": "民て！ 国家か！ ……でも採用！ 今日からみんな「ハルの民」！" } } }]
-          ] },
-          { "type": "gag", "delta": 2, "text": "メン限の内容、ザリガニも入れますか？", "reactions": [
-            [{ "who": "haru", "face": "happy", "text": "甲殻類は……要相談で！" }]
-          ] }
-        ]
-      }
-    },
+    { "id": "2-2", "topic": "events", "intro": [{ "who": "narr", "text": "──人気が出てから、ハルの配信は少しずつ変わっていった。" }] },
     {
       "id": "2-2a",
       "if": { "persona": "angel" },
