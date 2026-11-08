@@ -1,2 +1,5 @@
 # VRoid Studio project files (editable source; only the exported .vrm is published)
 *.vroid
+
+# stray screenshots in the repo root
+/*.png

@@ -25,7 +25,9 @@ function resolveBg(name) {
       if (i >= BG_EXTS.length) return resolve(null);
       const url = `img/bg/${name}.${BG_EXTS[i++]}`;
       const img = new Image();
-      img.onload = () => resolve(url);
+      // absolute URL: a relative url() inside a CSS variable is resolved against
+      // the stylesheet (css/), not the page, and would 404
+      img.onload = () => resolve(new URL(url, document.baseURI).href);
       img.onerror = next;
       img.src = url;
     };
