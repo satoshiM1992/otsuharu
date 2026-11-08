@@ -3,6 +3,7 @@
   "title": "第一章 同接23人",
   "subtitle": "深夜二時の、小さな配信",
   "call": "listener",
+  "affScale": 0.5,
   "defaults": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル" },
   "topics": {
     "events": {

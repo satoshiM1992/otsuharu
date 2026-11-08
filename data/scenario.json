@@ -3,8 +3,8 @@
     "max": 100,
     "outRate": 0.3,
     "choiceCount": 5,
-    "loverMin": 90,
-    "loverGagMin": 95,
+    "loverMin": 85,
+    "loverGagMin": 90,
     "typeDelta": { "good": 6, "normal": 2, "bad": -15, "trap": -8, "gag": 0 },
     "typeStyle": { "good": "kind", "normal": "kind", "gag": "neta" },
     "stylePop": { "kind": 1, "mitsugi": 4, "neta": 2 },
@@ -35,7 +35,7 @@
       "label": "🎤芸人",
       "style": "neta",
       "styleMod": { "neta": 5 },
-      "loverGagMin": 90,
+      "loverGagMin": 85,
       "becomes": [
         { "who": "narr", "text": "──最近のハルは、どんな変なコメントにも、キレのあるツッコミを返すようになった。" }
       ]
@@ -62,7 +62,7 @@
       "label": "😈いたずらっ子",
       "style": "neta",
       "styleMod": { "neta": 4 },
-      "loverGagMin": 90,
+      "loverGagMin": 85,
       "becomes": [
         { "who": "narr", "text": "──話すうちに、ひなのはやたらとからかってくるようになった。" },
         { "who": "haru", "face": "smug", "text": "問題です。いま、わたしは何をしているでしょう？ ……正解は「{name}くんをからかう作戦会議」でした〜" }

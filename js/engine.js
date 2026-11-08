@@ -568,7 +568,7 @@ export class Engine {
       case 'listener':
         return flags.noticed ? `${handle}さん` : 'リスナーさん';
       case 'san':
-        return affection >= 75 ? `${handle}くん` : `${handle}さん`;
+        return affection >= (this.rules.kunMin ?? 75) ? `${handle}くん` : `${handle}さん`;
       default:
         return `${handle}くん`;
     }
@@ -610,6 +610,10 @@ export class Engine {
 
   changeAffection(d) {
     const s = this.state;
+    // chapter.affScale scales every change, choices and events alike (ch1-2: halved
+    // while the meter is hidden, so it is not maxed out by the time it appears)
+    const scale = this.chapter?.affScale ?? 1;
+    if (d && scale !== 1) d = d > 0 ? Math.max(1, Math.round(d * scale)) : Math.min(-1, Math.round(d * scale));
     s.affection = Math.max(0, Math.min(this.rules.max, s.affection + d));
     if (s.revealed) this.ui.popDelta(d); // hidden phase: Haru's reaction is the only feedback
     this.refreshHud();

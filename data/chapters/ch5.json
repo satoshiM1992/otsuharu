@@ -242,7 +242,7 @@
       },
       "after": [{ "who": "narr", "text": "──気付けば、通話は二時間をこえていた。" }, { "cmd": "persona" }],
       "gate": {
-        "min": 80,
+        "min": 72,
         "fail": "friend",
         "pass": [{ "who": "haru", "face": "shy", "text": "……ねえ。今度の日曜、また会ってくれる？" }, { "who": "haru", "face": "happy", "text": "行きたいところ、あるの。……最後に、観覧車に乗りたい" }]
       }

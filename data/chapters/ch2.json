@@ -3,6 +3,7 @@
   "title": "第二章 バズ",
   "subtitle": "見つかってしまった、わたしたちの配信",
   "call": "listener",
+  "affScale": 0.5,
   "defaults": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル" },
   "topics": {
     "events": {
@@ -929,7 +930,7 @@
         { "who": "narr", "text": "……それでいい。推しが、うれしそうなら。" }
       ],
       "gate": {
-        "min": 60,
+        "min": 30,
         "fail": "listener",
         "pass": [
           { "who": "narr", "text": "──スマホを置こうとした、そのとき。" },

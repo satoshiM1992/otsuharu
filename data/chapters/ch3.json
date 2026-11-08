@@ -611,7 +611,7 @@
       },
       "after": [{ "who": "narr", "text": "──その夜の通話は、気付けば二時間を過ぎていた。" }],
       "gate": {
-        "min": 75,
+        "min": 60,
         "fail": "friend",
         "pass": [
           { "who": "haru", "face": "shy", "text": "あのね……{call}。今度、企画の取材ってことで……" },
