@@ -4,6 +4,287 @@
   "subtitle": "はじめまして、ひなの",
   "call": "kun",
   "defaults": { "ui": "adv", "model": "real", "bg": "cafe", "haruName": "ひなの", "contact": "ひなの" },
+  "topics": {
+    "events": {
+      "arcade": {
+        "set": { "bg": "arcade" },
+        "lines": [
+          { "who": "narr", "text": "──カフェを出て、駅ビルのゲームセンターへ。" },
+          { "who": "haru", "face": "surprised", "if": { "minPop": 50 }, "text": "……え。あれ、わたし……？" },
+          { "who": "narr", "if": { "minPop": 50 }, "text": "クレーンゲームの景品は、デフォルメされた天音ハルのぬいぐるみだった。" },
+          { "who": "haru", "face": "panic", "if": { "minPop": 50 }, "text": "グッズ化したのは知ってたけど……実物、はじめて見た……！" },
+          { "who": "haru", "face": "happy", "if": { "maxPop": 49 }, "text": "あ！ 見て見て、あのぬいぐるみ、マロにそっくり！" },
+          { "who": "narr", "if": { "maxPop": 49 }, "text": "クレーンゲームの景品は、ちょっと間の抜けた顔の猫のぬいぐるみだった。" },
+          { "who": "haru", "face": "shy", "text": "……ほしい、かも" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "取ってみる。……見てて",
+              "reactions": [
+                [
+                  { "who": "narr", "text": "──三回目で、アームがぬいぐるみをつかんだ。" },
+                  { "who": "haru", "face": "happy", "motion": "jump", "text": "取れた!! すごい！ すごいすごい！" },
+                  { "who": "haru", "face": "shy", "text": "……大事にするね。ずっと" }
+                ]
+              ]
+            },
+            {
+              "type": "good",
+              "text": "一緒にやろう。ひなのさんがボタン、僕が横から見るから",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "panic", "text": "わ、わたしがやるの!? 下手だよ!?" },
+                  { "who": "narr", "text": "──五回目。ぬいぐるみが、ころんと落ちた。" },
+                  { "who": "haru", "face": "happy", "text": "……取れた！ ふたりで取った！" }
+                ]
+              ]
+            },
+            {
+              "type": "normal",
+              "text": "取れたらいいね",
+              "reactions": [[{ "who": "narr", "text": "──結局、取れなかった。" }, { "who": "haru", "face": "relaxed", "text": "ふふ、また今度だね" }]]
+            },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "（取れるまで一万円崩してくる）",
+              "echo": "ちょっと両替してくる。取れるまでやる",
+              "reactions": [
+                [
+                  { "who": "narr", "text": "──二十三回目。ようやく、ぬいぐるみが落ちた。" },
+                  { "who": "haru", "face": "surprised", "text": "に、二十三回……!?" },
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "……23って、なんか縁起いいね。ありがと",
+                    "by": { "queen": { "face": "smug", "text": "……23回。ふふ、あの頃の同接と同じ。……ありがと、大事にする" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "trap",
+              "text": "本物のハルちゃんがここにいるんだから、ぬいぐるみいらないでしょ",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "そ、そういう意味じゃなくて……ほしかっただけなんだけど……" }]]
+            },
+            { "type": "bad", "text": "クレーンゲームってぼったくりだよ", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そ、そうだよね。うん、やめとこ" }]] },
+            {
+              "type": "gag",
+              "delta": 5,
+              "text": "（ぬいぐるみに向かって）いつも配信見てます",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "そっちに言うの!? 本人こっちだよ!?" },
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "あはは！ もう、おなか痛い……！",
+                    "by": { "geinin": { "face": "happy", "text": "ぬいぐるみに挨拶すな！ 本体こっち！ ……ふふっ、あかん、ツボった！" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "out",
+              "text": "（大声で）みなさーん！ この子、天音ハルの中の人でーす！",
+              "end": "mibare",
+              "reactions": [
+                [
+                  { "who": "narr", "text": "──ゲームセンター中の視線が、こちらに集まった。" },
+                  { "who": "haru", "face": "blank", "text": "……" },
+                  { "who": "narr", "text": "──ひなのはフードを深くかぶって、走り去っていった。" }
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "karaokebox": {
+        "set": { "bg": "karaoke" },
+        "lines": [
+          { "who": "narr", "text": "──カフェを出て、駅前のカラオケボックスへ。" },
+          { "who": "haru", "face": "shy", "text": "……あのね。人前で歌うの、配信以外だと、はじめてで" },
+          { "who": "haru", "face": "panic", "text": "マイク持つと、手がふるえる……" },
+          { "who": "haru", "face": "shy", "text": "……本気で、歌っていい？" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "うん。ひなのさんの本気、聴きたい",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "……！" },
+                  { "who": "narr", "text": "──ひなのが歌いはじめた。配信で聴くより、ずっと近くて、ずっと震えている声だった。" },
+                  { "who": "haru", "face": "shy", "text": "……ど、どうだった……？" }
+                ]
+              ]
+            },
+            {
+              "type": "good",
+              "text": "一緒に歌おう。デュエットなら緊張しないかも",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "デュエット!? ……うん、それなら！" }, { "who": "narr", "text": "──二人の声が、少しずつ重なっていった。" }]]
+            },
+            { "type": "normal", "text": "なに歌うの？", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……23人の頃に、リクエストしてもらった曲" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "延長しとくね。あとパフェも",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "パフェ、また!?" }, { "who": "haru", "face": "happy", "text": "……えへへ。じゃあ、何曲でも歌っちゃう" }]]
+            },
+            {
+              "type": "trap",
+              "text": "その声、配信で毎日聴いてるから新鮮味ないかも",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そ、そっか" }]]
+            },
+            {
+              "type": "bad",
+              "text": "隣の部屋に聞こえたら、身バレしない？",
+              "reactions": [[{ "who": "haru", "face": "panic", "text": "……あ" }, { "who": "haru", "face": "sad", "text": "……どうしよう。急に、歌えなくなっちゃった" }]]
+            },
+            {
+              "type": "gag",
+              "echo": "（タンバリンを全力で叩いた）",
+              "delta": 4,
+              "text": "（タンバリンを全力で叩く）",
+              "reactions": [
+                [
+                  {
+                    "who": "haru",
+                    "face": "happy",
+                    "text": "うるさい!? ……ふふっ、緊張、どっか行った",
+                    "by": { "geinin": { "face": "happy", "text": "タンバリンうるさいわ！ ……いや、もっとやって！" } }
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "採点で100点出たら、僕の勝ちってことで",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "panic", "text": "なんの勝負!?" },
+                  { "who": "narr", "text": "──87点だった。" },
+                  { "who": "haru", "face": "happy", "text": "……あははっ、惜しい！" }
+                ]
+              ]
+            },
+            {
+              "type": "out",
+              "end": "mibare",
+              "text": "（店員さんに）この子、天音ハルなんですよ！",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "narr", "text": "──ひなのは、マイクを置いて、部屋を出ていった。" }]]
+            }
+          ]
+        }
+      },
+      "honya": {
+        "set": { "bg": "honya" },
+        "lines": [
+          { "who": "narr", "text": "──カフェを出て、駅前の大きな本屋へ。" },
+          { "who": "haru", "face": "happy", "text": "あっ！ 見て見て！ 『月曜日のザリガニ』の新刊！" },
+          { "who": "haru", "face": "shy", "text": "わたしのいちばん好きな漫画なの。……ちょっと、読んでみてほしいな" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "text": "じゃあ、一巻買ってみる。読んだら感想言うね",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "ほんと!? ……感想、いちばん最初に聞かせてね" }]]
+            },
+            {
+              "type": "good",
+              "text": "好きなものの話してるとき、すごく楽しそうだね",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "……え、顔に出てた？" }, { "who": "haru", "face": "shy", "text": "……恥ずかしい。でも、うれしい" }]]
+            },
+            { "type": "normal", "text": "どんな話？", "reactions": [[{ "who": "haru", "face": "smug", "text": "ザリガニが、月曜日だけ人間になる話！ 泣けるの！" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "text": "おそろいで全巻買った",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "おそろい!?" }, { "who": "haru", "face": "shy", "text": "……本棚に並べるたびに、今日のこと思い出しちゃいそう" }]]
+            },
+            {
+              "type": "trap",
+              "text": "漫画より、ひなのさんのことが知りたいな",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "panic", "text": "い、今は漫画の話してたのに……！" }]]
+            },
+            { "type": "bad", "text": "漫画って、ちょっと子どもっぽくない？", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そう、かな" }]] },
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "（ザリガニの図鑑を持ってくる）これも参考資料に",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "図鑑!?" }, { "who": "haru", "face": "happy", "text": "……あはは！ 予習ばっちりだね" }]]
+            },
+            { "type": "gag", "delta": 2, "text": "作者のサイン、僕が描いときましょうか", "reactions": [[{ "who": "haru", "face": "happy", "text": "偽造しないで!?" }]] }
+          ]
+        }
+      },
+      "cinema": {
+        "set": { "bg": "cinema" },
+        "lines": [
+          { "who": "narr", "text": "──カフェを出て、駅ビルの映画館へ。" },
+          { "who": "haru", "face": "smug", "text": "ホラー映画にしよ。……配信で鍛えたから、もう平気なんだから" },
+          { "who": "narr", "text": "──上映開始、十五分。" },
+          { "who": "haru", "face": "panic", "text": "（……っ！ ……声、出したら、まわりに迷惑……！）" },
+          { "who": "narr", "text": "──ひなのが、肘掛けをぎゅっと握りしめている。" }
+        ],
+        "choice": {
+          "pool": [
+            {
+              "type": "good",
+              "echo": "（そっと、手を近くに置いた）",
+              "text": "（そっと、肘掛けの手の横に自分の手を置く）",
+              "reactions": [[{ "who": "narr", "text": "──少しして、小さな手が、そっと重なった。" }, { "who": "haru", "face": "shy", "text": "……（小声で）こわいから。それだけ" }]]
+            },
+            { "type": "good", "text": "（小声で）大丈夫。あと少しで明るいシーンになるよ", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……（小声で）ありがと" }]] },
+            { "type": "normal", "echo": "……", "text": "（黙って映画を見る）", "reactions": [[{ "who": "narr", "text": "──エンドロールまで、ひなのはずっと目をつぶっていた。" }]] },
+            {
+              "type": "good",
+              "style": "mitsugi",
+              "echo": "これ、盾にして",
+              "text": "（大きいポップコーンを買ってきて、盾にしてもらう）",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "（小声で）盾!?" }, { "who": "haru", "face": "happy", "text": "……（小声で）ふふ、食べながらなら、ちょっと平気かも" }]]
+            },
+            {
+              "type": "trap",
+              "text": "（小声で）怖いなら、ずっと手つないでてあげようか？",
+              "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "panic", "text": "（小声で）……い、今はいい……" }]]
+            },
+            { "type": "bad", "text": "（小声で）配信のほうが、リアクション大きかったね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……（小声で）今それ言う？" }]] },
+            {
+              "type": "gag",
+              "echo": "（ポップコーンを一粒渡した）",
+              "delta": 4,
+              "text": "（怖いシーンのたびに、ポップコーンを一粒ずつ渡す）",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "surprised", "text": "（小声で）なんで一粒ずつ!?" },
+                  { "who": "haru", "face": "happy", "text": "……ふふっ、気になって、怖くなくなってきた" }
+                ]
+              ]
+            },
+            { "type": "gag", "delta": 2, "text": "（小声で）犯人、ザリガニだよ", "reactions": [[{ "who": "haru", "face": "angry", "text": "（小声で）……そんな映画じゃない！" }]] },
+            {
+              "type": "out",
+              "end": "mibare",
+              "text": "（大声で）ひゃああああ！（ハルのモノマネ）",
+              "reactions": [
+                [
+                  { "who": "narr", "text": "──館内が、静まりかえった。" },
+                  { "who": "haru", "face": "blank", "text": "……" },
+                  { "who": "narr", "text": "──「今の、天音ハルの悲鳴じゃない？」という囁きが、まわりから聞こえた。" }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
   "scenes": [
     {
       "id": "4-1",
@@ -187,108 +468,7 @@
         ]
       }
     },
-    {
-      "id": "4-3",
-      "set": { "bg": "arcade" },
-      "lines": [
-        { "who": "narr", "text": "──カフェを出て、駅ビルのゲームセンターへ。" },
-        { "who": "haru", "face": "surprised", "if": { "minPop": 50 }, "text": "……え。あれ、わたし……？" },
-        { "who": "narr", "if": { "minPop": 50 }, "text": "クレーンゲームの景品は、デフォルメされた天音ハルのぬいぐるみだった。" },
-        { "who": "haru", "face": "panic", "if": { "minPop": 50 }, "text": "グッズ化したのは知ってたけど……実物、はじめて見た……！" },
-        { "who": "haru", "face": "happy", "if": { "maxPop": 49 }, "text": "あ！ 見て見て、あのぬいぐるみ、マロにそっくり！" },
-        { "who": "narr", "if": { "maxPop": 49 }, "text": "クレーンゲームの景品は、ちょっと間の抜けた顔の猫のぬいぐるみだった。" },
-        { "who": "haru", "face": "shy", "text": "……ほしい、かも" }
-      ],
-      "choice": {
-        "pool": [
-          {
-            "type": "good",
-            "text": "取ってみる。……見てて",
-            "reactions": [
-              [
-                { "who": "narr", "text": "──三回目で、アームがぬいぐるみをつかんだ。" },
-                { "who": "haru", "face": "happy", "motion": "jump", "text": "取れた!! すごい！ すごいすごい！" },
-                { "who": "haru", "face": "shy", "text": "……大事にするね。ずっと" }
-              ]
-            ]
-          },
-          {
-            "type": "good",
-            "text": "一緒にやろう。ひなのさんがボタン、僕が横から見るから",
-            "reactions": [
-              [
-                { "who": "haru", "face": "panic", "text": "わ、わたしがやるの!? 下手だよ!?" },
-                { "who": "narr", "text": "──五回目。ぬいぐるみが、ころんと落ちた。" },
-                { "who": "haru", "face": "happy", "text": "……取れた！ ふたりで取った！" }
-              ]
-            ]
-          },
-          {
-            "type": "normal",
-            "text": "取れたらいいね",
-            "reactions": [[{ "who": "narr", "text": "──結局、取れなかった。" }, { "who": "haru", "face": "relaxed", "text": "ふふ、また今度だね" }]]
-          },
-          {
-            "type": "good",
-            "style": "mitsugi",
-            "text": "（取れるまで一万円崩してくる）",
-            "echo": "ちょっと両替してくる。取れるまでやる",
-            "reactions": [
-              [
-                { "who": "narr", "text": "──二十三回目。ようやく、ぬいぐるみが落ちた。" },
-                { "who": "haru", "face": "surprised", "text": "に、二十三回……!?" },
-                {
-                  "who": "haru",
-                  "face": "happy",
-                  "text": "……23って、なんか縁起いいね。ありがと",
-                  "by": { "queen": { "face": "smug", "text": "……23回。ふふ、あの頃の同接と同じ。……ありがと、大事にする" } }
-                }
-              ]
-            ]
-          },
-          {
-            "type": "trap",
-            "text": "本物のハルちゃんがここにいるんだから、ぬいぐるみいらないでしょ",
-            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "そ、そういう意味じゃなくて……ほしかっただけなんだけど……" }]]
-          },
-          { "type": "bad", "text": "クレーンゲームってぼったくりだよ", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そ、そうだよね。うん、やめとこ" }]] },
-          {
-            "type": "gag",
-            "delta": 5,
-            "text": "（ぬいぐるみに向かって）いつも配信見てます",
-            "reactions": [
-              [
-                { "who": "haru", "face": "surprised", "text": "そっちに言うの!? 本人こっちだよ!?" },
-                {
-                  "who": "haru",
-                  "face": "happy",
-                  "text": "あはは！ もう、おなか痛い……！",
-                  "by": { "geinin": { "face": "happy", "text": "ぬいぐるみに挨拶すな！ 本体こっち！ ……ふふっ、あかん、ツボった！" } }
-                }
-              ]
-            ]
-          },
-          {
-            "type": "out",
-            "text": "（大声で）みなさーん！ この子、天音ハルの中の人でーす！",
-            "end": "mibare",
-            "reactions": [
-              [
-                { "who": "narr", "text": "──ゲームセンター中の視線が、こちらに集まった。" },
-                { "who": "haru", "face": "blank", "text": "……" },
-                { "who": "narr", "text": "──ひなのはフードを深くかぶって、走り去っていった。" }
-              ]
-            ]
-          }
-        ]
-      },
-      "after": [
-        { "who": "narr", "text": "──気付けば、窓の外はオレンジ色に染まっていた。" },
-        { "who": "haru", "face": "relaxed", "text": "……あ、もうこんな時間。今日はここまで、かな" },
-        { "who": "haru", "face": "shy", "text": "取材、ありがと。……すっごく参考になった。たぶん" },
-        { "who": "narr", "text": "──改札の向こうで、ひなのは小さく手を振った。" }
-      ]
-    },
+    { "id": "4-3", "topic": "events", "after": [{ "who": "narr", "text": "──気付けば、窓の外はオレンジ色に染まっていた。" }, { "who": "haru", "face": "relaxed", "text": "……あ、もうこんな時間。今日はここまで、かな" }, { "who": "haru", "face": "shy", "text": "取材、ありがと。……すっごく参考になった。たぶん" }, { "who": "narr", "text": "──改札の向こうで、ひなのは小さく手を振った。" }] },
     {
       "id": "4-4",
       "set": { "ui": "dm", "model": "none" },

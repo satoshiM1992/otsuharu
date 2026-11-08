@@ -78,6 +78,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   transform: translateX(-50%);
 }
 .title-avatar svg { width: 100%; height: 100%; }
+/* the VRM is cut at the bottom of its canvas: fade it into the sky instead of a hard edge */
+.title-avatar.has-vrm {
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 90%);
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 90%);
+}
 .title-logo { position: relative; text-align: center; }
 .title-logo h1 {
   display: flex;
@@ -215,6 +220,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     linear-gradient(#f6e7d2 0%, #ead2b1 62%, #9c6f48 62%, #7d5636 100%);
 }
 .stage[data-bg="aquarium"] .stage-bg { background: linear-gradient(#1d5fa8 0%, #123f7a 60%, #0a2148 100%); }
+.stage[data-bg="karaoke"] .stage-bg { background: linear-gradient(#2b1846, #1a0f2e); }
+.stage[data-bg="honya"] .stage-bg { background: linear-gradient(#fff6e6, #d8c2a0); }
+.stage[data-bg="cinema"] .stage-bg { background: linear-gradient(#140c20, #05030a); }
+.stage[data-bg="planetarium"] .stage-bg { background: radial-gradient(circle at 50% 90%, #2c2b6e, #07061a); }
+.stage[data-bg="zoo"] .stage-bg { background: linear-gradient(#9fd4ff 0%, #8fd18a 50%, #c9b48a 70%); }
 .stage[data-bg="park"] .stage-bg { background: linear-gradient(#8fb8ff 0%, #ffd1c2 55%, #e8c9a8 80%, #c9a27e 100%); }
 .stage[data-bg="sunset"] .stage-bg {
   background:

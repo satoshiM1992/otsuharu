@@ -336,6 +336,9 @@ export class Engine {
       this.data.realPersonas?.[this.realPersona]?.loverGagMin ?? this.rules.loverGagMin,
     );
     if (c.confessGag && a >= gagMin) return 'lover';
+    // a confession that fell just short (rules.nearMiss points) gets its own friend lines
+    const need = c.confess ? this.rules.loverMin : c.confessGag ? gagMin : null;
+    if (need != null && a >= need - (this.rules.nearMiss ?? 5)) this.state.flags.near_miss = true;
     return 'friend';
   }
 

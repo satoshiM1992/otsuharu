@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <!-- 動物園（カピバラの温泉） -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd4ff"/><stop offset="1" stop-color="#e6f6ff"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fe0ea"/><stop offset="1" stop-color="#6cc3d6"/></linearGradient>
+  </defs>
+  <rect width="400" height="800" fill="url(#sky)"/>
+  <g fill="#fff" opacity=".9"><ellipse cx="80" cy="90" rx="46" ry="15"/><ellipse cx="300" cy="60" rx="40" ry="13"/></g>
+  <path d="M0 330 Q100 280 200 320 T400 300 L400 520 L0 520 Z" fill="#8fd18a"/>
+  <g fill="#5fae5c"><circle cx="40" cy="300" r="50"/><circle cx="360" cy="290" r="56"/><circle cx="110" cy="280" r="36"/></g>
+  <rect x="0" y="470" width="400" height="330" fill="#c9b48a"/>
+  <ellipse cx="200" cy="560" rx="170" ry="60" fill="#8a7a5a"/>
+  <ellipse cx="200" cy="560" rx="150" ry="48" fill="url(#water)"/>
+  <g fill="#fff" opacity=".7"><path d="M150 520 q6 -14 0 -26 q-6 -12 0 -24" stroke="#fff" stroke-width="3" fill="none"/><path d="M250 515 q6 -14 0 -26 q-6 -12 0 -24" stroke="#fff" stroke-width="3" fill="none"/></g>
+  <g>
+    <ellipse cx="200" cy="545" rx="46" ry="26" fill="#a8774a"/>
+    <ellipse cx="236" cy="532" rx="20" ry="16" fill="#a8774a"/>
+    <circle cx="242" cy="528" r="2.4" fill="#2b2340"/><circle cx="226" cy="520" r="5" fill="#8a5f3a"/>
+    <circle cx="200" cy="520" r="9" fill="#ffd36b"/>
+  </g>
+  <g stroke="#8a6a44" stroke-width="6"><line x1="0" y1="640" x2="400" y2="640"/><line x1="40" y1="610" x2="40" y2="700"/><line x1="140" y1="610" x2="140" y2="700"/><line x1="260" y1="610" x2="260" y2="700"/><line x1="360" y1="610" x2="360" y2="700"/></g>
+</svg>

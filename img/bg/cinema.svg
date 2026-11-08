@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <!-- 映画館 -->
+  <defs>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140c20"/><stop offset="1" stop-color="#05030a"/></linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6ff" stop-opacity=".0"/><stop offset="1" stop-color="#cfe6ff" stop-opacity=".22"/></linearGradient>
+    <radialGradient id="scr" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#cfe6ff"/><stop offset="1" stop-color="#6f8fbf"/></radialGradient>
+  </defs>
+  <rect width="400" height="800" fill="url(#room)"/>
+  <rect x="20" y="90" width="360" height="200" rx="6" fill="url(#scr)" opacity=".85"/>
+  <path d="M60 220 Q140 150 200 210 T340 200 L340 290 L60 290 Z" fill="#2a3a5c" opacity=".55"/>
+  <circle cx="290" cy="150" r="22" fill="#fff" opacity=".7"/>
+  <polygon points="200,800 40,290 360,290" fill="url(#beam)"/>
+  <g fill="#3a1424"><rect x="0" y="520" width="400" height="300"/></g>
+  <g fill="#6a2440">
+    <rect x="10" y="500" width="70" height="80" rx="18"/><rect x="90" y="500" width="70" height="80" rx="18"/><rect x="170" y="500" width="70" height="80" rx="18"/><rect x="250" y="500" width="70" height="80" rx="18"/><rect x="330" y="500" width="70" height="80" rx="18"/>
+  </g>
+  <g fill="#4e1a30"><rect x="-20" y="430" width="70" height="70" rx="18"/><rect x="60" y="430" width="70" height="70" rx="18"/><rect x="140" y="430" width="70" height="70" rx="18"/><rect x="220" y="430" width="70" height="70" rx="18"/><rect x="300" y="430" width="70" height="70" rx="18"/><rect x="380" y="430" width="70" height="70" rx="18"/></g>
+</svg>

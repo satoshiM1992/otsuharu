@@ -15,7 +15,7 @@ const MODES = ['stream', 'dm', 'call', 'adv'];
 // Illustrated backgrounds: img/bg/<name>.(jpg|webp|png|svg), first file found
 // wins, so dropping in station.jpg replaces the bundled station.svg.
 // Other backgrounds (room, night, call) are CSS gradients only.
-const IMAGE_BGS = ['station', 'cafe', 'arcade', 'sunset', 'aquarium', 'park'];
+const IMAGE_BGS = ['station', 'cafe', 'arcade', 'sunset', 'aquarium', 'park', 'karaoke', 'honya', 'cinema', 'planetarium', 'zoo'];
 const BG_EXTS = ['jpg', 'webp', 'png', 'svg'];
 const bgCache = {};
 function resolveBg(name) {

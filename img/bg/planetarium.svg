@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <!-- プラネタリウム -->
+  <defs>
+    <radialGradient id="dome" cx=".5" cy=".9" r=".9"><stop offset="0" stop-color="#2c2b6e"/><stop offset=".6" stop-color="#14123d"/><stop offset="1" stop-color="#07061a"/></radialGradient>
+    <radialGradient id="neb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff7fd0" stop-opacity=".35"/><stop offset="1" stop-color="#ff7fd0" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="400" height="800" fill="url(#dome)"/>
+  <ellipse cx="260" cy="230" rx="170" ry="70" fill="url(#neb)" transform="rotate(-20 260 230)"/>
+  <path d="M-20 420 Q120 300 220 260 T440 120" stroke="#c9d6ff" stroke-opacity=".18" stroke-width="60" fill="none"/>
+  <g fill="#fff">
+    <circle cx="40" cy="80" r="1.6"/><circle cx="90" cy="150" r="1.2"/><circle cx="130" cy="60" r="2"/><circle cx="170" cy="190" r="1.4"/><circle cx="220" cy="90" r="1.8"/>
+    <circle cx="270" cy="160" r="1.2"/><circle cx="320" cy="70" r="2.2"/><circle cx="360" cy="190" r="1.4"/><circle cx="60" cy="260" r="1.8"/><circle cx="110" cy="330" r="1.2"/>
+    <circle cx="200" cy="300" r="1.6"/><circle cx="300" cy="320" r="1.8"/><circle cx="350" cy="280" r="1.2"/><circle cx="30" cy="380" r="1.4"/><circle cx="250" cy="380" r="1.2"/>
+    <circle cx="150" cy="420" r="1.6"/><circle cx="330" cy="430" r="1.8"/><circle cx="80" cy="460" r="1.2"/>
+  </g>
+  <g stroke="#bcd0ff" stroke-opacity=".6" stroke-width="1.2" fill="none">
+    <polyline points="130,60 220,90 270,160 320,70"/><polyline points="60,260 110,330 200,300"/>
+  </g>
+  <g fill="#fff"><circle cx="130" cy="60" r="3"/><circle cx="220" cy="90" r="3"/><circle cx="270" cy="160" r="3"/><circle cx="320" cy="70" r="3.4"/></g>
+  <path d="M0 620 Q200 540 400 620 L400 800 L0 800 Z" fill="#0b0a20"/>
+  <g fill="#1d1a44"><rect x="20" y="600" width="80" height="60" rx="20"/><rect x="110" y="580" width="80" height="60" rx="20"/><rect x="210" y="580" width="80" height="60" rx="20"/><rect x="300" y="600" width="80" height="60" rx="20"/></g>
+</svg>
