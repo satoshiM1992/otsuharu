@@ -81,6 +81,15 @@ checkLines(data.rules.gesu?.warn, 'rules.gesu.warn');
 checkLines(data.epilogue, 'epilogue');
 if (data.rules.gesu && !data.endings[data.rules.gesu.end]) fail('rules.gesu: unknown ending');
 if (data.spice) checkChoice({ pool: [{ type: 'good' }, ...data.spice] }, 'spice');
+// event-pool keys share state.topicsUsed (no repeats in a game), so they must be unique
+{
+  const seen = {};
+  for (const ch of data.chapters) {
+    for (const k of Object.keys(ch.topics?.events ?? {})) (seen[k] ??= []).push(`ch${ch.id}`);
+    for (const sc of ch.scenes) if (sc.topic === true) for (const k of Object.keys(sc.variants)) (seen[k] ??= []).push(`ch${ch.id}`);
+  }
+  for (const [k, where] of Object.entries(seen)) if (new Set(where).size > 1) fail(`topic key "${k}" used in ${[...new Set(where)].join(', ')}`);
+}
 for (const [id, e] of Object.entries(data.endings)) checkLines(e.lines, `ending ${id}`);
 for (const [id, r] of Object.entries(data.rares)) checkLines(r.lines, `rare ${id}`);
 for (const [id, p] of Object.entries(data.personas)) checkLines(p.becomes, `persona ${id}`);

@@ -709,6 +709,197 @@
       "topic": true,
       "rares": ["cat"],
       "variants": {
+        "gacha": {
+          "set": { "stream": { "title": "【ガチャ】推しキャラ、出るまで回します！", "mob": "game" } },
+          "lines": [
+            { "who": "narr", "text": "──次の日の夜。気付けば、また彼女の配信を開いていた。" },
+            { "who": "haru", "face": "happy", "text": "今日はガチャ配信！ 限定の推しキャラ、出るまで回します！" },
+            { "who": "narr", "text": "──三十分後。" },
+            { "who": "haru", "face": "blank", "text": "……出ない。……石、もう、ない……" },
+            { "who": "mob", "text": "爆死" },
+            { "who": "mob", "text": "物欲センサー" }
+          ],
+          "choice": {
+            "pool": [
+              {
+                "type": "good",
+                "text": "次の10連で出る気がする。信じて",
+                "reactions": [
+                  [
+                    { "who": "haru", "face": "surprised", "text": "ほんと……？" },
+                    { "who": "narr", "text": "──最後の10連。" },
+                    { "who": "haru", "face": "happy", "text": "……出た!! 出たーーー!!", "motion": "jump" }
+                  ]
+                ]
+              },
+              {
+                "type": "good",
+                "text": "出なくても、回してる時のリアクションがいちばん面白かった",
+                "reactions": [[{ "who": "haru", "face": "panic", "text": "リアクション担当じゃないよ!?" }, { "who": "haru", "face": "shy", "text": "……でも、ちょっと元気出た" }]]
+              },
+              { "type": "normal", "text": "ドンマイ", "reactions": [[{ "who": "haru", "face": "sad", "text": "うう……ありがと……" }]] },
+              {
+                "type": "good",
+                "style": "mitsugi",
+                "text": "¥3,000 石代。もう10連いこう",
+                "reactions": [
+                  [
+                    { "who": "haru", "face": "surprised", "text": "石代!?" },
+                    { "who": "narr", "text": "──10連。" },
+                    { "who": "haru", "face": "happy", "text": "……出たーー!! リスナーさんのおかげ！", "motion": "jump" }
+                  ]
+                ]
+              },
+              { "type": "trap", "text": "課金しすぎは良くないよ。もうやめたほうがいい", "reactions": [[{ "who": "haru", "face": "sad", "text": "……わ、わかってるよ……" }]] },
+              { "type": "bad", "text": "ガチャ配信って、見てていちばんつまんない", "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめんね" }]] },
+              {
+                "type": "gag",
+                "delta": 4,
+                "text": "物欲センサーを切るため、僕が代わりに「いらない」って言います",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "代理物欲センサー!?" }, { "who": "haru", "face": "surprised", "text": "……いらない、いらない……あっ、出た!?" }]]
+              },
+              {
+                "type": "gag",
+                "echo": "（爆死の舞い）",
+                "delta": 2,
+                "text": "（爆死の舞いを踊る）",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "踊らないで!? ……ふふっ、ちょっと笑った" }]]
+              }
+            ]
+          }
+        },
+        "tore": {
+          "set": { "stream": { "title": "【筋トレ】ゆる筋トレ、一緒にやろ！", "mob": "chat" } },
+          "lines": [
+            { "who": "narr", "text": "──次の日の夜。気付けば、また彼女の配信を開いていた。" },
+            { "who": "haru", "face": "happy", "text": "今日は筋トレ配信！ みんなも一緒に、スクワット10回やろ！" },
+            { "who": "narr", "text": "──スクワット、3回目。" },
+            { "who": "haru", "face": "panic", "text": "はぁ……はぁ……む、無理……足が……" },
+            { "who": "mob", "text": "3回で草" },
+            { "who": "mob", "text": "がんばれ" }
+          ],
+          "choice": {
+            "pool": [
+              { "type": "good", "text": "3回できたなら、明日は4回いける", "reactions": [[{ "who": "haru", "face": "shy", "text": "……そういうの、ずるい。……がんばる" }]] },
+              {
+                "type": "good",
+                "text": "一緒にやってます。ハルちゃんのペースでいこう",
+                "reactions": [[{ "who": "haru", "face": "surprised", "text": "一緒に!?" }, { "who": "haru", "face": "happy", "text": "……じゃあ、あと1回だけ！" }]]
+              },
+              { "type": "normal", "text": "がんばれ〜", "reactions": [[{ "who": "haru", "face": "panic", "text": "が、がんばる……！" }]] },
+              {
+                "type": "good",
+                "style": "mitsugi",
+                "text": "¥1,000 プロテイン代",
+                "reactions": [[{ "who": "haru", "face": "surprised", "text": "プロテイン!?" }, { "who": "haru", "face": "happy", "text": "……ありがと。明日から本気出す！" }]]
+              },
+              {
+                "type": "trap",
+                "text": "もっと体型しぼったほうが、人気出るよ",
+                "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……そ、そういうのは、いいかな……" }]]
+              },
+              { "type": "bad", "text": "体力なさすぎじゃない？", "reactions": [[{ "who": "haru", "face": "angry", "text": "う、うるさい！ これから鍛えるの！" }]] },
+              {
+                "type": "gag",
+                "delta": 4,
+                "text": "スクワットしすぎて、足が生まれたての小鹿です",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "やりすぎ!? わたしより先にバテてる！" }]]
+              },
+              { "type": "gag", "delta": 2, "text": "見てるだけで、筋肉ついた気がする", "reactions": [[{ "who": "haru", "face": "happy", "text": "それ、わたしも今思ってた！" }]] }
+            ]
+          }
+        },
+        "roudoku": {
+          "set": { "stream": { "title": "【朗読】眠れない人に、絵本の読み聞かせ", "mob": "chat" } },
+          "lines": [
+            { "who": "narr", "text": "──次の日の夜。気付けば、また彼女の配信を開いていた。" },
+            { "who": "haru", "face": "relaxed", "text": "今日は、眠れない人のために、絵本の読み聞かせをするね" },
+            { "who": "haru", "face": "relaxed", "text": "むかしむかし、あるところに……おじいさんと、おばあさんが……" },
+            { "who": "haru", "face": "panic", "text": "……あっ、噛んだ。おじいさんと、おばあひゃんが……" },
+            { "who": "mob", "text": "おばあひゃん" },
+            { "who": "mob", "text": "かわいい" }
+          ],
+          "choice": {
+            "pool": [
+              { "type": "good", "text": "噛んでも、声がやさしくて眠くなってきた", "reactions": [[{ "who": "haru", "face": "shy", "text": "……ほんと？ じゃあ、ちゃんと最後まで読むね" }]] },
+              { "type": "good", "text": "続きが気になる。最後まで聞きたい", "reactions": [[{ "who": "haru", "face": "happy", "text": "ほんと!? ……じゃ、じゃあ、がんばって読む！" }]] },
+              { "type": "normal", "text": "おやすみ", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "おやすみ〜。……って、まだ始まったばっかりだよ!?" }]] },
+              {
+                "type": "good",
+                "style": "mitsugi",
+                "text": "¥500 絵本代。次の本もお願い",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "次の本……！ リクエスト受け付けます！" }]]
+              },
+              {
+                "type": "trap",
+                "text": "僕のためだけに、耳元でささやいて読んで",
+                "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "panic", "text": "そ、そういう配信じゃないよ!?" }]]
+              },
+              { "type": "bad", "text": "棒読みだね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……え、えっと……" }]] },
+              {
+                "type": "gag",
+                "delta": 4,
+                "text": "「おばあひゃん」、新キャラとして採用で",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "採用しないで!?" }, { "who": "haru", "face": "smug", "text": "……おばあひゃんは、川へ洗濯に……もう！" }]]
+              },
+              {
+                "type": "gag",
+                "echo": "zzz……",
+                "delta": 2,
+                "text": "（寝落ちしたふりをする）",
+                "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……ほんとに寝た？ ……おやすみ" }]]
+              }
+            ]
+          }
+        },
+        "uranai": {
+          "set": { "stream": { "title": "【占い】タロットで、みんなを占うよ！", "mob": "chat" } },
+          "lines": [
+            { "who": "narr", "text": "──次の日の夜。気付けば、また彼女の配信を開いていた。" },
+            { "who": "haru", "face": "smug", "text": "今日はタロット占い！ コメントくれた人を占っちゃうよ〜" },
+            { "who": "haru", "face": "happy", "text": "じゃあ……最初にコメントくれた人を占います！ ……えいっ" },
+            { "who": "haru", "face": "surprised", "text": "……『恋人』のカード。……え、えっと……" },
+            { "who": "mob", "text": "!?" },
+            { "who": "mob", "text": "恋人!?" }
+          ],
+          "choice": {
+            "pool": [
+              { "type": "good", "text": "当たるといいな", "reactions": [[{ "who": "haru", "face": "shy", "text": "……う、うん。……あ、当たるといいね！" }]] },
+              { "type": "good", "text": "ハルちゃんの占い、なんか信じたくなる", "reactions": [[{ "who": "haru", "face": "happy", "text": "でしょ!? 的中率、たぶん3割！" }]] },
+              { "type": "normal", "text": "どういう意味？", "reactions": [[{ "who": "haru", "face": "shy", "text": "え、えっと……近いうちに、いい出会いがある、とか……" }]] },
+              {
+                "type": "good",
+                "style": "mitsugi",
+                "text": "¥1,000 追加料金で、もう一枚引いてください",
+                "reactions": [
+                  [
+                    { "who": "haru", "face": "surprised", "text": "追加料金制!?" },
+                    { "who": "narr", "text": "──二枚目。『運命の輪』。" },
+                    { "who": "haru", "face": "panic", "text": "……な、なんか、すごいの出ちゃった……" }
+                  ]
+                ]
+              },
+              {
+                "type": "trap",
+                "text": "その恋人って、ハルちゃんのことでしょ？",
+                "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "panic", "text": "ち、ちがうよ!? カードの話だよ!?" }]]
+              },
+              { "type": "bad", "text": "占いとか、信じてる人いるの？", "reactions": [[{ "who": "haru", "face": "sad", "text": "……い、いるよ……たぶん……" }]] },
+              {
+                "type": "gag",
+                "delta": 4,
+                "text": "僕の運勢、ザリガニに例えるとどうですか",
+                "reactions": [[{ "who": "haru", "face": "surprised", "text": "ザリガニに!?" }, { "who": "haru", "face": "happy", "text": "……脱皮の時期、です！" }]]
+              },
+              {
+                "type": "gag",
+                "delta": 2,
+                "text": "ついでに、明日の晩ごはんも占ってください",
+                "reactions": [[{ "who": "haru", "face": "happy", "text": "カレーです！ ……占いじゃなくて、わたしの予定だけど！" }]]
+              }
+            ]
+          }
+        },
         "game": {
           "set": { "stream": { "title": "【ホラゲ】絶対叫ばない！ ……たぶん", "mob": "game" } },
           "lines": [
