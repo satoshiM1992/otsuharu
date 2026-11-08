@@ -192,6 +192,68 @@
       }
     },
     {
+      "id": "2-3q",
+      "if": { "persona": "queen" },
+      "set": { "stream": { "title": "【女王様】今月のスパチャランキング発表〜！", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──最近のハルは、スパチャ読みのときだけ、やけに声が弾む。" },
+        { "who": "haru", "face": "smug", "text": "今日は、今月のスパチャランキング発表よ！" },
+        { "who": "haru", "face": "smug", "text": "1位は、赤スパ王の『石油王』さん！ さすが、わたしのお気に入り♡" },
+        { "who": "haru", "face": "smug", "text": "で、スパチャしてない人たちは……まあ、背景ってことで♡" },
+        { "who": "mob", "text": "背景で草" },
+        { "who": "mob", "text": "女王様ｗｗｗ" },
+        { "who": "mob", "text": "……ちょっと感じ悪くない？", "name": "古参の民" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "flag": "queen_warned",
+            "text": "ランキング外のみんなも、ハルちゃんの大事なリスナーだよ",
+            "reactions": [[{ "who": "haru", "face": "angry", "text": "……なによ、説教？" }, { "who": "haru", "face": "relaxed", "text": "……わ、わかってるわよ。冗談だってば" }]]
+          },
+          {
+            "type": "good",
+            "text": "23人の頃から見てる背景です。今日も背景がんばります",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……え、23人の頃から？" }, { "who": "haru", "face": "shy", "text": "……背景じゃないわよ、あなたは。……なんでもない！" }]]
+          },
+          { "type": "normal", "text": "ランキング、盛り上がるね", "reactions": [[{ "who": "haru", "face": "smug", "text": "でしょ？ 来月も楽しみにしてなさい" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "flag": "queen_up",
+            "text": "¥30,000 ランキング1位、取りに来ました",
+            "reactions": [[{ "who": "haru", "face": "smug", "text": "あら♡ 新しい1位ね" }, { "who": "haru", "face": "smug", "text": "……ふふ。やっぱりお金は裏切らないわ" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 3,
+            "flag": "queen_up",
+            "text": "女王様最高！ 背景のみんなも、もっと踏んでいこう",
+            "reactions": [
+              [
+                { "who": "haru", "face": "smug", "text": "いいわね、わかってるじゃない！ ほら背景たち、ひれ伏しなさい！" },
+                { "who": "mob", "text": "ははーっ" },
+                { "who": "mob", "text": "……これ大丈夫？" }
+              ]
+            ]
+          },
+          {
+            "type": "trap",
+            "text": "女王様キャラ、ちょっと無理してない？",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "angry", "text": "してないわよ！ ……してない、から" }]]
+          },
+          { "type": "bad", "text": "スパチャで態度変えるの、正直引くわ", "reactions": [[{ "who": "haru", "face": "angry", "text": "……は？ 嫌なら見なきゃいいじゃない" }]] },
+          {
+            "type": "gag",
+            "delta": 3,
+            "text": "背景役、がんばります（木の役）",
+            "reactions": [[{ "who": "haru", "face": "happy", "text": "木!? ……ふふっ、いい木ね。来月も生えてなさい" }]]
+          }
+        ]
+      }
+    },
+    {
       "id": "2-4",
       "set": { "stream": { "title": "【プレミア公開】はじめての歌ってみた！", "mob": "sing" } },
       "rares": ["clip"],
@@ -231,6 +293,147 @@
         ]
       }
     },
+    {
+      "id": "2-4s",
+      "if": { "maxPop": 40 },
+      "set": { "stream": { "title": "【雑談】……同接、戻っちゃった", "mob": "chat" } },
+      "lines": [
+        { "who": "narr", "text": "──バズから一か月。同接は、いつの間にか元に戻っていた。" },
+        { "who": "haru", "face": "sad", "text": "こんハル……。あはは、今日も{viewers}人だ" },
+        { "who": "haru", "face": "sad", "text": "……ねえ、みんな。伸びてるVTuberさんって……ちょっと、えっちな配信してる子、多いよね" },
+        { "who": "haru", "face": "shy", "text": "ASMRとか、きわどい衣装とか……わたしも、そういうの、やったほうがいいのかな……" },
+        { "who": "haru", "face": "blank", "text": "……コメントでも、そういうの求められてるみたいだし", "if": { "minGesu": 1 } }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "text": "数字のために無理しなくていい。いつものハルちゃんの配信が好き",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……いつもの？" }, { "who": "haru", "face": "shy", "text": "……そっか。そうだよね。……ちょっと、迷ってた" }]]
+          },
+          {
+            "type": "good",
+            "text": "伸びるかどうかより、ハルちゃんが楽しいかどうかが大事だよ",
+            "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……楽しいかどうか、か。……うん。忘れてた" }]]
+          },
+          {
+            "type": "normal",
+            "flag": "ero1",
+            "text": "やりたいなら、いいんじゃない？",
+            "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……うん。ちょっと、考えてみる" }]]
+          },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "text": "¥10,000 数字なんて気にしないで。ずっと応援してるから",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "一万円!?" }, { "who": "haru", "face": "shy", "text": "……ありがと。……うん、もうちょっとだけ、このままでがんばる" }]]
+          },
+          {
+            "type": "trap",
+            "flag": "ero1",
+            "text": "ちょっとだけなら、見てみたいかも",
+            "reactions": [[{ "who": "haru", "face": "shy", "text": "……そ、そっか" }, { "who": "haru", "face": "blank", "text": "……需要、あるんだ" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "ero1",
+            "text": "伸びないなら、正直もう厳しいんじゃない？",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……そうだよね" }, { "who": "haru", "face": "blank", "text": "じゃあ……やるしか、ないのかな" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "僕のASMRなら需要あります（咀嚼音）",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "誰が聞くの!?", "by": { "geinin": { "face": "happy", "text": "誰が聞くねん！ 需要ゼロや！" } } },
+                { "who": "haru", "face": "happy", "text": "……ふふっ。ちょっと、元気出た" }
+              ]
+            ]
+          }
+        ]
+      },
+      "after": [{ "cmd": "flag", "key": "ero1", "if": { "minGesu": 2 } }]
+    },
+    {
+      "id": "2-4t",
+      "if": { "flag": "ero1" },
+      "set": { "stream": { "title": "【ASMR】耳元でささやく、夜のひみつ配信♡", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──数日後。サムネイルの中のハルは、見たことのない表情をしていた。" },
+        { "who": "haru", "face": "shy", "text": "こ、こんばんは……♡ 今日は、ちょっと……大人の、ささやき配信……です……" },
+        { "who": "mob", "text": "えっっっ" },
+        { "who": "mob", "text": "同接えぐ" },
+        { "who": "mob", "text": "神回確定" },
+        { "cmd": "pop", "value": 12 },
+        { "who": "narr", "text": "──同接は、一晩で{viewers}人を超えた。" },
+        { "who": "haru", "face": "blank", "text": "……すごい。こんなに、人が……" },
+        { "who": "haru", "face": "sad", "text": "……（小声で）……でも、なんでだろ。ぜんぜん、うれしくない……" }
+      ],
+      "choice": {
+        "noSpice": true,
+        "pool": [
+          {
+            "type": "good",
+            "delta": 10,
+            "flag": "ero_saved",
+            "text": "ハルちゃん、無理してない？ いつもの雑談が聞きたいよ",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "sad", "text": "……バレてた？" },
+                { "who": "haru", "face": "sad", "text": "ほんとはね、すっごく恥ずかしくて……ずっと、逃げたかった" },
+                { "who": "haru", "face": "relaxed", "text": "……ありがと。目、覚めた。この配信、今日でおしまい！" },
+                { "who": "mob", "text": "えー" },
+                { "who": "mob", "text": "いつものハルちゃんのほうが好きだよ", "name": "古参の民" }
+              ]
+            ]
+          },
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "ero_saved",
+            "text": "（23人時代の歌枠のアーカイブに、そっと高評価を押す）",
+            "echo": false,
+            "reactions": [
+              [
+                { "who": "narr", "text": "──23人時代の歌枠のアーカイブに、高評価を押した。" },
+                { "who": "narr", "text": "──通知が届いたのか、ハルのささやき声が、ふっと止まった。" },
+                { "who": "haru", "face": "sad", "text": "……あの歌枠、まだ見てくれてる人、いるんだ" },
+                { "who": "haru", "face": "relaxed", "text": "……ごめん、みんな。今日の配信、やっぱりここまで！" }
+              ]
+            ]
+          },
+          { "type": "normal", "flag": "ero2", "text": "同接すごいね", "reactions": [[{ "who": "haru", "face": "blank", "text": "……うん。すごい、ね" }]] },
+          {
+            "type": "bad",
+            "flag": "ero2",
+            "text": "これで伸びたね。最初からやればよかったのに",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……そう、だね" }, { "who": "haru", "face": "blank", "text": "最初から、こうしてればよかったんだ" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 3,
+            "text": "ささやきが近すぎて、マイクに台風が来てます",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "台風!?" }, { "who": "haru", "face": "happy", "text": "……ふふっ、なにそれ。……いつもの感じ、ちょっと戻ってきた" }]]
+          },
+          {
+            "type": "out",
+            "style": "mitsugi",
+            "end": "meisou",
+            "text": "¥10,000 次は、もっと過激なのお願い",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "blank", "text": "……わかった。がんばるね♡" },
+                { "who": "narr", "text": "──その笑顔は、もう、あの深夜のハルの笑顔じゃなかった。" }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    { "id": "2-4u", "if": { "flag": "ero2" }, "lines": [{ "who": "narr", "text": "──それからも、ハルは「ささやき配信」を続けた。" }], "end": "meisou" },
     {
       "id": "2-5",
       "set": { "stream": { "title": "【雑談】今日はちょっと静かに", "mob": "chat" } },

@@ -53,7 +53,7 @@ ui.onMenuTitle = () => ui.abort();
 // ---------------------------------------------------------------- screens
 
 const endingIds = Object.keys(data.endings);
-const CATEGORY = { main: 'メインエンド', out: '一発アウトエンド', hidden: '隠しエンド', rare: '超レアエンド' };
+const CATEGORY = { main: 'メインエンド', bad: 'バッドエンド', out: '一発アウトエンド', hidden: '隠しエンド', rare: '超レアエンド' };
 
 function progressText() {
   const g = loadGallery();
@@ -158,7 +158,7 @@ function showEnding(id) {
   $('ending-progress').textContent = `エンド回収 ${progressText()}`;
   $('screen-ending').dataset.cat = e.cat;
   sound.bgm(null);
-  sound.se(id === 'lover' || id === 'gyaku' ? 'lover' : e.cat === 'out' ? 'fail' : e.cat === 'rare' ? 'rare' : 'ending');
+  sound.se(id === 'lover' || id === 'gyaku' ? 'lover' : e.cat === 'out' || e.cat === 'bad' ? 'fail' : e.cat === 'rare' ? 'rare' : 'ending');
   $('share-msg').textContent = '';
   lastEnding = id;
   ui.showScreen('ending');

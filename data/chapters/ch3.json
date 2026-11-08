@@ -220,6 +220,94 @@
       }
     },
     {
+      "id": "3-4q",
+      "if": { "persona": "queen" },
+      "set": { "ui": "stream", "bg": "room", "model": "vtuber", "stream": { "title": "【女王様】スパチャ読み 〜貢ぎが足りない者は去れ〜", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──その夜の配信は、いつもより少しだけ、女王様だった。" },
+        { "who": "haru", "face": "smug", "text": "今日のスパチャ、少なくない？ ……ねえ、無課金で見てる人、ちょっとは恥ずかしいと思わないの？" },
+        { "who": "haru", "face": "smug", "text": "スパチャしない人は、リスナーじゃなくて、ただの通行人。……なーんてね♡" },
+        { "who": "haru", "face": "smug", "text": "だって、みんな言ってたじゃない。もっと踏んでって", "if": { "flag": "queen_up" } },
+        { "who": "mob", "text": "は？" },
+        { "who": "mob", "text": "さすがに言いすぎ" },
+        { "who": "mob", "text": "これ切り抜かれるぞ" },
+        { "who": "narr", "text": "──翌朝。『【炎上】人気VTuber、無課金リスナーを「通行人」呼ばわり』という切り抜きが、トレンドに上がっていた。" },
+        { "cmd": "pop", "value": -15 },
+        { "cmd": "set", "ui": "call", "bg": "call" },
+        { "who": "narr", "text": "──その夜。スマホが鳴った。" },
+        { "who": "haru", "face": "sad", "text": "……見た？ 切り抜き" },
+        { "who": "haru", "face": "angry", "text": "なによ、みんなして。冗談だってわかるでしょ、普通……！" },
+        { "who": "haru", "face": "blank", "text": "……前に言われたのに。ランキング外のみんなも、大事なリスナーだって", "if": { "flag": "queen_warned" } },
+        { "who": "haru", "face": "sad", "text": "……ねえ。わたし、悪くないよね？" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "queen_humbled",
+            "text": "冗談でも、傷ついた人はいたと思う。……一緒に謝り方、考えよう",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "sad", "text": "……そっか。わたし、調子に乗ってたんだ" },
+                { "who": "haru", "face": "relaxed", "text": "……ありがと。ちゃんと言ってくれるの、{call}だけだよ" }
+              ]
+            ]
+          },
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "queen_humbled",
+            "text": "ハルちゃんが本当は優しいの、知ってる。だから、ちゃんと謝ったほうがいい",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……優しい？ わたしが？" }, { "who": "haru", "face": "sad", "text": "……うん。謝る。……こわいけど、謝る" }]]
+          },
+          { "type": "normal", "text": "時間が経てば、落ち着くよ", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……そうかな。……そうだといいな" }]] },
+          {
+            "type": "trap",
+            "flag": "queen_fall",
+            "text": "ハルちゃんは悪くない！ 切り抜いたやつが悪いんだよ！",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……そうよね" }, { "who": "haru", "face": "smug", "text": "そうよね！ わたし、悪くないわよね！" }]]
+          },
+          {
+            "type": "trap",
+            "style": "mitsugi",
+            "delta": -12,
+            "text": "¥50,000 これで元気出して",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……" }, { "who": "haru", "face": "sad", "text": "……今、お金の話？" }]]
+          },
+          {
+            "type": "bad",
+            "text": "正直、いつか燃えると思ってた",
+            "reactions": [[{ "who": "haru", "face": "angry", "text": "……なにそれ" }, { "who": "haru", "face": "sad", "text": "……思ってたなら、言ってよ……" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "炎上の火で、焼き芋焼こう",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……ばか" }, { "who": "haru", "face": "relaxed", "text": "……ちょっと、笑った" }]]
+          },
+          {
+            "type": "out",
+            "end": "enjou",
+            "text": "反論配信しよう！ アンチ全員、論破しちゃえ！",
+            "reactions": [[{ "who": "haru", "face": "smug", "text": "……それよ。黙ってるから好き勝手言われるのよ" }, { "who": "haru", "face": "smug", "text": "見てなさい。女王様の本気、見せてあげる" }]]
+          }
+        ]
+      },
+      "after": [
+        { "cmd": "set", "ui": "stream", "bg": "room", "stream": { "title": "【ご報告】この前は、ごめんなさい", "mob": "chat" }, "if": { "flag": "queen_humbled" } },
+        { "who": "haru", "face": "sad", "text": "……この前は、ごめんなさい。調子に乗ってました", "if": { "flag": "queen_humbled" } },
+        { "who": "haru", "face": "shy", "text": "スパチャしてもしなくても、見に来てくれるだけで……ほんとは、すっごくうれしいの", "if": { "flag": "queen_humbled" } },
+        { "who": "mob", "text": "えらい", "if": { "flag": "queen_humbled" } },
+        { "who": "mob", "text": "ちゃんと謝れるの好き", "if": { "flag": "queen_humbled" } },
+        { "who": "mob", "text": "女王様、人間になった", "if": { "flag": "queen_humbled" } },
+        { "cmd": "pop", "value": 12, "if": { "flag": "queen_humbled" } },
+        { "who": "narr", "text": "──謝罪配信は、皮肉にも、炎上の切り抜きより再生された。", "if": { "flag": "queen_humbled" } }
+      ]
+    },
+    { "id": "3-4r", "if": { "flag": "queen_fall" }, "lines": [{ "who": "narr", "text": "──次の日。ハルは、予告なしで配信枠を立てた。" }], "end": "enjou" },
+    {
       "id": "3-5",
       "set": { "ui": "stream", "bg": "room", "stream": { "title": "【雑談】最近ちょっといいことあった", "mob": "buzz" } },
       "lines": [

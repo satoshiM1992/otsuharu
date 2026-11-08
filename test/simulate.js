@@ -134,10 +134,10 @@ class FakeUI {
     if (/\{\w+\}/.test(line.text)) throw new Error(`unformatted text: ${line.text}`);
     if (line.who === 'haru' && !line.name) throw new Error(`haru without name: ${line.text}`);
   }
-  async choose(options) {
+  async choose(options, { noSpice = false } = {}) {
     if (options.length < 2) throw new Error('fewer than 2 choices');
     if (!options.some((o) => o.type === 'good')) throw new Error('no good choice shown');
-    if (this.mode === 'stream' && !options.some((o) => o.spice)) throw new Error('stream choices without a spice comment');
+    if (this.mode === 'stream' && !noSpice && !options.some((o) => o.spice)) throw new Error('stream choices without a spice comment');
     if (new Set(options.map((o) => o.text)).size !== options.length) throw new Error('duplicate choice');
     return this.policy(options);
   }

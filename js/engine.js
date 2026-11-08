@@ -154,6 +154,9 @@ export class Engine {
       await this.playLines(data.rares.slip.lines);
     }
 
+    // a scene with "end" always finishes the game (used for the bad-ending branches)
+    if (scene.end) return { end: scene.end };
+
     if (scene.gate) {
       if (state.affection < scene.gate.min) return { end: scene.gate.fail };
       await this.playLines(scene.gate.pass);
@@ -185,6 +188,7 @@ export class Engine {
         spice: o.spice ?? null,
         tag: this.options.debug ? `${TYPE_LABEL[o.type]}${STYLE_LABEL[this.styleOf(o)] ?? ''}` : null,
       })),
+      { noSpice: !!def.noSpice },
     );
     const c = options[idx];
 
@@ -579,6 +583,7 @@ export class Engine {
     const peak = Math.max(s.peakPop ?? 0, s.pop);
     if (cond.minPeak != null && peak < cond.minPeak) return false;
     if (cond.maxPeak != null && peak > cond.maxPeak) return false;
+    if (cond.minGesu != null && (s.gesu ?? 0) < cond.minGesu) return false;
     if (cond.revealed != null && !!s.revealed !== cond.revealed) return false;
     return true;
   }
