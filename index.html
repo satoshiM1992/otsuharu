@@ -47,7 +47,10 @@
       <button class="btn btn-primary" data-action="new">はじめから</button>
       <button class="btn" data-action="continue" hidden>つづきから</button>
       <button class="btn" data-action="gallery">ギャラリー</button>
-      <button class="btn btn-ghost title-howto" data-action="howto">あそびかた</button>
+      <div class="title-links">
+        <button class="btn btn-ghost title-howto" data-action="howto">あそびかた</button>
+        <button class="btn btn-ghost title-howto" data-action="chapters" hidden>章をえらぶ</button>
+      </div>
     </nav>
     <p class="title-foot">エンド回収 <span id="title-progress">0/14</span></p>
   </section>
@@ -141,6 +144,7 @@
       <h2 id="ending-title"></h2>
       <p id="ending-desc" class="ending-desc"></p>
       <p id="ending-progress" class="hint"></p>
+      <p id="ending-unlock" class="ending-unlock" hidden></p>
       <div class="share">
         <button class="btn btn-x" data-action="share-x">𝕏 でシェア</button>
         <button class="btn" data-action="share">シェア／コピー</button>
@@ -219,6 +223,16 @@
       <button class="btn btn-ghost" data-action="howto-prev">もどる</button>
       <button class="btn btn-primary" data-action="howto-next">つぎへ</button>
     </div>
+  </section>
+
+  <!-- 章をえらぶ -->
+  <section id="screen-chapters" class="screen">
+    <div class="gallery">
+      <h2>章をえらぶ</h2>
+      <p class="hint">一度たどり着いた章から始められます。好感度や性格は、前回その章に着いたときの状態から。展開の抽選は、やり直しになります。</p>
+      <div id="chapter-list" class="chapter-list"></div>
+    </div>
+    <div class="gallery-foot"><button class="btn" data-action="back">もどる</button></div>
   </section>
 
   <!-- ギャラリー -->

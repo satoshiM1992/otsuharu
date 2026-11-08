@@ -79,6 +79,8 @@ for (const ch of data.chapters) {
 }
 checkLines(data.rules.gesu?.warn, 'rules.gesu.warn');
 checkLines(data.epilogue, 'epilogue');
+for (const o of data.omake ?? []) checkLines(o.lines, `omake ${o.id}`);
+if ((data.omake ?? []).some((o) => o.need !== 'all' && o.need > Object.keys(data.endings).length)) fail('omake: need exceeds the number of endings');
 if (data.rules.gesu && !data.endings[data.rules.gesu.end]) fail('rules.gesu: unknown ending');
 if (data.spice) checkChoice({ pool: [{ type: 'good' }, ...data.spice] }, 'spice');
 // event-pool keys share state.topicsUsed (no repeats in a game), so they must be unique

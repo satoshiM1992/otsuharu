@@ -574,6 +574,90 @@
     { "cmd": "blackout", "text": "── 今度は、カットなしで。 ──" }
   ],
 
+  "omake": [
+    {
+      "id": "omake1",
+      "need": 8,
+      "emoji": "🌙",
+      "title": "初配信の前の夜",
+      "desc": "天音ハルが生まれる、前の夜のこと。",
+      "set": { "ui": "adv", "model": "real", "bg": "night", "haruName": "ひなの" },
+      "lines": [
+        { "who": "narr", "text": "──これは、天音ハルが生まれる、前の夜の話。" },
+        { "who": "haru", "face": "relaxed", "text": "……あした、初配信" },
+        { "who": "haru", "face": "shy", "text": "アバターはママ（絵師さん）にお願いして、動かすのは自分でがんばって……名前は、春だから、ハル。……安直かな" },
+        { "who": "haru", "face": "sad", "text": "……誰も来なかったら、どうしよう" },
+        { "who": "haru", "face": "blank", "text": "同接0人の配信で、ひとりで「こんハル〜」って言うの……想像しただけで、ちょっと泣きそう" },
+        { "who": "haru", "face": "relaxed", "text": "……でも" },
+        { "who": "haru", "face": "shy", "text": "もし、ひとりでも来てくれたら。……その人のこと、ずっと覚えてよう" },
+        { "who": "haru", "face": "happy", "text": "よし。……おやすみ、わたし。あしたから、天音ハル！" },
+        { "who": "narr", "text": "──そして、その「ひとり」は、もう少しだけ先の、深夜二時に現れる。" }
+      ]
+    },
+    {
+      "id": "omake2",
+      "need": 16,
+      "emoji": "💬",
+      "title": "あの23人の夜",
+      "desc": "あの夜のコメント欄を、ハルの側から。",
+      "set": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【雑談】初見さん大歓迎！ 深夜のゆるトーク", "mob": "chat" } },
+      "lines": [
+        { "who": "narr", "text": "──深夜二時。同接、23人。（ハルの視点）" },
+        { "who": "haru", "face": "relaxed", "text": "（……今日も、いつものみんなだけ、かな）" },
+        { "who": "haru", "face": "happy", "text": "こんハル〜！ 天音ハルだよ！ 今日もゆる〜くおしゃべりしていくね！" },
+        { "who": "mob", "text": "こんハル〜", "name": "ねこまんま" },
+        { "who": "mob", "text": "こんハル", "name": "しめじ" },
+        { "who": "me", "text": "こんハル、初見です" },
+        { "who": "haru", "face": "surprised", "text": "（……！ 初見さん……！）" },
+        { "who": "haru", "face": "shy", "text": "（どうしよう、すっごくうれしい。……ちゃんと覚えておこう。この名前）" },
+        { "who": "haru", "face": "happy", "text": "{name}さん、いらっしゃい！ ゆっくりしていってね！" },
+        { "who": "narr", "text": "──配信が終わったあと。ハルは、配信メモのいちばん上に、ひとつの名前を書いた。" },
+        { "who": "narr", "text": "──『{name}さん。はじめて来てくれた日。』" }
+      ]
+    },
+    {
+      "id": "omake3",
+      "need": 24,
+      "emoji": "📔",
+      "title": "ひなのの日記",
+      "desc": "誰にも見せない、ひなのの日記。",
+      "set": { "ui": "dm", "model": "none", "contact": "ひなのの日記", "haruName": "ひなの" },
+      "lines": [
+        { "who": "narr", "text": "──鍵つきのメモ帳アプリ。タイトルは『日記』。" },
+        { "who": "haru", "face": "relaxed", "text": "○月×日　同接23人。初見さんが来てくれた。うれしくて、配信メモのいちばん上に名前を書いた。" },
+        { "who": "haru", "face": "relaxed", "text": "○月×日　あの名前、今日もいた。昨日もいた。……毎晩いる。" },
+        { "who": "haru", "face": "sad", "text": "○月×日　切り抜きがバズった。人がいっぱい来た。こわい。……でも、あの名前が今日もいた。安心した。" },
+        { "who": "haru", "face": "shy", "text": "○月×日　DMを送ってしまった。送信ボタン、三十分押せなかった。既読がつくまで、スマホを裏返してた。" },
+        { "who": "haru", "face": "shy", "text": "○月×日　はじめて会った。声で分かったって言われた。……ずるい。" },
+        { "who": "haru", "face": "relaxed", "text": "○月×日　観覧車のてっぺん。言えなかった。……でも、次は、ちゃんと言う。" },
+        { "who": "narr", "text": "──日記の最後のページには、小さなハートが、ひとつだけ描いてあった。" }
+      ]
+    },
+    {
+      "id": "omake4",
+      "need": "all",
+      "emoji": "💐",
+      "title": "全部のわたしへ",
+      "desc": "全部のエンドを見てくれた、あなたへ。",
+      "set": { "ui": "stream", "model": "vtuber", "bg": "room", "haruName": "ハル", "stream": { "title": "【ありがとう】全部のわたしに会いにきてくれた、あなたへ", "mob": "anni" } },
+      "lines": [
+        { "cmd": "bgm", "value": "epilogue" },
+        { "who": "haru", "face": "happy", "text": "こんハル〜！ ……あれ？ 今日は、なんだか特別な配信みたい" },
+        { "who": "haru", "face": "surprised", "text": "……えっ。{name}さん、エンド、全部集めたの!?", "motion": "jump" },
+        { "who": "mob", "text": "全エンドはすごい" },
+        { "who": "mob", "text": "おめでとう！！" },
+        { "who": "haru", "face": "shy", "text": "恋人になったわたしも、友達のままだったわたしも……炎上しちゃったわたしも、BANしちゃったわたしも" },
+        { "who": "haru", "face": "sad", "text": "……ちょっと恥ずかしいのも、あるけど" },
+        { "who": "haru", "face": "happy", "text": "でもね。どのわたしも、{name}さんがいたから生まれたんだよ" },
+        { "who": "haru", "face": "shy", "text": "だから……全部のわたしから、ありがとう" },
+        { "who": "mob", "text": "泣いた" },
+        { "who": "mob", "text": "23人時代から見てます", "name": "古参の民" },
+        { "who": "haru", "face": "happy", "text": "これからも、何回でも、会いにきてね。……おつハル！", "motion": "jump" },
+        { "cmd": "blackout", "text": "── Thank you for playing ──" }
+      ]
+    }
+  ],
+
   "routes": {
     "lover": [
       { "if": { "persona": "queen" }, "to": "lover_queen" },

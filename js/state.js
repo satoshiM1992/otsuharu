@@ -98,3 +98,24 @@ export function hasSeenHowto() {
 export function markHowtoSeen() {
   writeJson(HOWTO_KEY, true);
 }
+
+// 章をえらぶ: the state at the start of each chapter, from the latest playthrough
+// that reached it. { [chapterIndex]: state }
+const CHAPTERS_KEY = 'otsuharu.chapters.v1';
+export function loadChapterSnapshots() {
+  return readJson(CHAPTERS_KEY) ?? {};
+}
+export function saveChapterSnapshot(state) {
+  const all = loadChapterSnapshots();
+  all[state.chapterIndex] = { ...state, sceneIndex: 0 };
+  writeJson(CHAPTERS_KEY, all);
+}
+
+// handle of the latest game, for {name} in the bonus scenes
+const HANDLE_KEY = 'otsuharu.handle.v1';
+export function loadHandle() {
+  return readJson(HANDLE_KEY);
+}
+export function saveHandle(handle) {
+  writeJson(HANDLE_KEY, handle);
+}

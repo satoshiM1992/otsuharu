@@ -6,8 +6,21 @@
 
 import { createRng, randomSeed } from './rng.js';
 import { loadScenario } from './data.js';
-import { newState, saveGame, loadGame, clearSave, loadGallery, recordGallery, hasSeenHowto, markHowtoSeen } from './state.js';
-import { Engine } from './engine.js';
+import {
+  newState,
+  saveGame,
+  loadGame,
+  clearSave,
+  loadGallery,
+  recordGallery,
+  hasSeenHowto,
+  markHowtoSeen,
+  loadChapterSnapshots,
+  saveChapterSnapshot,
+  loadHandle,
+  saveHandle,
+} from './state.js';
+import { Engine, ABORT } from './engine.js';
 import { UI, preloadBackgrounds } from './ui.js';
 import { Avatar } from './avatar.js';
 import { sound } from './sound.js';
@@ -64,6 +77,8 @@ function showTitle() {
   sound.bgm('title');
   $('title-progress').textContent = progressText();
   document.querySelector('[data-action="continue"]').hidden = !loadGame();
+  // 章をえらぶ appears once a second chapter has been reached
+  document.querySelector('[data-action="chapters"]').hidden = !Object.keys(loadChapterSnapshots()).some((i) => i > 0);
   ui.showScreen('title');
 }
 
@@ -135,10 +150,80 @@ function howtoPrev() {
   track.addEventListener('pointercancel', () => (x0 = null));
 }
 
+// ------------------------------------------------------- rewards for replays
+
+const collected = () => endingIds.filter((id) => loadGallery().endings[id]).length;
+const omakeNeed = (o) => (o.need === 'all' ? endingIds.length : o.need);
+const omakeUnlocked = (o) => collected() >= omakeNeed(o);
+
+function showChapters() {
+  const snaps = loadChapterSnapshots();
+  const list = $('chapter-list');
+  list.innerHTML = '';
+  data.chapters.forEach((ch, i) => {
+    const b = document.createElement('button');
+    b.className = 'chapter-item';
+    const open = i === 0 || !!snaps[i];
+    b.disabled = !open;
+    const t = document.createElement('b');
+    t.textContent = open ? ch.title : '？？？';
+    const sub = document.createElement('small');
+    sub.textContent = open ? ch.subtitle : 'まだたどり着いていない章';
+    b.append(t, sub);
+    b.addEventListener('click', () => {
+      if (i === 0) return startNew();
+      // the saved chapter-start state, with fresh random draws
+      const s = structuredClone(snaps[i]);
+      s.seed = s.rngState = fixedSeed ?? randomSeed();
+      s.sceneIndex = 0;
+      play(s);
+    });
+    list.append(b);
+  });
+  ui.showScreen('chapters');
+}
+
+function startNew() {
+  // first game: the how-to pages come first, then the name entry
+  if (hasSeenHowto()) showName();
+  else showHowto(showName);
+}
+
+// Bonus scenes (data.omake) unlocked by the number of endings collected.
+async function playOmake(o) {
+  ui.reset();
+  ui.showScreen('game');
+  const state = newState({ seed: 1, handle: loadHandle() ?? 'あなた' });
+  state.revealed = false;
+  const bonus = new Engine({ data, ui, avatar, state, rng: createRng(1), options: {} });
+  bonus.chapter = { id: 0, title: `おまけ：${o.title}` };
+  bonus.applySettings(o.set ?? {});
+  bonus.refreshHud();
+  try {
+    await bonus.playLines(o.lines);
+  } catch (e) {
+    if (e !== ABORT) throw e;
+    return showTitle();
+  }
+  showGallery();
+}
+
 function showGallery() {
   const g = loadGallery();
   const list = $('gallery-list');
   list.innerHTML = '';
+  if (data.omake?.length) {
+    const h = document.createElement('h3');
+    h.textContent = `おまけ（エンド回収 ${collected()}/${endingIds.length}）`;
+    list.append(h);
+    for (const o of data.omake) {
+      const open = omakeUnlocked(o);
+      const row = galleryItem({ emoji: o.emoji, title: o.title, desc: o.desc, hint: o.need === 'all' ? 'すべてのエンドを集めると解放' : `エンドを${o.need}種集めると解放` }, open);
+      row.classList.add('omake-item');
+      if (open) row.addEventListener('click', () => playOmake(o));
+      list.append(row);
+    }
+  }
   for (const [cat, label] of Object.entries(CATEGORY)) {
     const h = document.createElement('h3');
     h.textContent = label;
@@ -186,8 +271,22 @@ function shareText() {
   return `「${GAME_TITLE}」で${rare}${e.emoji}${e.title}を見た！（エンド回収 ${progressText()}）\n#${HASHTAG}`;
 }
 
+// share/<id>.html carries that ending's og:image (img/share/<id>.jpg, made by
+// tools/make-share.mjs) and forwards visitors to the game
 function shareUrl() {
-  return location.origin + location.pathname;
+  const base = location.origin + location.pathname.replace(/[^/]*$/, '');
+  return lastEnding ? `${base}share/${lastEnding}.html` : base;
+}
+
+async function shareImageFile() {
+  try {
+    const res = await fetch(`img/share/${lastEnding}.jpg`);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return new File([blob], `oshi-vtuber-${lastEnding}.jpg`, { type: 'image/jpeg' });
+  } catch {
+    return null;
+  }
 }
 
 function shareToX() {
@@ -200,7 +299,13 @@ async function shareNative() {
   const url = shareUrl();
   try {
     if (navigator.share) {
-      await navigator.share({ title: GAME_TITLE, text, url });
+      // attach the ending card when the device can share files (LINE, Instagram, ...)
+      const file = await shareImageFile();
+      if (file && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ title: GAME_TITLE, text: `${text}\n${url}`, files: [file] });
+      } else {
+        await navigator.share({ title: GAME_TITLE, text, url });
+      }
       return;
     }
     await navigator.clipboard.writeText(`${text}\n${url}`);
@@ -240,17 +345,27 @@ async function play(state) {
     rng,
     options,
     hooks: {
-      onSave: (s) => saveGame(s),
+      onSave: (s) => {
+        saveGame(s);
+        if (s.sceneIndex === 0) saveChapterSnapshot(s);
+      },
       onRare: (id) => {
         recordGallery('rares', id);
         sound.se('rare');
       },
     },
   });
+  saveHandle(state.handle);
+  const before = collected();
   const result = await engine.run();
   engine = null;
   if (result.type === 'ending') {
     recordGallery('endings', result.id);
+    // newly unlocked bonus scenes
+    const now = collected();
+    const unlocked = (data.omake ?? []).filter((o) => before < omakeNeed(o) && now >= omakeNeed(o));
+    $('ending-unlock').hidden = !unlocked.length;
+    $('ending-unlock').textContent = unlocked.map((o) => `🎁 おまけ『${o.title}』が解放されました！（ギャラリー）`).join('\n');
     clearSave();
     showEnding(result.id);
   } else {
@@ -278,9 +393,10 @@ document.addEventListener('click', (e) => {
   if (screen === 'screen-game') return; // handled by UI
   switch (action) {
     case 'new':
-      // first game: the how-to pages come first, then the name entry
-      if (hasSeenHowto()) showName();
-      else showHowto(showName);
+      startNew();
+      break;
+    case 'chapters':
+      showChapters();
       break;
     case 'howto':
       showHowto();

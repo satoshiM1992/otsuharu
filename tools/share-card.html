@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <!-- Template for the per-ending share images (img/share/<id>.png). Rendered by tools/make-share.mjs. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&display=swap">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.4.5/lib/three-vrm.module.min.js"
+    }
+  }
+  </script>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: "M PLUS Rounded 1c", sans-serif; color: #2b2340; }
+    body[data-cat="main"] { background: radial-gradient(circle at 28% 55%, rgba(255,255,255,.55) 0 120px, transparent 300px), linear-gradient(135deg, #ffc6dc, #c9b6ff 55%, #8f7bff); }
+    body[data-cat="hidden"] { background: radial-gradient(circle at 28% 55%, rgba(255,255,255,.6) 0 120px, transparent 300px), linear-gradient(135deg, #ffe7a3, #ffb4c8); }
+    body[data-cat="rare"] { background: radial-gradient(circle at 28% 55%, rgba(255,255,255,.6) 0 120px, transparent 300px), linear-gradient(135deg, #b8f1ff, #c9b6ff 55%, #ffc6e4); }
+    body[data-cat="bad"] { background: linear-gradient(135deg, #6a2f46, #1b1430); color: #fff; }
+    body[data-cat="out"] { background: linear-gradient(135deg, #4a4160, #1b1430); color: #fff; }
+    #av { position: absolute; left: 10px; top: 0; width: 470px; height: 680px; } /* taller than the card: the VRM cut-off stays below the edge */
+    #av svg, .av-svg, .av-vrm { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .av-vrm { display: none; }
+    .has-vrm > .av-svg { display: none; }
+    .has-vrm > .av-vrm { display: block; }
+    .right { position: absolute; left: 470px; right: 44px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 12px; }
+    .cat { font-size: 24px; font-weight: 800; padding: 6px 20px; border-radius: 999px; background: rgba(255,255,255,.9); color: #d33f78; }
+    body[data-cat="bad"] .cat, body[data-cat="out"] .cat { background: rgba(255,255,255,.14); color: #ffb3cf; }
+    .emoji { font-size: 96px; line-height: 1.1; filter: drop-shadow(0 6px 0 rgba(43,35,64,.18)); }
+    .title { font-size: 64px; font-weight: 800; line-height: 1.15; color: #fff; -webkit-text-stroke: 10px #ff6fa5; paint-order: stroke fill; text-shadow: 0 6px 0 rgba(43,35,64,.25); }
+    body[data-cat="bad"] .title, body[data-cat="out"] .title { -webkit-text-stroke-color: #7a3a5c; }
+    .desc { font-size: 26px; font-weight: 700; line-height: 1.5; max-width: 640px; }
+    .foot { margin-top: 18px; font-size: 22px; font-weight: 800; opacity: .9; }
+    .foot b { color: #ff6fa5; }
+    body[data-cat="bad"] .foot b, body[data-cat="out"] .foot b { color: #ffb3cf; }
+  </style>
+</head>
+<body data-cat="main">
+  <div id="av"></div>
+  <div class="right">
+    <p class="cat" id="cat"></p>
+    <div class="emoji" id="emoji"></div>
+    <h1 class="title" id="title"></h1>
+    <p class="desc" id="desc"></p>
+    <p class="foot">推しVTuberを落とせ！ <b>#推しVTuberを落とせ</b></p>
+  </div>
+  <script type="module">
+    import { Avatar } from '/js/avatar.js';
+    const avatar = new Avatar(document.getElementById('av'), {
+      vrmUrls: { vtuber: '/models/Vtuber_red.vrm', real: '/models/Human_red.vrm' },
+    });
+    avatar.setModel('vtuber');
+    window.renderCard = ({ cat, catLabel, emoji, title, desc, face }) => {
+      document.body.dataset.cat = cat;
+      document.getElementById('cat').textContent = catLabel;
+      document.getElementById('emoji').textContent = emoji;
+      document.getElementById('title').textContent = title;
+      document.getElementById('desc').textContent = desc;
+      avatar.setExpression(face);
+    };
+  </script>
+</body>
+</html>
