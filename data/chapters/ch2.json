@@ -146,6 +146,132 @@
       }
     },
     {
+      "id": "2-2a",
+      "if": { "persona": "angel" },
+      "set": { "stream": { "title": "【耐久】全コメントに返信するまで終われません！", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──新規さんが増えても、ハルはコメントをひとつも読み飛ばさなかった。" },
+        { "who": "haru", "face": "happy", "text": "今日は、みんなのコメント全部に返事するまで終わりません！" },
+        { "who": "narr", "text": "──配信開始から、六時間。" },
+        { "who": "haru", "face": "relaxed", "text": "……つぎ、『おはよう』さん、おはよう……。もう朝だね……あはは……" },
+        { "who": "mob", "text": "6時間ｗ" },
+        { "who": "mob", "text": "天使すぎる" },
+        { "who": "mob", "text": "声かすれてない？", "name": "古参の民" },
+        { "who": "haru", "face": "happy", "text": "大丈夫！ みんなのコメント、一個も取りこぼしたくないから！" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "flag": "angel_warned",
+            "text": "全部じゃなくて大丈夫だよ。今日はもう寝て",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……え、寝ていいの？" }, { "who": "haru", "face": "relaxed", "text": "……うん。そうだね。ありがと、{call}" }]]
+          },
+          {
+            "type": "good",
+            "flag": "angel_warned",
+            "text": "六時間おつかれさま。明日も来るから、今日は休んで",
+            "reactions": [[{ "who": "haru", "face": "shy", "text": "……明日も、来てくれるの？" }, { "who": "haru", "face": "relaxed", "text": "……じゃあ、続きは明日。おやすみ、みんな" }]]
+          },
+          { "type": "normal", "text": "すごい根性だね", "reactions": [[{ "who": "haru", "face": "happy", "text": "えへへ、ありがと！ まだまだいけるよ！" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "flag": "angel_warned",
+            "text": "¥3,000 のど飴代。今日はもう休んで",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "のど飴代!?" }, { "who": "haru", "face": "shy", "text": "……ありがと。休む、休むね" }]]
+          },
+          {
+            "type": "trap",
+            "flag": "angel_up",
+            "text": "さすが天使！ 明日は12時間耐久やろう！",
+            "reactions": [[{ "who": "haru", "face": "happy", "text": "12時間!? ……う、うん、がんばる！" }, { "who": "haru", "face": "blank", "text": "……がんばれる、よね" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "angel_up",
+            "text": "返信が遅くて、読み飛ばされた人がかわいそう",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……ご、ごめんなさい……！" }, { "who": "haru", "face": "blank", "text": "全部、読むから……。もっと、がんばるから……" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 2,
+            "flag": "angel_up",
+            "text": "返信してもらえるまで、無限にコメントし続けます",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "無限!?" }, { "who": "haru", "face": "happy", "text": "……わかった！ 無限に返す！" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "（配信の背景で、羊を数えはじめる）",
+            "echo": "羊が一匹……羊が二匹……",
+            "reactions": [
+              [
+                { "who": "haru", "face": "happy", "text": "寝かせようとしてる!?" },
+                { "who": "haru", "face": "relaxed", "text": "……ふぁ。ほんとに眠くなってきた……。今日はここまでにしよっか" }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "2-2g",
+      "if": { "persona": "geinin" },
+      "set": { "stream": { "title": "【体当たり】リスナーのムチャぶり、全部やる！", "mob": "buzz" } },
+      "lines": [
+        { "who": "narr", "text": "──ツッコミがバズってから、ハルの配信は『何でもやる芸人枠』になっていった。" },
+        { "who": "haru", "face": "happy", "text": "今日はリスナーのムチャぶり、全部やります！ どんとこい！" },
+        { "who": "mob", "text": "激辛ペヤング食べて" },
+        { "who": "mob", "text": "変顔して" },
+        { "who": "mob", "text": "元カレの話して" },
+        { "who": "haru", "face": "panic", "text": "元カレおらんわ！ ……え、おらんことをネタにしろって？ ひどない!?" },
+        { "who": "haru", "face": "blank", "text": "……あはは。……うん、おもろいなら、ええか" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "flag": "geinin_warned",
+            "text": "嫌なムチャぶりは、断っていいんだよ",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……断っていいの？" }, { "who": "haru", "face": "relaxed", "text": "……せやな。芸人にも、NGはある" }]]
+          },
+          {
+            "type": "good",
+            "flag": "geinin_warned",
+            "text": "体張らなくても、ハルちゃんのツッコミだけで十分おもしろい",
+            "reactions": [[{ "who": "haru", "face": "shy", "text": "……そ、そう？" }, { "who": "haru", "face": "happy", "text": "ツッコミだけで、ええんや。……なんか、ちょっと楽になったわ" }]]
+          },
+          { "type": "normal", "text": "がんばって", "reactions": [[{ "who": "haru", "face": "happy", "text": "任せとき！" }]] },
+          {
+            "type": "good",
+            "style": "mitsugi",
+            "flag": "geinin_up",
+            "text": "¥5,000 ムチャぶり代。次は激辛10倍で！",
+            "reactions": [[{ "who": "haru", "face": "panic", "text": "10倍!? 死ぬて！" }, { "who": "haru", "face": "happy", "text": "……でもスパチャもろたら、やるしかない！" }]]
+          },
+          {
+            "type": "trap",
+            "flag": "geinin_up",
+            "text": "次は、本気で泣いてるとこ見せて（ネタで）",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……ネタで、泣く……" }, { "who": "haru", "face": "happy", "text": "……任せとき！ 演技は得意やで！" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "geinin_up",
+            "text": "最近ネタばっかりで、つまんなくなったね",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……え" }, { "who": "haru", "face": "angry", "text": "ほな、もっとおもろいことやったるわ……！" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "代わりに僕が激辛食べます（画面越しに）",
+            "reactions": [[{ "who": "haru", "face": "happy", "text": "画面越しに食えるか！" }, { "who": "haru", "face": "relaxed", "text": "……ありがと。ちょっと休めたわ" }]]
+          }
+        ]
+      }
+    },
+    {
       "id": "2-3",
       "set": { "stream": { "title": "【初コラボ】炎城カイくんとホラゲ！", "mob": "collab" } },
       "rares": ["raid"],
@@ -357,6 +483,7 @@
     },
     {
       "id": "2-4t",
+      "bgm": "crisis",
       "if": { "flag": "ero1" },
       "set": { "stream": { "title": "【ASMR】耳元でささやく、夜のひみつ配信♡", "mob": "buzz" } },
       "lines": [
@@ -433,7 +560,7 @@
         ]
       }
     },
-    { "id": "2-4u", "if": { "flag": "ero2" }, "lines": [{ "who": "narr", "text": "──それからも、ハルは「ささやき配信」を続けた。" }], "end": "meisou" },
+    { "id": "2-4u", "bgm": "bad", "if": { "flag": "ero2" }, "lines": [{ "who": "narr", "text": "──それからも、ハルは「ささやき配信」を続けた。" }], "end": "meisou" },
     {
       "id": "2-5",
       "set": { "stream": { "title": "【雑談】今日はちょっと静かに", "mob": "chat" } },

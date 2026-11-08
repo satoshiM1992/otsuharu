@@ -363,6 +363,7 @@
     },
     {
       "id": "5-4",
+      "bgm": "confess",
       "rareEnd": { "ending": "gyaku", "chance": 0.05, "if": { "minAff": 95 } },
       "set": { "bg": "sunset" },
       "resolve": "confession",

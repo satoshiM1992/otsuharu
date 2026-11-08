@@ -501,6 +501,7 @@
   "epilogue": [
     { "cmd": "flag", "key": "epi_big", "if": { "minPeak": 65 } },
     { "cmd": "blackout", "text": "── それから、数年後。 ──" },
+    { "cmd": "bgm", "value": "epilogue" },
     { "cmd": "pop", "value": 100, "silent": true, "if": { "flag": "epi_big" } },
     { "cmd": "pop", "value": 8, "silent": true, "if": { "notFlag": "epi_big" } },
     {
@@ -593,6 +594,7 @@
   "endings": {
     "lover": {
       "epilogue": true,
+      "bgm": "confess",
       "cat": "main",
       "emoji": "💕",
       "title": "恋人エンド",
@@ -618,6 +620,7 @@
     },
     "lover_queen": {
       "epilogue": true,
+      "bgm": "confess",
       "cat": "main",
       "emoji": "👑",
       "title": "女王様の恋人エンド",
@@ -642,6 +645,7 @@
     },
     "lover_geinin": {
       "epilogue": true,
+      "bgm": "confess",
       "cat": "main",
       "emoji": "🎤",
       "title": "最強コンビの恋人エンド",
@@ -926,6 +930,45 @@
         { "who": "narr", "text": "──最後の投稿には、ひとことだけ。『わたしって、女王様だったのかな』" }
       ]
     },
+    "moetsuki": {
+      "cat": "bad",
+      "emoji": "🕯️",
+      "title": "燃え尽きエンド",
+      "desc": "天使は、自分にだけ優しくできなかった。",
+      "hint": "がんばりすぎる天使を、止めずに応援しつづけると……",
+      "lines": [
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "stream": { "title": "【雑談】今日も、全部返すね", "mob": "chat" } },
+        { "who": "haru", "face": "happy", "text": "こんハル……！ 今日も、みんなのコメント、全部に……" },
+        { "who": "haru", "face": "blank", "text": "……あれ" },
+        { "who": "haru", "face": "blank", "text": "……ごめん。……なにも、言葉が出てこない" },
+        { "who": "mob", "text": "ハルちゃん？" },
+        { "who": "mob", "text": "大丈夫？" },
+        { "who": "mob", "text": "休んで", "name": "古参の民" },
+        { "who": "narr", "text": "──その配信は、無言のまま終わった。" },
+        { "who": "narr", "text": "──翌日。『天音ハル 無期限活動休止のお知らせ』" },
+        { "who": "narr", "text": "──一年後。止まったままのチャンネルに、ひとつだけ投稿が増えた。『まだ、ここにいるよ』" }
+      ]
+    },
+    "piero": {
+      "cat": "bad",
+      "emoji": "🤡",
+      "title": "ピエロエンド",
+      "desc": "いちばん笑わせてくれた人は、いちばん笑っていなかった。",
+      "hint": "ネタに走りすぎた芸人に、ボケで返しつづけると……",
+      "lines": [
+        { "cmd": "set", "ui": "stream", "model": "vtuber", "bg": "room", "stream": { "title": "【ガチ】本音で話します（ガチ）", "mob": "chat" } },
+        { "who": "haru", "face": "relaxed", "text": "今日は、ほんまに本音で話すな" },
+        { "who": "mob", "text": "フリ？" },
+        { "who": "mob", "text": "ボケ待ち" },
+        { "who": "mob", "text": "どうせオチあるんでしょ" },
+        { "who": "haru", "face": "blank", "text": "……" },
+        { "who": "haru", "face": "happy", "text": "……なーんてな！ ボケでした〜！ 引っかかった人、挙手〜！", "motion": "jump" },
+        { "who": "mob", "text": "草" },
+        { "who": "mob", "text": "さすが芸人" },
+        { "who": "narr", "text": "──その日から、ハルは本音を言わなくなった。泣きたい夜も、全部ネタにして笑い飛ばした。" },
+        { "who": "narr", "text": "──彼女が最後に本気で泣いたのがいつだったか、もう誰も知らない。" }
+      ]
+    },
     "zarigani": {
       "cat": "hidden",
       "emoji": "🦞",
@@ -974,6 +1017,7 @@
     },
     "gyaku": {
       "epilogue": true,
+      "bgm": "confess",
       "cat": "rare",
       "emoji": "🌸",
       "title": "逆告白エンド",

@@ -22,7 +22,7 @@ const data = await loadScenario('../data/');
 
 const TYPES = ['good', 'normal', 'bad', 'trap', 'gag', 'out'];
 const WHO = ['haru', 'me', 'mob', 'narr', 'sys'];
-const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal', 'persona', 'blackout'];
+const CMDS = ['flag', 'set', 'face', 'motion', 'wait', 'pop', 'affection', 'reveal', 'persona', 'blackout', 'bgm'];
 const UIS = ['stream', 'dm', 'call', 'adv'];
 
 function checkLines(lines, where) {

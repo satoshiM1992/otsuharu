@@ -80,3 +80,12 @@ export function recordGallery(kind, id) {
   g[kind][id] = true;
   writeJson(GALLERY_KEY, g);
 }
+
+// Lines already read (any playthrough), for 既読スキップ. Stored as short hashes.
+const READ_KEY = 'otsuharu.read.v1';
+export function loadRead() {
+  return new Set(readJson(READ_KEY) ?? []);
+}
+export function saveRead(set) {
+  writeJson(READ_KEY, [...set]);
+}

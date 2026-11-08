@@ -7,6 +7,7 @@
 import { ABORT } from './engine.js';
 import { sound } from './sound.js';
 import { viewersFor, subsFor, fmtCount } from './stats.js';
+import { loadRead, saveRead } from './state.js';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MODES = ['stream', 'dm', 'call', 'adv'];
@@ -55,6 +56,10 @@ export class UI {
     this.timers = {};
     this.lastLine = null; // shown above the choices so the question stays readable
     this.log = []; // backlog for the menu
+    this.read = loadRead(); // keys of lines read in any playthrough
+    this.skipMode = false; // ⏩ 既読スキップ
+    this.fast = false; // the current line is skipped
+    this.bgmOverride = null;
 
     this.game = this.$('screen-game');
     this.msg = this.$('msg');
@@ -68,6 +73,22 @@ export class UI {
     this.$('btn-menu').addEventListener('click', (e) => {
       e.stopPropagation();
       this.$('menu').hidden = false;
+    });
+    // flush the read lines when the page is hidden or closed
+    const flush = () => saveRead(this.read);
+    addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', () => document.hidden && flush());
+    this.$('btn-skip').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.setSkip(!this.skipMode);
+      // start right away if a read line is waiting for a tap
+      const skippable = this.pendingRead || !this.$('card').hidden || !this.$('blackout').hidden;
+      if (this.skipMode && this.pending?.kind === 'tap' && skippable) {
+        const p = this.pending;
+        this.pending = null;
+        this.game.classList.remove('wait-tap');
+        p.resolve();
+      }
     });
     this.$('log').addEventListener('click', (e) => {
       e.stopPropagation();
@@ -101,6 +122,9 @@ export class UI {
     this.$('log').hidden = true;
     this.lastLine = null;
     this.log = [];
+    this.setSkip(false);
+    this.fast = false;
+    this.bgmOverride = null;
     this.setContact('天音ハル');
     this.$('hud-debug').hidden = !this.debug;
   }
@@ -125,8 +149,36 @@ export class UI {
 
   // --------------------------------------------------------------- input
 
+  setSkip(on) {
+    this.skipMode = on;
+    const b = this.$('btn-skip');
+    b.classList.toggle('is-on', on);
+    b.setAttribute('aria-pressed', String(on));
+  }
+
+  markRead(key) {
+    if (!key || this.read.has(key)) return;
+    this.read.add(key);
+    // throttled (not debounced) so fast tapping still saves
+    this.readTimer ??= setTimeout(() => {
+      this.readTimer = null;
+      saveRead(this.read);
+    }, 800);
+  }
+
+  // after a line: a tap, or a short pause while skipping read lines
+  async advance() {
+    if (this.fast) return this.wait(70);
+    return this.waitTap();
+  }
+
   onTap(e) {
     if (e.target.closest('button, .choices, .menu, .log')) return;
+    // tapping while skipping stops the skip
+    if (this.skipMode && this.fast) {
+      this.setSkip(false);
+      return;
+    }
     if (this.typing) {
       this.skip = true;
       return;
@@ -149,7 +201,7 @@ export class UI {
   }
 
   async wait(ms) {
-    await sleep(ms);
+    await sleep(this.skipMode ? Math.min(ms, 60) : ms);
     this.check();
   }
 
@@ -185,7 +237,13 @@ export class UI {
   updateBgm() {
     const m = this.mode;
     if (!m) return;
-    sound.bgm(m === 'stream' ? 'stream' : m === 'adv' && this.bg !== 'night' ? 'date' : 'night');
+    sound.bgm(this.bgmOverride ?? (m === 'stream' ? 'stream' : m === 'adv' && this.bg !== 'night' ? 'date' : 'night'));
+  }
+
+  // special track for a scene / ending (null: back to the one for the layout)
+  setBgm(name) {
+    this.bgmOverride = name ?? null;
+    this.updateBgm();
   }
 
   setStream({ title, mob }) {
@@ -234,12 +292,17 @@ export class UI {
   async say(line) {
     this.check();
     this.remember(line);
-    if (line.voice && this.mode !== 'dm') sound.voice(line.voice.key, line.voice.forced);
+    const read = !!line.key && this.read.has(line.key);
+    this.markRead(line.key);
+    if (this.skipMode && !read) this.setSkip(false); // stop at the first new line
+    this.fast = this.skipMode && read;
+    this.pendingRead = read;
+    if (line.voice && this.mode !== 'dm' && !this.fast) sound.voice(line.voice.key, line.voice.forced);
     if (this.mode === 'dm') return this.sayDm(line);
     if (this.mode === 'stream' && line.who !== 'haru' && line.who !== 'narr') {
       this.addComment(line);
       await this.wait(line.who === 'me' ? 650 : 500);
-      if (line.who === 'sys') await this.waitTap();
+      if (line.who === 'sys') await this.advance();
       return;
     }
     await this.sayMsg(line);
@@ -252,9 +315,10 @@ export class UI {
     this.msgName.hidden = !name;
     const haru = who === 'haru';
     if (haru) this.avatar.setTalking(true);
-    await this.typeText(this.msgText, text, haru ? (ch) => this.avatar.speakChar?.(ch) : null);
+    if (this.fast) this.msgText.textContent = text;
+    else await this.typeText(this.msgText, text, haru ? (ch) => this.avatar.speakChar?.(ch) : null);
     this.avatar.setTalking(false);
-    await this.waitTap();
+    await this.advance();
   }
 
   async typeText(el, text, onChar = null) {
@@ -329,14 +393,14 @@ export class UI {
       await this.wait(Math.min(1200, 450 + text.length * 18));
       typing.remove();
       this.addBubble('haru', text);
-      sound.se('dm');
-      await this.waitTap();
+      if (!this.fast) sound.se('dm');
+      await this.advance();
     } else if (who === 'me') {
       this.addBubble('me', text);
       await this.wait(500);
     } else {
       this.addBubble('note', text);
-      await this.waitTap();
+      await this.advance();
     }
   }
 
@@ -438,7 +502,8 @@ export class UI {
     sound.se('card');
     try {
       await this.wait(900);
-      await this.waitTap();
+      if (this.skipMode) await sleep(700);
+      else await this.waitTap();
     } finally {
       el.classList.add('is-out');
       setTimeout(() => {
@@ -453,9 +518,11 @@ export class UI {
     card.querySelector('.card-sub').textContent = sub ?? '';
     card.querySelector('.card-title').textContent = title ?? '';
     card.hidden = false;
+    this.pendingRead = false;
     sound.se('card');
     try {
-      await this.waitTap();
+      if (this.skipMode) await this.wait(600);
+      else await this.waitTap();
     } finally {
       card.hidden = true;
     }

@@ -221,6 +221,7 @@
     },
     {
       "id": "3-4q",
+      "bgm": "crisis",
       "if": { "persona": "queen" },
       "set": { "ui": "stream", "bg": "room", "model": "vtuber", "stream": { "title": "【女王様】スパチャ読み 〜貢ぎが足りない者は去れ〜", "mob": "buzz" } },
       "lines": [
@@ -296,7 +297,10 @@
         ]
       },
       "after": [
+        { "who": "haru", "face": "blank", "text": "……でも。前に、ランキング外のみんなも大事って言ってくれたよね", "if": { "flag": ["queen_fall", "queen_warned"] } },
+        { "who": "haru", "face": "sad", "text": "……うん。やっぱり、ちゃんと謝る。……背景なんて、言っちゃだめだった", "if": { "flag": ["queen_fall", "queen_warned"] } },
         { "cmd": "set", "ui": "stream", "bg": "room", "stream": { "title": "【ご報告】この前は、ごめんなさい", "mob": "chat" }, "if": { "flag": "queen_humbled" } },
+        { "cmd": "bgm", "value": null, "if": { "flag": "queen_humbled" } },
         { "who": "haru", "face": "sad", "text": "……この前は、ごめんなさい。調子に乗ってました", "if": { "flag": "queen_humbled" } },
         { "who": "haru", "face": "shy", "text": "スパチャしてもしなくても、見に来てくれるだけで……ほんとは、すっごくうれしいの", "if": { "flag": "queen_humbled" } },
         { "who": "mob", "text": "えらい", "if": { "flag": "queen_humbled" } },
@@ -306,7 +310,198 @@
         { "who": "narr", "text": "──謝罪配信は、皮肉にも、炎上の切り抜きより再生された。", "if": { "flag": "queen_humbled" } }
       ]
     },
-    { "id": "3-4r", "if": { "flag": "queen_fall" }, "lines": [{ "who": "narr", "text": "──次の日。ハルは、予告なしで配信枠を立てた。" }], "end": "enjou" },
+    { "id": "3-4r", "bgm": "crisis", "if": { "flag": "queen_fall", "notFlag": "queen_warned" }, "lines": [{ "who": "narr", "text": "──次の日。ハルは、予告なしで配信枠を立てた。" }], "end": "enjou" },
+    {
+      "id": "3-4a",
+      "if": { "persona": "angel" },
+      "bgm": "crisis",
+      "set": { "ui": "call", "bg": "call", "model": "vtuber" },
+      "lines": [
+        { "who": "narr", "text": "──午前四時。スマホが鳴った。" },
+        { "who": "haru", "face": "blank", "text": "……ごめんね、こんな時間に。……眠れなくて" },
+        { "who": "haru", "face": "sad", "text": "ここ一週間、毎日配信してて……DMもマシュマロも全部返そうとしたら、寝る時間、なくなっちゃった" },
+        { "who": "haru", "face": "sad", "text": "でもね、休んだら、みんな離れちゃう気がして。……23人のころに、戻っちゃう気がして" },
+        { "who": "haru", "face": "blank", "text": "……前に「全部じゃなくていい」って言ってくれたのに。できなかった", "if": { "flag": "angel_warned" } },
+        { "who": "haru", "face": "blank", "text": "……12時間耐久、ちゃんとやったよ。……えらい？", "if": { "flag": "angel_up" } },
+        { "who": "haru", "face": "sad", "text": "……ねえ。わたし、休んでもいいのかな" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "angel_rest",
+            "text": "休んでいいよ。23人の頃だって待ってたんだから、今度も待ってる",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……待っててくれるの？" }, { "who": "haru", "face": "relaxed", "text": "……うん。……ちょっとだけ、お休みする" }]]
+          },
+          {
+            "type": "good",
+            "delta": 6,
+            "flag": "angel_rest",
+            "text": "ハルちゃんが元気じゃないと、コメントしてても楽しくないよ",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "……そっか。わたしが楽しくないと、みんなも……" }, { "who": "haru", "face": "relaxed", "text": "……休む。ちゃんと休む" }]]
+          },
+          { "type": "normal", "text": "無理しないでね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……うん。ありがと" }]] },
+          {
+            "type": "trap",
+            "flag": "angel_fall",
+            "text": "ハルちゃんならできるよ！ みんな待ってるし、がんばろう！",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……そう、だよね" }, { "who": "haru", "face": "blank", "text": "……がんばる。がんばらなきゃ" }]]
+          },
+          {
+            "type": "trap",
+            "style": "mitsugi",
+            "delta": -12,
+            "flag": "angel_fall",
+            "text": "¥10,000 栄養ドリンク代。もうひと頑張り！",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……うん。……ありがと。がんばるね" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "angel_fall",
+            "text": "人気商売なんだから、休んだら終わりだよ",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……だよね" }, { "who": "haru", "face": "blank", "text": "休んだら、終わり……" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "flag": "angel_rest",
+            "text": "今から子守唄を歌います（音痴）",
+            "reactions": [
+              [
+                { "who": "haru", "face": "surprised", "text": "今!? 四時に!?" },
+                { "who": "haru", "face": "relaxed", "text": "……ふふっ、ひどい歌。……でも、ちょっと眠くなってきた" }
+              ]
+            ]
+          },
+          {
+            "type": "out",
+            "end": "moetsuki",
+            "text": "休んだら、推すのやめるからね",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "blank", "text": "……うん。わかった" },
+                { "who": "narr", "text": "──通話が、静かに切れた。" }
+              ]
+            ]
+          }
+        ]
+      },
+      "after": [
+        { "who": "haru", "face": "blank", "text": "……でも、前に「全部じゃなくていい」って言ってくれたよね", "if": { "flag": ["angel_fall", "angel_warned"] } },
+        { "who": "haru", "face": "relaxed", "text": "……やっぱり、少しだけ休む。そのほうが、きっと長く続けられるから", "if": { "flag": ["angel_fall", "angel_warned"] } },
+        { "cmd": "set", "ui": "stream", "bg": "room", "stream": { "title": "【お知らせ】一週間だけ、お休みします", "mob": "chat" }, "if": { "flag": "angel_rest" } },
+        { "cmd": "bgm", "value": null, "if": { "flag": "angel_rest" } },
+        { "who": "haru", "face": "relaxed", "text": "みんな、ちょっとだけお休みもらうね。……戻ってきたら、また全部聞かせて", "if": { "flag": "angel_rest" } },
+        { "who": "mob", "text": "ゆっくり休んで", "if": { "flag": "angel_rest" } },
+        { "who": "mob", "text": "待ってる", "if": { "flag": "angel_rest" } },
+        { "who": "mob", "text": "23人の頃から、待つのは得意", "name": "古参の民", "if": { "flag": "angel_rest" } },
+        { "cmd": "pop", "value": 8, "if": { "flag": "angel_rest" } },
+        { "who": "narr", "text": "──一週間後。復帰配信の同接は、休む前より多かった。", "if": { "flag": "angel_rest" } }
+      ]
+    },
+    {
+      "id": "3-4b",
+      "if": { "flag": "angel_fall", "notFlag": "angel_warned" },
+      "bgm": "crisis",
+      "lines": [{ "who": "narr", "text": "──それから一週間。ハルは、一日も休まなかった。" }],
+      "end": "moetsuki"
+    },
+    {
+      "id": "3-4g",
+      "if": { "persona": "geinin" },
+      "bgm": "crisis",
+      "set": { "ui": "call", "bg": "call", "model": "vtuber" },
+      "lines": [
+        { "who": "narr", "text": "──その夜。ハルから通話がかかってきた。" },
+        { "who": "haru", "face": "happy", "text": "おつかれ〜！ いやー、今日の激辛、ほんま死ぬかと思たわ！" },
+        { "who": "haru", "face": "relaxed", "text": "……あのな。ちょっと、まじめな話してもええ？" },
+        { "who": "haru", "face": "sad", "text": "この前、配信で本気で落ち込んでる話しようとしたら……コメント欄、みんな『フリ？』『ボケ待ち』って" },
+        { "who": "haru", "face": "blank", "text": "……気付いたら、わたしもボケてた。泣きそうやったのに、笑いにしてた" },
+        { "who": "haru", "face": "blank", "text": "……ムチャぶり、全部やってきたもんな。もう、引っ込みつかへん", "if": { "flag": "geinin_up" } },
+        { "who": "haru", "face": "sad", "text": "……わたし、本音って、どうやって言うんやったっけ" }
+      ],
+      "choice": {
+        "pool": [
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "geinin_honest",
+            "text": "今は誰もボケ待ちしてないよ。……ちゃんと聞くから、話して",
+            "reactions": [
+              [
+                { "who": "haru", "face": "blank", "text": "……" },
+                { "who": "haru", "face": "sad", "text": "……しんどかった。ずっと、しんどかった" },
+                { "who": "haru", "face": "relaxed", "text": "……言えた。……ありがと" }
+              ]
+            ]
+          },
+          {
+            "type": "good",
+            "delta": 8,
+            "flag": "geinin_honest",
+            "text": "（ボケずに、黙って最後まで聞く）",
+            "echo": "……うん。聞いてる",
+            "reactions": [[{ "who": "haru", "face": "sad", "text": "……ツッコまんのかい" }, { "who": "haru", "face": "relaxed", "text": "……ずるいわ、それ。……ありがとう" }]]
+          },
+          { "type": "normal", "text": "大変だったね", "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……せやな" }]] },
+          {
+            "type": "trap",
+            "flag": "geinin_fall",
+            "text": "なんでやねん！ ……って、言ってほしいんでしょ？",
+            "reactions": [[{ "who": "haru", "face": "happy", "text": "……せや！ さすが相方！ ボケた甲斐あったわ！" }, { "who": "haru", "face": "blank", "text": "……あはは" }]]
+          },
+          {
+            "type": "trap",
+            "style": "mitsugi",
+            "delta": -12,
+            "text": "¥5,000 本音代、払います",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……本音って、お金で買うもんなん？" }]]
+          },
+          {
+            "type": "bad",
+            "flag": "geinin_fall",
+            "text": "芸人なんだから、泣き言は言わないほうがいいよ",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……せやな。芸人やもんな" }]]
+          },
+          {
+            "type": "gag",
+            "delta": 4,
+            "flag": "geinin_honest",
+            "text": "本音の言い方なら、僕も知らない。一緒に練習しよ",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "練習!?" }, { "who": "haru", "face": "happy", "text": "……ふふっ。ほな、相方からどうぞ" }]]
+          },
+          {
+            "type": "out",
+            "end": "piero",
+            "text": "今の話、次の配信のネタにしよう！ 絶対ウケる！",
+            "reactions": [[{ "who": "haru", "face": "blank", "text": "……せやな。……ウケるわ、絶対" }, { "who": "narr", "text": "──通話の向こうで、乾いた笑い声がした。" }]]
+          }
+        ]
+      },
+      "after": [
+        { "who": "haru", "face": "blank", "text": "……でも、前に「断っていい」って言ってくれたよね", "if": { "flag": ["geinin_fall", "geinin_warned"] } },
+        { "who": "haru", "face": "relaxed", "text": "……ボケるのは、ちょっと休憩や。次の配信は、ちゃんと本音で話してみる", "if": { "flag": ["geinin_fall", "geinin_warned"] } },
+        { "cmd": "set", "ui": "stream", "bg": "room", "stream": { "title": "【ガチ】今日はボケません", "mob": "chat" }, "if": { "flag": "geinin_honest" } },
+        { "cmd": "bgm", "value": null, "if": { "flag": "geinin_honest" } },
+        { "who": "haru", "face": "relaxed", "text": "今日は、ボケへん。……ちょっとだけ、本音で話させて", "if": { "flag": "geinin_honest" } },
+        { "who": "mob", "text": "フリ？", "if": { "flag": "geinin_honest" } },
+        { "who": "haru", "face": "happy", "text": "フリちゃうわ！ ……あ、ツッコんでもうた", "if": { "flag": "geinin_honest" } },
+        { "who": "mob", "text": "草", "if": { "flag": "geinin_honest" } },
+        { "who": "mob", "text": "でも、ちゃんと聞くよ", "if": { "flag": "geinin_honest" } },
+        { "who": "mob", "text": "本音のハルちゃんも好き", "name": "古参の民", "if": { "flag": "geinin_honest" } },
+        { "cmd": "pop", "value": 8, "if": { "flag": "geinin_honest" } },
+        { "who": "narr", "text": "──その配信は、いつもの爆笑回よりも、たくさんの人に届いた。", "if": { "flag": "geinin_honest" } }
+      ]
+    },
+    {
+      "id": "3-4h",
+      "if": { "flag": "geinin_fall", "notFlag": "geinin_warned" },
+      "bgm": "crisis",
+      "lines": [{ "who": "narr", "text": "──それから、ハルの配信は、前よりもっと笑いにあふれた。" }],
+      "end": "piero"
+    },
     {
       "id": "3-5",
       "set": { "ui": "stream", "bg": "room", "stream": { "title": "【雑談】最近ちょっといいことあった", "mob": "buzz" } },

@@ -2,7 +2,7 @@
 // plus Haru's short voice clips loaded from voice/ when they exist.
 //
 //   sound.unlock()        call from a user gesture (browsers block audio before one)
-//   sound.bgm(name|null)  'title' | 'stream' | 'night' | 'date'; null stops
+//   sound.bgm(name|null)  'title' | 'stream' | 'night' | 'date' | 'confess' | 'crisis' | 'epilogue' | 'bad'; null stops
 //   sound.se(name)        see SE below
 //   sound.setEnabled(on)  mute toggle, remembered in localStorage
 //   sound.setVoices(cfg)  data.voice from scenario.json; sound.voice(key, forced)
@@ -36,6 +36,39 @@ const TRACKS = {
     chords: [[57, 60, 64, 67], [53, 57, 60, 64], [48, 52, 55, 59], [55, 59, 62, 65]], // Am7 Fmaj7 Cmaj7 G7
     arp: [0, -1, 1, -1, 2, -1, 3, -1, 2, -1, 1, -1, -1, -1, -1, -1],
     bass: [0, 8],
+    lead: 0.07,
+  },
+  // special tracks (scene "bgm" / ending "bgm" / {cmd: "bgm"})
+  confess: {
+    bpm: 66,
+    wave: 'sine',
+    chords: [[53, 57, 60, 64], [52, 55, 60, 64], [50, 53, 57, 60], [55, 59, 62, 65], [53, 57, 60, 64], [52, 55, 59, 64], [57, 60, 64, 67], [55, 59, 62, 67]], // Fmaj7 C/E Dm7 G7 Fmaj7 Em Am G
+    arp: [0, 2, 3, 4, 3, 2, 1, 2, 0, 2, 3, 5, 3, 2, 1, -1],
+    bass: [0, 8],
+    lead: 0.09,
+  },
+  crisis: {
+    bpm: 92,
+    wave: 'square',
+    chords: [[50, 53, 57], [46, 50, 53], [43, 46, 50], [45, 49, 52]], // Dm Bb Gm A
+    arp: [0, -1, 0, -1, 1, -1, 0, -1, 2, -1, 1, -1, 0, -1, 1, 2],
+    bass: [0, 2, 4, 6, 8, 10, 12, 14],
+    lead: 0.03,
+  },
+  epilogue: {
+    bpm: 104,
+    wave: 'triangle',
+    chords: [[60, 64, 67], [55, 59, 62], [57, 60, 64], [52, 55, 59], [53, 57, 60], [48, 52, 55], [53, 57, 60], [55, 59, 62]], // C G Am Em F C F G (canon-ish)
+    arp: [0, 1, 2, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 5, 4],
+    bass: [0, 4, 8, 12],
+    lead: 0.065,
+  },
+  bad: {
+    bpm: 60,
+    wave: 'sine',
+    chords: [[57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]], // Am F Dm E
+    arp: [0, -1, -1, 1, -1, -1, 2, -1, -1, 1, -1, -1, 0, -1, -1, -1],
+    bass: [0],
     lead: 0.07,
   },
   date: {

@@ -19,6 +19,14 @@ export const TYPE_LABEL = {
   out: '☠️一発アウト',
 };
 
+// Stable id of a line for the read-skip: hash of speaker + unformatted text.
+export function lineKey(who, text) {
+  let h = 0x811c9dc5;
+  const s = `${who}:${text}`;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193);
+  return (h >>> 0).toString(36);
+}
+
 export const STYLE_LABEL = { kind: '😇', mitsugi: '💰', neta: '🎤' };
 
 // Three hidden-ish stats drive the story besides affection:
@@ -67,6 +75,8 @@ export class Engine {
           state.rngState = this.rng.state;
           this.hooks.onSave?.(state);
           this.applySettings({ ...ch.defaults, face: 'neutral', ...scene.set });
+          // special BGM ("bgm": "confess" | "crisis" | ...) lasts for the scene
+          this.ui.setBgm?.(scene.bgm ?? null);
           this.refreshHud();
           if (resumed || state.sceneIndex === 0) {
             await this.ui.card(ch.subtitle, ch.title);
@@ -351,6 +361,7 @@ export class Engine {
     id = this.routeEnding(id);
     const ending = data.endings[id];
     if (!ending) throw new Error(`unknown ending: ${id}`);
+    this.ui.setBgm?.(ending.bgm ?? (ending.cat === 'bad' ? 'bad' : null));
     await this.playLines(ending.lines);
     // lover endings continue into the "years later" epilogue (data.epilogue),
     // which branches on the highest popularity reached (minPeak / maxPeak)
@@ -460,6 +471,7 @@ export class Engine {
         name: this.speakerName(line),
         text: this.fmt(line.text),
         voice: this.voiceFor(line),
+        key: lineKey(line.who, line.text),
       });
     }
   }
@@ -500,6 +512,9 @@ export class Engine {
         break;
       case 'persona':
         await this.updateRealPersona();
+        break;
+      case 'bgm':
+        this.ui.setBgm?.(line.value ?? null);
         break;
       case 'blackout':
         await this.ui.blackout?.(this.fmt(line.text ?? ''));
@@ -569,8 +584,8 @@ export class Engine {
     if (!cond) return true;
     const s = this.state;
     if (cond.mood && cond.mood !== s.mood) return false;
-    if (cond.flag && !s.flags[cond.flag]) return false;
-    if (cond.notFlag && s.flags[cond.notFlag]) return false;
+    if (cond.flag && ![].concat(cond.flag).every((f) => s.flags[f])) return false;
+    if (cond.notFlag && [].concat(cond.notFlag).some((f) => s.flags[f])) return false;
     if (cond.minAff != null && s.affection < cond.minAff) return false;
     if (cond.maxAff != null && s.affection > cond.maxAff) return false;
     if (cond.chapter != null && ![].concat(cond.chapter).includes(this.chapter?.id)) return false;
