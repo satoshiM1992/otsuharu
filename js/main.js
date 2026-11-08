@@ -23,6 +23,7 @@ import {
 import { Engine, ABORT } from './engine.js';
 import { UI, preloadBackgrounds } from './ui.js';
 import { Avatar } from './avatar.js';
+import { listenerType, shareText as styleShareText } from './listener.js';
 import { sound } from './sound.js';
 
 const params = new URLSearchParams(location.search);
@@ -264,11 +265,13 @@ function galleryItem(e, got) {
 const GAME_TITLE = '推しVTuberを落とせ！';
 const HASHTAG = '推しVTuberを落とせ';
 let lastEnding = null;
+let lastType = null; // { type, stats } of the finished game
 
 function shareText() {
   const e = data.endings[lastEnding];
   const rare = e.cat === 'rare' ? '【超レア】' : '';
-  return `「${GAME_TITLE}」で${rare}${e.emoji}${e.title}を見た！（エンド回収 ${progressText()}）\n#${HASHTAG}`;
+  const lt = lastType?.stats.total ? `\nリスナータイプ：${lastType.type.emoji}${lastType.type.name}（${styleShareText(lastType.stats)}）` : '';
+  return `「${GAME_TITLE}」で${rare}${e.emoji}${e.title}を見た！（エンド回収 ${progressText()}）${lt}\n#${HASHTAG}`;
 }
 
 // share/<id>.html carries that ending's og:image (img/share/<id>.jpg, made by
@@ -278,14 +281,55 @@ function shareUrl() {
   return lastEnding ? `${base}share/${lastEnding}.html` : base;
 }
 
+// The ending card with the player's listener type written under it.
 async function shareImageFile() {
   try {
-    const res = await fetch(`img/share/${lastEnding}.jpg`);
-    if (!res.ok) return null;
-    const blob = await res.blob();
-    return new File([blob], `oshi-vtuber-${lastEnding}.jpg`, { type: 'image/jpeg' });
+    const img = new Image();
+    img.src = `img/share/${lastEnding}.jpg`;
+    await img.decode();
+    const band = lastType?.stats.total ? 120 : 0;
+    const cv = document.createElement('canvas');
+    cv.width = img.naturalWidth;
+    cv.height = img.naturalHeight + band;
+    const g = cv.getContext('2d');
+    g.drawImage(img, 0, 0);
+    if (band) {
+      g.fillStyle = '#2b2340';
+      g.fillRect(0, img.naturalHeight, cv.width, band);
+      const font = getComputedStyle(document.body).fontFamily;
+      g.fillStyle = '#ffb3cf';
+      g.font = `800 26px ${font}`;
+      g.textAlign = 'center';
+      g.fillText('あなたのリスナータイプ', cv.width / 2, img.naturalHeight + 40);
+      g.fillStyle = '#fff';
+      g.font = `800 40px ${font}`;
+      g.fillText(`${lastType.type.emoji} ${lastType.type.name}　${styleShareText(lastType.stats)}`, cv.width / 2, img.naturalHeight + 92);
+    }
+    const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.88));
+    return blob ? new File([blob], `oshi-vtuber-${lastEnding}.jpg`, { type: 'image/jpeg' }) : null;
   } catch {
     return null;
+  }
+}
+
+function showListenerType(state) {
+  lastType = state ? listenerType(data.listenerTypes ?? [], state) : null;
+  const box = $('listener-type');
+  // too few comments to say anything (e.g. a ☠️ in the first scene)
+  box.hidden = !lastType || lastType.stats.total < 3;
+  if (box.hidden) return;
+  const { type, stats } = lastType;
+  $('lt-emoji').textContent = type.emoji;
+  $('lt-name').textContent = type.name;
+  $('lt-desc').textContent = type.desc;
+  $('lt-pct').textContent = styleShareText(stats);
+  const bar = $('lt-bar');
+  bar.innerHTML = '';
+  for (const [k, v] of Object.entries(stats.share)) {
+    const s = document.createElement('span');
+    s.className = k;
+    s.style.width = `${v * 100}%`;
+    bar.append(s);
   }
 }
 
@@ -367,6 +411,7 @@ async function play(state) {
     $('ending-unlock').hidden = !unlocked.length;
     $('ending-unlock').textContent = unlocked.map((o) => `🎁 おまけ『${o.title}』が解放されました！（ギャラリー）`).join('\n');
     clearSave();
+    showListenerType(state);
     showEnding(result.id);
   } else {
     showTitle();

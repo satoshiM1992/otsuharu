@@ -19,6 +19,8 @@ export function newState({ seed, handle, flags = {} }) {
     personaChanged: false,
     realPersona: 'shy', // shy | amae | shikkari | itazura (ひなの off stream)
     chapterStyles: {}, // comment styles chosen this chapter: { kind, mitsugi, neta }
+    styleTotals: {}, // the same over the whole game (listener-type result)
+    typeCounts: {}, // choices taken by type (good / trap / bad ...)
     mood: null,
     moodChapter: null,
     chapterIndex: 0,

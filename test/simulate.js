@@ -79,6 +79,7 @@ for (const ch of data.chapters) {
 }
 checkLines(data.rules.gesu?.warn, 'rules.gesu.warn');
 checkLines(data.epilogue, 'epilogue');
+if (!(data.listenerTypes ?? []).some((t) => !t.if)) fail('listenerTypes: needs a fallback entry without conditions');
 for (const o of data.omake ?? []) checkLines(o.lines, `omake ${o.id}`);
 if ((data.omake ?? []).some((o) => o.need !== 'all' && o.need > Object.keys(data.endings).length)) fail('omake: need exceeds the number of endings');
 if (data.rules.gesu && !data.endings[data.rules.gesu.end]) fail('rules.gesu: unknown ending');

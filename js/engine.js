@@ -207,6 +207,7 @@ export class Engine {
       for (let i = 0; i < (c.repeat ?? 1); i++) await this.playLines([echo]);
     }
     if (c.flag) state.flags[c.flag] = true;
+    (state.typeCounts ??= {})[c.type] = (state.typeCounts[c.type] ?? 0) + 1;
 
     if (c.special === 'tategaki') {
       const t = data.rares.tategaki;
@@ -396,6 +397,8 @@ export class Engine {
     const style = this.styleOf(c);
     const s = this.state;
     if (style) s.chapterStyles[style] = (s.chapterStyles[style] ?? 0) + (c.styleW ?? 1);
+    // whole-game totals for the listener-type result on the ending screen
+    if (style) (s.styleTotals ??= {})[style] = (s.styleTotals[style] ?? 0) + 1;
     // Only comments in a stream are seen by viewers; DMs, calls and dates are
     // private, so they never move popularity (the persona vote still counts).
     if (this.uiMode !== 'stream') return;

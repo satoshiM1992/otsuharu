@@ -658,6 +658,22 @@
     }
   ],
 
+  "listenerTypes": [
+    { "id": "gesu", "emoji": "🧊", "name": "要注意リスナー", "desc": "下ネタ多め。モデレーターに名前を覚えられている。", "if": { "minGesu": 2 } },
+    { "id": "jirai", "emoji": "💣", "name": "地雷処理班（失敗）", "desc": "よかれと思って、だいたい踏み抜く。悪気はない。", "if": { "minMiss": 0.3 } },
+    {
+      "id": "zenkoutei",
+      "emoji": "😇",
+      "name": "全肯定リスナー",
+      "desc": "何を言っても「えらい」で返す、推しの心の安全地帯。",
+      "if": { "minShare": { "kind": 0.75 }, "maxMiss": 0.1 }
+    },
+    { "id": "atm", "emoji": "💰", "name": "推しのATM予備軍", "desc": "愛は金額で示すタイプ。財布の残高だけが心配。", "if": { "minShare": { "mitsugi": 0.55 } } },
+    { "id": "geinin", "emoji": "🤪", "name": "コメント欄の芸人", "desc": "推しより目立ちかけるボケ担当。ツッコミ待ち。", "if": { "minShare": { "neta": 0.5 } } },
+    { "id": "ryoushin", "emoji": "🌱", "name": "古参の良心", "desc": "やさしいコメントで配信を支える、コメント欄の守り神。", "if": { "minShare": { "kind": 0.5 } } },
+    { "id": "kiyou", "emoji": "🎭", "name": "器用な古参", "desc": "やさしさ・ネタ・スパチャを使い分ける、空気の読める常連。" }
+  ],
+
   "routes": {
     "lover": [
       { "if": { "persona": "queen" }, "to": "lover_queen" },
