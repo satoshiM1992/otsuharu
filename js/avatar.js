@@ -3,7 +3,7 @@
 //   setModel(name)       'vtuber' | 'real' | 'none'
 //   setExpression(name)  one of EXPRESSIONS
 //   setTalking(bool)     lip flap while text is typing
-//   playMotion(name)     'nod' | 'jump' | 'shake' | 'tilt'
+//   playMotion(name)     'nod' | 'jump' | 'shake' | 'tilt' | 'wave' | 'bow'
 //   speakChar(ch)        optional: the character being typed, for lip sync
 //
 // PlaceholderAvatar draws an SVG girl. Avatar wraps it and, when VRM model URLs

@@ -271,6 +271,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .avatar-svg.motion-nod { animation: nod .6s ease-in-out; }
 .avatar-svg.motion-shake { animation: shake-x .45s; }
 .avatar-svg.motion-tilt { animation: tilt .8s ease-in-out; }
+.avatar-svg.motion-wave { animation: tilt .8s ease-in-out; }
+.avatar-svg.motion-bow { animation: nod .9s ease-in-out; }
 
 @keyframes breathe { 50% { transform: scaleY(1.012); } }
 @keyframes jump { 30% { transform: translateY(-10%); } 60% { transform: translateY(0); } 75% { transform: translateY(-3%); } }

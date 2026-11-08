@@ -27,6 +27,11 @@ export function lineKey(who, text) {
   return (h >>> 0).toString(36);
 }
 
+const AUTO_MOTION = [
+  [/^(こんハル|おつハル)|おつハル[〜～!！]*$/, 'wave'],
+  [/^[…\s]*ごめん/, 'bow'],
+];
+
 export const STYLE_LABEL = { kind: '😇', mitsugi: '💰', neta: '🎤' };
 
 // Three hidden-ish stats drive the story besides affection:
@@ -472,6 +477,11 @@ export class Engine {
       if (by) line = { ...line, ...by };
       if (line.who === 'haru' && line.face) this.avatar.setExpression(line.face);
       if (line.motion) this.avatar.playMotion(line.motion);
+      else if (line.who === 'haru') {
+        // VTuber-ish gestures for set phrases: wave on greetings, bow on apologies
+        const auto = AUTO_MOTION.find(([re]) => re.test(line.text))?.[1];
+        if (auto) this.avatar.playMotion(auto);
+      }
       await this.ui.say({
         who: line.who,
         name: this.speakerName(line),

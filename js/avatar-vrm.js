@@ -1,6 +1,8 @@
 // VRM avatar (three.js + @pixiv/three-vrm, loaded from a CDN via the import map
 // in index.html). Implements the same interface as PlaceholderAvatar:
 //   setModel, setExpression, setTalking, playMotion  (+ speakChar for lip sync)
+// Body: a pose per expression (BODY), talking bob/sway, idle glances, and the
+// one-shot motions nod / shake / tilt / jump / wave / bow.
 //
 // One WebGL renderer and one loaded VRM per URL are shared by every VrmView
 // (title screen and game screen). Each frame the canvas is moved into the view
@@ -31,7 +33,29 @@ const VISEME_OPEN = { aa: 0.9, ih: 0.6, ou: 0.7, ee: 0.65, oh: 0.8 };
 const POSE = {
   shy: { x: 0.06, z: 0.12 },
   sad: { x: 0.16, z: 0 },
+  smug: { x: -0.06, z: -0.05 },
+  surprised: { x: -0.04, z: 0 },
 };
+
+// Body pose per expression (normalized humanoid bones, radians), blended smoothly.
+// Arms are given for the LEFT side; the right side mirrors them (y/z negated)
+// unless a separate `r` entry is given. ua = upper arm, la = lower arm,
+// sh = shoulder, sp = spine lean (x: forward, z: sideways), bounce = idle hop.
+const ARMS_DOWN = { ua: [0, 0, -1.2], la: [0, -0.25, 0] };
+const BODY = {
+  neutral: { l: ARMS_DOWN },
+  relaxed: { l: ARMS_DOWN, sway: 1.4 },
+  happy: { l: { ua: [0, -0.35, -1.0], la: [0, -1.1, 0] }, bounce: 1 },
+  shy: { l: { ua: [0, -0.75, -1.2], la: [0, -1.25, 0.25] }, sh: [0, 0, 0.1], sp: [0.04, 0, 0] },
+  panic: { l: { ua: [0, -0.35, -1.15], la: [0, -2.2, 0] }, sh: [0, 0, 0.12] },
+  sad: { l: { ua: [0, 0.05, -1.3], la: [0, -0.1, 0] }, sh: [0, 0, -0.06], sp: [0.08, 0, 0], sway: 0.4 },
+  angry: { l: { ua: [0, -0.55, -0.55], la: [0, -1.75, 0] }, sp: [0.03, 0, 0] }, // arms crossed
+  surprised: { l: { ua: [0, -0.15, -1.05], la: [0, -0.6, 0] }, sp: [-0.05, 0, 0] },
+  smug: { l: { ua: [0, 0.5, -1.2], la: [0, 0.6, 0] }, sp: [-0.04, 0, 0] }, // hands behind the back
+  blank: { l: ARMS_DOWN, sway: 0.2 },
+};
+const mirror = ([x, y, z]) => [x, -y, -z];
+const lerp = (a, b, k) => a + (b - a) * k;
 
 // ------------------------------------------------------------ lip sync
 
@@ -189,6 +213,10 @@ export class VrmView {
     this.blinkAt = 2 + Math.random() * 3;
     this.motion = null; // { name, t }
     this.pose = { x: 0, z: 0 };
+    this.body = null; // current blended body pose (see BODY)
+    this.emph = 0; // head-nod impulse from "！" while talking
+    this.glance = { at: 3 + Math.random() * 4, until: 0, x: 0, y: 0 }; // idle look-away
+    this.look = { x: 0, y: 0 };
     stage.views.add(this);
   }
 
@@ -239,6 +267,7 @@ export class VrmView {
     const v = vowelOf(ch);
     if (v !== 'keep') this.visemeNext = v;
     this.lastCharAt = this.time;
+    if (ch === '！' || ch === '!' || ch === '？' || ch === '?') this.emph = 1;
   }
 
   playMotion(name) {
@@ -331,36 +360,71 @@ export class VrmView {
     const t = this.time;
     const hum = this.vrm.humanoid;
     const bone = (n) => hum.getNormalizedBoneNode(n);
+    const set = (n, [x, y, z]) => bone(n)?.rotation.set(x, y, z);
 
-    // relaxed arms instead of the T-pose
-    const sway = Math.sin(t * 1.6) * 0.03;
-    bone('leftUpperArm') && bone('leftUpperArm').rotation.set(0, 0, -1.2 + sway);
-    bone('rightUpperArm') && bone('rightUpperArm').rotation.set(0, 0, 1.2 - sway);
-    bone('leftLowerArm') && bone('leftLowerArm').rotation.set(0, -0.25, 0);
-    bone('rightLowerArm') && bone('rightLowerArm').rotation.set(0, 0.25, 0);
+    // --- body pose for the expression, blended over ~0.3 s
+    const def = BODY[this.expr] ?? BODY.neutral;
+    const goal = {
+      lua: def.l.ua, lla: def.l.la,
+      rua: def.r?.ua ?? mirror(def.l.ua), rla: def.r?.la ?? mirror(def.l.la),
+      sh: def.sh ?? [0, 0, 0], sp: def.sp ?? [0, 0, 0],
+    };
+    if (!this.body) this.body = structuredClone(goal);
+    const kb = Math.min(1, dt * 5);
+    for (const key of Object.keys(goal)) for (let a = 0; a < 3; a++) this.body[key][a] = lerp(this.body[key][a], goal[key][a], kb);
+    const b = this.body;
 
-    // breathing
-    const breath = Math.sin(t * 1.9);
-    bone('spine')?.rotation.set(breath * 0.012, 0, Math.sin(t * 0.7) * 0.015);
-    bone('chest')?.rotation.set(breath * 0.012, 0, 0);
+    const talking = this.talking && t - this.lastCharAt < 0.4;
+    const swayAmp = (def.sway ?? 1) * (talking ? 1.6 : 1);
+    const armSway = Math.sin(t * 1.6) * 0.03 * swayAmp;
+    // small gestures while talking: forearms move a little with the words
+    const gest = talking ? Math.sin(t * 5.3) * 0.08 : 0;
 
-    // head: expression pose + idle sway + motion
+    let lua = [...b.lua], rua = [...b.rua], lla = [...b.lla], rla = [...b.rla];
+    lua[2] += armSway; rua[2] -= armSway;
+    lla[1] -= gest; rla[1] += gest * 0.7;
+
+    // --- head: expression pose + idle sway + talking bob + glances
     const pose = POSE[this.expr] ?? { x: 0, z: 0 };
     const k = Math.min(1, dt * 6);
     this.pose.x += (pose.x - this.pose.x) * k;
     this.pose.z += (pose.z - this.pose.z) * k;
-    let hx = this.pose.x + Math.sin(t * 0.9) * 0.02;
-    let hy = Math.sin(t * 0.55) * 0.04;
-    let hz = this.pose.z + Math.sin(t * 0.75) * 0.02;
-    let jump = 0;
 
+    // look away now and then while idle (not while talking)
+    const g = this.glance;
+    if (t >= g.at) {
+      g.until = t + 0.8 + Math.random() * 1.2;
+      g.at = g.until + 3 + Math.random() * 5;
+      g.x = (Math.random() - 0.5) * 0.12;
+      g.y = (Math.random() - 0.5) * 0.35;
+    }
+    const glancing = !talking && t < g.until;
+    const kl = Math.min(1, dt * 4);
+    this.look.x = lerp(this.look.x, glancing ? g.x : 0, kl);
+    this.look.y = lerp(this.look.y, glancing ? g.y : 0, kl);
+
+    this.emph = Math.max(0, this.emph - dt * 3);
+    const bob = talking ? Math.abs(Math.sin(t * 7.5)) * 0.035 : 0;
+    let hx = this.pose.x + Math.sin(t * 0.9) * 0.02 + bob + this.emph * 0.12 + this.look.x;
+    let hy = Math.sin(t * 0.55) * 0.04 * swayAmp + this.look.y + (talking ? Math.sin(t * 2.1) * 0.05 : 0);
+    let hz = this.pose.z + Math.sin(t * 0.75) * 0.02 * swayAmp + (talking ? Math.sin(t * 1.7) * 0.03 : 0);
+
+    // body: breathing, sideways sway, the pose's lean, a little hop when happy
+    const breath = Math.sin(t * 1.9);
+    let spx = b.sp[0] + breath * 0.012;
+    let spz = b.sp[2] + Math.sin(t * 0.7) * 0.02 * swayAmp + (talking ? Math.sin(t * 1.3) * 0.02 : 0);
+    let spy = Math.sin(t * 0.45) * 0.03 * swayAmp;
+    let jump = def.bounce ? Math.max(0, Math.sin(t * 4.2)) * 0.008 : 0;
+
+    // --- one-shot motions
     const m = this.motion;
     if (m) {
       m.t += dt;
       const s = m.t;
+      const env = (d) => Math.sin(Math.min(1, s / d) * Math.PI); // 0 → 1 → 0 over d seconds
       switch (m.name) {
         case 'nod':
-          if (s < 0.6) hx += Math.sin((s / 0.6) * Math.PI) * 0.28;
+          if (s < 0.6) hx += env(0.6) * 0.28;
           else this.motion = null;
           break;
         case 'shake':
@@ -368,20 +432,48 @@ export class VrmView {
           else this.motion = null;
           break;
         case 'tilt':
-          if (s < 0.8) hz += Math.sin((s / 0.8) * Math.PI) * 0.22;
+          if (s < 0.8) hz += env(0.8) * 0.22;
           else this.motion = null;
           break;
         case 'jump':
-          if (s < 0.3) jump = Math.sin((s / 0.3) * Math.PI) * 0.08;
-          else if (s < 0.45) jump = Math.sin(((s - 0.3) / 0.15) * Math.PI) * 0.02;
+          if (s < 0.3) jump += Math.sin((s / 0.3) * Math.PI) * 0.08;
+          else if (s < 0.45) jump += Math.sin(((s - 0.3) / 0.15) * Math.PI) * 0.02;
           else this.motion = null;
+          break;
+        case 'wave': {
+          // right hand up beside the face, waving
+          const d = 1.6;
+          if (s < d) {
+            const w = Math.min(1, s / 0.25, (d - s) / 0.3);
+            const osc = Math.sin(s * Math.PI * 2 * 2.2) * 0.35;
+            rua = [lerp(rua[0], 0, w), lerp(rua[1], -0.6, w), lerp(rua[2], 0.6, w)];
+            rla = [lerp(rla[0], 0, w), lerp(rla[1], 0.3 + osc, w), lerp(rla[2], -1.9, w)];
+            hz += w * 0.05;
+          } else this.motion = null;
+          break;
+        }
+        case 'bow':
+          if (s < 1.1) {
+            const w = env(1.1);
+            spx += w * 0.35;
+            hx += w * 0.2;
+          } else this.motion = null;
           break;
         default:
           this.motion = null;
       }
     }
-    bone('neck')?.rotation.set(hx * 0.4, hy * 0.4, hz * 0.4);
-    bone('head')?.rotation.set(hx * 0.6, hy * 0.6, hz * 0.6);
+
+    set('leftUpperArm', lua);
+    set('rightUpperArm', rua);
+    set('leftLowerArm', lla);
+    set('rightLowerArm', rla);
+    set('leftShoulder', b.sh);
+    set('rightShoulder', mirror(b.sh));
+    set('spine', [spx, spy, spz]);
+    set('chest', [breath * 0.012, spy * 0.5, spz * 0.5]);
+    set('neck', [hx * 0.4, hy * 0.4, hz * 0.4]);
+    set('head', [hx * 0.6, hy * 0.6, hz * 0.6]);
     this.vrm.scene.position.y = jump;
   }
 }
