@@ -297,7 +297,7 @@ export class UI {
     if (this.skipMode && !read) this.setSkip(false); // stop at the first new line
     this.fast = this.skipMode && read;
     this.pendingRead = read;
-    if (line.voice && this.mode !== 'dm' && !this.fast) sound.voice(line.voice.key, line.voice.forced);
+    this.clipPlayed = !!(line.voice && this.mode !== 'dm' && !this.fast && sound.voice(line.voice.key, line.voice.forced));
     if (this.mode === 'dm') return this.sayDm(line);
     if (this.mode === 'stream' && line.who !== 'haru' && line.who !== 'narr') {
       this.addComment(line);
@@ -308,7 +308,7 @@ export class UI {
     await this.sayMsg(line);
   }
 
-  async sayMsg({ who, name, text }) {
+  async sayMsg({ who, name, text, face, tone }) {
     this.msg.hidden = false;
     this.msg.dataset.who = who;
     this.msgName.textContent = name || '';
@@ -316,7 +316,18 @@ export class UI {
     const haru = who === 'haru';
     if (haru) this.avatar.setTalking(true);
     if (this.fast) this.msgText.textContent = text;
-    else await this.typeText(this.msgText, text, haru ? (ch) => this.avatar.speakChar?.(ch) : null);
+    else {
+      // talking blips unless a recorded voice clip is playing for this line
+      const blipFace = face ?? this.lastFace ?? 'neutral';
+      const onChar = haru
+        ? (ch) => {
+            this.avatar.speakChar?.(ch);
+            if (!this.clipPlayed) sound.blip(ch, { face: blipFace, tone });
+          }
+        : null;
+      await this.typeText(this.msgText, text, onChar);
+    }
+    if (haru && face) this.lastFace = face;
     this.avatar.setTalking(false);
     await this.advance();
   }

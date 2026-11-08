@@ -472,6 +472,9 @@ export class Engine {
         text: this.fmt(line.text),
         voice: this.voiceFor(line),
         key: lineKey(line.who, line.text),
+        // for the talking blips: expression and VTuber / real-life voice tone
+        face: line.face ?? null,
+        tone: this.state.haruName === 'ハル' ? 'vtuber' : 'real',
       });
     }
   }

@@ -6,9 +6,28 @@
 //   sound.se(name)        see SE below
 //   sound.setEnabled(on)  mute toggle, remembered in localStorage
 //   sound.setVoices(cfg)  data.voice from scenario.json; sound.voice(key, forced)
+//   sound.blip(ch, opts)  "voice-like" blip for one typed character of Haru's line
 
 const STORE_KEY = 'oshi-vtuber-sound';
 const midi = (n) => 440 * 2 ** ((n - 69) / 12);
+
+// Voice-like blips per expression: base note (MIDI), length, volume, pitch slide
+// (end/start ratio) and the chance of an octave jump. Each character maps to a
+// fixed pentatonic step, so the same text always "sounds" the same.
+const BLIP = {
+  neutral: { base: 72, dur: 0.055, vol: 0.055 },
+  happy: { base: 76, dur: 0.05, vol: 0.06, slide: 1.08, jump: 0.12 },
+  relaxed: { base: 72, dur: 0.065, vol: 0.045, slide: 1.03 },
+  smug: { base: 70, dur: 0.06, vol: 0.05, slide: 0.94 },
+  shy: { base: 72, dur: 0.07, vol: 0.035, slide: 0.97 },
+  panic: { base: 79, dur: 0.035, vol: 0.06, jump: 0.25 },
+  surprised: { base: 79, dur: 0.05, vol: 0.06, slide: 1.15 },
+  sad: { base: 66, dur: 0.08, vol: 0.04, slide: 0.9 },
+  angry: { base: 64, dur: 0.045, vol: 0.04, wave: 'square' },
+  blank: { base: 65, dur: 0.05, vol: 0.035 },
+};
+const BLIP_STEPS = [0, 2, 4, 7, 9];
+const BLIP_SILENT = /[\s、。，．,.…！？!?・「」『』（）()ー〜～─―‥：:;；♪♡☆★]/;
 
 // ---------------------------------------------------------------- tracks
 // chords: one per bar, MIDI notes (root first). arp: chord-tone index per 16th
@@ -277,14 +296,15 @@ class Sound {
     }
   }
 
+  // Returns true when a recorded clip actually played (the UI then skips blips).
   voice(key, forced = false) {
-    if (!this.ctx || !this.enabled || !this.voiceCfg) return;
+    if (!this.ctx || !this.enabled || !this.voiceCfg) return false;
     const bufs = this.voiceBufs?.[key];
-    if (!bufs?.length) return;
+    if (!bufs?.length) return false;
     const now = performance.now();
     if (!forced) {
-      if (now - this.lastVoice < (this.voiceCfg.cooldownMs ?? 0)) return;
-      if (Math.random() > (this.voiceCfg.rate ?? 1)) return;
+      if (now - this.lastVoice < (this.voiceCfg.cooldownMs ?? 0)) return false;
+      if (Math.random() > (this.voiceCfg.rate ?? 1)) return false;
     }
     this.lastVoice = now;
     const src = this.ctx.createBufferSource();
@@ -293,6 +313,27 @@ class Sound {
     g.gain.value = this.voiceCfg.volume ?? 1;
     src.connect(g).connect(this.master);
     src.start();
+    return true;
+  }
+
+  // Animal-Crossing-style talking blip. tone: 'vtuber' (brighter) | 'real' (softer, lower)
+  blip(ch, { face = 'neutral', tone = 'vtuber' } = {}) {
+    if (!this.ctx || !this.enabled || this.ctx.state !== 'running') return;
+    if (!ch || BLIP_SILENT.test(ch)) return;
+    const now = this.ctx.currentTime;
+    if (now - (this.lastBlip ?? 0) < 0.06) return; // at most ~16 per second
+    this.lastBlip = now;
+    const p = BLIP[face] ?? BLIP.neutral;
+    const real = tone === 'real';
+    const step = BLIP_STEPS[ch.codePointAt(0) % BLIP_STEPS.length];
+    const jump = p.jump && Math.random() < p.jump ? 12 : 0;
+    const f = midi(p.base - (real ? 3 : 0) + step + jump);
+    this.note(f, now + 0.005, p.dur * (real ? 1.15 : 1), {
+      wave: p.wave ?? (real ? 'sine' : 'triangle'),
+      vol: p.vol * (real ? 1.3 : 1),
+      attack: 0.004,
+      slide: p.slide ? f * p.slide : null,
+    });
   }
 
   // ------------------------------------------------------------------ BGM
