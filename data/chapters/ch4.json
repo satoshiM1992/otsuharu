@@ -267,7 +267,12 @@
                 ]
               ]
             },
-            { "type": "gag", "delta": 2, "text": "（小声で）犯人、ザリガニだよ", "reactions": [[{ "who": "haru", "face": "angry", "text": "（小声で）……そんな映画じゃない！" }]] },
+            {
+              "type": "gag",
+              "delta": 2,
+              "text": "（小声で）ポップコーン、塩とキャラメル半分ずつにしといた",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "（小声で）今それ!?" }, { "who": "haru", "face": "happy", "text": "……（小声で）ありがと。ちょっと怖くなくなった" }]]
+            },
             {
               "type": "out",
               "end": "mibare",
@@ -518,14 +523,14 @@
           {
             "type": "gag",
             "delta": 2,
-            "text": "（ザリガニのスタンプを10個送る）",
-            "echo": "🦞🦞🦞🦞🦞🦞🦞🦞🦞🦞",
+            "text": "（ペンギンのスタンプを10個送る）",
+            "echo": "🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧",
             "reactions": [
               [
                 {
                   "who": "haru",
                   "face": "surprised",
-                  "text": "ザリガニ!? 夜中にザリガニ!?",
+                  "text": "ペンギン!? 夜中にペンギンの行進!?",
                   "by": { "geinin": { "face": "happy", "text": "スタンプのチョイスどうなってんねん！ 夜中やぞ！" } }
                 },
                 { "who": "haru", "face": "relaxed", "text": "……ふふ、なんか落ち着いた" }

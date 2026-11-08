@@ -175,8 +175,8 @@
             {
               "type": "gag",
               "delta": 2,
-              "text": "このゲーム、ザリガニのキャラいないの？",
-              "reactions": [[{ "who": "haru", "face": "happy", "text": "いないよ!? ……探してみる？" }]]
+              "text": "このゲーム、ハルちゃんそっくりのキャラいない？",
+              "reactions": [[{ "who": "haru", "face": "happy", "text": "いないよ!? ……え、いる？ 探してみる？" }]]
             }
           ]
         }
@@ -305,8 +305,8 @@
             {
               "type": "gag",
               "delta": 2,
-              "text": "ネタバレすると、ザリガニは月曜日に脱皮します",
-              "reactions": [[{ "who": "haru", "face": "angry", "text": "ネタバレしないで!? ……え、脱皮するの!?" }]]
+              "text": "ネタバレすると、最終回で主人公は月曜日を克服します",
+              "reactions": [[{ "who": "haru", "face": "angry", "text": "ネタバレしないで!? ……え、克服するの!?" }]]
             }
           ]
         }
@@ -352,8 +352,8 @@
             {
               "type": "gag",
               "delta": 4,
-              "text": "熱が下がるおまじない：ザリガニ、ザリガニ、ザリガニ",
-              "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……なにそれ……" }, { "who": "haru", "face": "happy", "text": "……ふふっ、ちょっと元気出た" }]]
+              "text": "熱が下がるおまじない：ひやしちゅうか、ひやしちゅうか",
+              "reactions": [[{ "who": "haru", "face": "relaxed", "text": "……なにそれ……" }, { "who": "haru", "face": "happy", "text": "……ふふっ、おなかすいてきた。ちょっと元気出た" }]]
             },
             {
               "type": "gag",
@@ -548,9 +548,17 @@
             { "type": "bad", "text": "それが人気になるってことだよ。我慢しなきゃ", "reactions": [
               [{ "who": "haru", "face": "sad", "text": "我慢……そっか、我慢かぁ……" }]
             ] },
-            { "type": "gag", "delta": 4, "text": "じゃあ僕のコメントには返さなくていいよ。代わりにザリガニに返して", "reactions": [
-              [{ "who": "haru", "face": "happy", "text": "あはは！ ザリガニさん、優先順位高すぎ！" }, { "who": "haru", "face": "relaxed", "text": "……ありがと。ちょっと肩の力抜けた" }]
-            ] }
+            {
+              "type": "gag",
+              "delta": 4,
+              "text": "僕のコメントには返さなくていいよ。代わりにスタンプだけちょうだい",
+              "reactions": [
+                [
+                  { "who": "haru", "face": "happy", "text": "スタンプだけ!? ……あはは、それなら毎日押せる" },
+                  { "who": "haru", "face": "relaxed", "text": "……ありがと。ちょっと肩の力抜けた" }
+                ]
+              ]
+            }
           ] }
         },
         "queen": {

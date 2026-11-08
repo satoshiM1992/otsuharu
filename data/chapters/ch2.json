@@ -94,7 +94,7 @@
                 ]
               ]
             },
-            { "type": "gag", "delta": 2, "text": "メン限の内容、ザリガニも入れますか？", "reactions": [[{ "who": "haru", "face": "happy", "text": "甲殻類は……要相談で！" }]] }
+            { "type": "gag", "delta": 2, "text": "メン限の特典、手書きの年賀状とかありますか？", "reactions": [[{ "who": "haru", "face": "happy", "text": "手書き!? ……字、汚いけど、それでもよければ！" }]] }
           ]
         }
       },
@@ -256,10 +256,10 @@
             { "type": "bad", "text": "思ってたより、普通の声だね", "reactions": [[{ "who": "haru", "face": "sad", "text": "……そ、そっか" }]] },
             {
               "type": "gag",
-              "echo": "あの、ザリガニって脱皮するんですけど……",
               "delta": 4,
-              "text": "（1分間、ずっとザリガニの話をする）",
-              "reactions": [[{ "who": "haru", "face": "surprised", "text": "なんで!?" }, { "who": "haru", "face": "happy", "text": "……ザリガニのことしか覚えてない！ 楽しかった！" }]]
+              "text": "（1分間、ずっと天気の話をする）",
+              "echo": "今日、いい天気ですね……あ、明日は雨らしいですよ……",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "天気!?" }, { "who": "haru", "face": "happy", "text": "……お天気の話しかしてない！ でも、なんか落ち着いた！" }]]
             },
             {
               "type": "out",
@@ -312,8 +312,8 @@
             {
               "type": "gag",
               "delta": 4,
-              "text": "今のシーン、犯人ザリガニだったよ",
-              "reactions": [[{ "who": "haru", "face": "surprised", "text": "そんな映画じゃないよ!?" }, { "who": "haru", "face": "happy", "text": "……ちょっと怖さ和らいだ。ありがと" }]]
+              "text": "今のシーン、犯人はたぶん監督だよ",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "監督!? メタすぎる！" }, { "who": "haru", "face": "happy", "text": "……ちょっと怖さ和らいだ。ありがと" }]]
             },
             {
               "type": "gag",
@@ -872,10 +872,12 @@
           { "type": "bad", "text": "有名税だよ。慣れなきゃ", "reactions": [
             [{ "who": "haru", "face": "sad", "text": "……慣れなきゃ、だよね。うん……" }]
           ] },
-          { "type": "gag", "delta": 4, "text": "アンチのコメント、全部ザリガニの絵文字に置き換えて読もう", "reactions": [
-            [{ "who": "haru", "face": "surprised", "text": "🦞🦞🦞……" }, { "who": "haru", "face": "happy", "text": "あはは！ ぜんぜん怖くない！ むしろかわいい！",
-              "by": { "geinin": { "face": "happy", "text": "ザリガニで中和すな！ ……でも効いた！ アンチ、ザリガニになった！" } } }]
-          ] },
+          {
+            "type": "gag",
+            "delta": 4,
+            "text": "アンチのコメント、全部お経っぽく読み上げよう",
+            "reactions": [[{ "who": "haru", "face": "surprised", "text": "お経!?" }, { "who": "haru", "face": "happy", "text": "……なむなむ……あはは！ ぜんぜん怖くない！" }]]
+          },
           { "type": "gag", "delta": 2, "text": "今日の配信タイトル、『静かに』の割に僕はうるさく応援します", "reactions": [
             [{ "who": "haru", "face": "happy", "text": "うるさい応援は大歓迎！" }]
           ] }

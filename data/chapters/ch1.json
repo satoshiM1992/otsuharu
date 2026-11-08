@@ -513,8 +513,8 @@
             {
               "type": "gag",
               "delta": 4,
-              "text": "僕の受験の前の夜は、ザリガニの夢を見ました",
-              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ザリガニの夢!?" }, { "who": "haru", "face": "happy", "text": "……受かったの!? 落ちたの!? どっち!?" }]]
+              "text": "僕の受験の前の夜は、緊張で鉛筆を100本削りました",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "100本!?" }, { "who": "haru", "face": "happy", "text": "……受験生くん、削りすぎには注意ね！" }]]
             },
             {
               "type": "gag",
@@ -888,8 +888,8 @@
               {
                 "type": "gag",
                 "delta": 4,
-                "text": "僕の運勢、ザリガニに例えるとどうですか",
-                "reactions": [[{ "who": "haru", "face": "surprised", "text": "ザリガニに!?" }, { "who": "haru", "face": "happy", "text": "……脱皮の時期、です！" }]]
+                "text": "僕の運勢、ラッキーアイテムだけ教えてください",
+                "reactions": [[{ "who": "haru", "face": "surprised", "text": "ラッキーアイテムだけ!?" }, { "who": "haru", "face": "happy", "text": "……当たり付きのアイス、です！" }]]
               },
               {
                 "type": "gag",

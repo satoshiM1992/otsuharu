@@ -198,8 +198,8 @@
             {
               "type": "gag",
               "delta": 4,
-              "text": "あの星座、ザリガニ座ですね",
-              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ないよ!?" }, { "who": "haru", "face": "happy", "text": "……でも、そう見えてきた。あはは" }]]
+              "text": "あの星座、から揚げ座ですね",
+              "reactions": [[{ "who": "haru", "face": "surprised", "text": "ないよ!?" }, { "who": "haru", "face": "happy", "text": "……でも、そう見えてきた。おなかすいた" }]]
             },
             {
               "type": "gag",
@@ -498,15 +498,15 @@
           {
             "type": "gag",
             "delta": 4,
-            "text": "変装用に、ザリガニの着ぐるみ買っておくね",
+            "text": "変装用に、パーティーグッズの鼻メガネ買っておくね",
             "reactions": [
               [
-                { "who": "haru", "face": "surprised", "text": "着ぐるみ!?" },
+                { "who": "haru", "face": "surprised", "text": "鼻メガネ!?" },
                 {
                   "who": "haru",
                   "face": "happy",
                   "text": "……あはは。……もう、ばか。……ちょっと元気出た",
-                  "by": { "itazura": { "face": "smug", "text": "……じゃあ、わたしはエビの着ぐるみね。……ふふ、ちょっと元気出た" } }
+                  "by": { "itazura": { "face": "smug", "text": "……じゃあ、わたしはヒゲもつける。……ふふ、ちょっと元気出た" } }
                 }
               ]
             ]
@@ -577,14 +577,17 @@
           {
             "type": "gag",
             "delta": 3,
-            "text": "どっちでもなく、ザリガニと話してるつもりでした",
+            "text": "どっちでもなく、今夜のごはんの話をしてるつもりでした",
             "reactions": [
               [
                 {
                   "who": "haru",
                   "face": "surprised",
-                  "text": "ザリガニ!? 今それ!?",
-                  "by": { "geinin": { "face": "happy", "text": "なんでやねん！ 甲殻類ちゃうわ！" }, "itazura": { "face": "smug", "text": "じゃあ今日からわたし、ザリガニね。……はさむよ？" } }
+                  "text": "ごはん!? 今それ!?",
+                  "by": {
+                    "geinin": { "face": "happy", "text": "なんでやねん！ 晩ごはんの話ちゃうわ！" },
+                    "itazura": { "face": "smug", "text": "じゃあ、今夜のメニュー当ててみて。……当たったら、ちょっと話聞いてあげる" }
+                  }
                 },
                 { "who": "haru", "face": "happy", "text": "……あはは。悩んでたの、ばからしくなっちゃった" }
               ]
