@@ -58,7 +58,7 @@ export const BODY = { // exported for test/vrm-check.html tuning
 };
 
 // right-hand wave (the motion), exported for tuning
-export const WAVE = { ua: [0, -0.7, 0.8], la: [0, 0.1, -2.1], h: [-0.6, 0, 0], osc: 0.35 }; // close to the face, so the thick sleeve stays in frame
+export const WAVE = { ua: [0, -0.7, 0.8], la: [0, 0.1, -2.1], h: [-0.6, 0, 0], osc: 0.5, dur: 1.6 }; // close to the face, so the thick sleeve stays in frame
 const mirror = ([x, y, z]) => [x, -y, -z];
 const lerp = (a, b, k) => a + (b - a) * k;
 
@@ -449,12 +449,14 @@ export class VrmView {
           break;
         case 'wave': {
           // right hand up beside the face, waving
-          const d = 1.6;
+          const d = WAVE.dur;
           if (s < d) {
             const w = Math.min(1, s / 0.25, (d - s) / 0.3);
-            const osc = Math.sin(s * Math.PI * 2 * 2.2) * WAVE.osc;
+            const osc = Math.sin(s * Math.PI * 2 * 1.8) * WAVE.osc;
             rua = rua.map((v, i) => lerp(v, WAVE.ua[i], w));
-            rla = rla.map((v, i) => lerp(v, WAVE.la[i] + (i === 1 ? osc : 0), w));
+            // swing the raised forearm left-right in the same plane it was raised in (z),
+            // not around its own length (y), which looked like twisting a doorknob
+            rla = rla.map((v, i) => lerp(v, WAVE.la[i] + (i === 2 ? osc : 0), w));
             rh = rh.map((v, i) => lerp(v, WAVE.h[i], w));
             hz += w * 0.05;
           } else this.motion = null;

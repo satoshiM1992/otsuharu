@@ -42,6 +42,10 @@ const fixedSeed = params.has('seed') ? Number(params.get('seed')) >>> 0 : null;
 
 const $ = (id) => document.getElementById(id);
 
+// shown small in the corner of the title screen; v1.0 at release
+export const VERSION = 'v0.90';
+$('title-version').textContent = VERSION;
+
 
 let data;
 try {

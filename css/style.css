@@ -102,6 +102,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .title-sub { color: #fff; font-weight: 800; -webkit-text-stroke: 4px #8a6cff; paint-order: stroke fill; text-shadow: 0 2px 0 rgba(43, 35, 64, .3); }
 .title-menu { position: relative; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
 .title-foot { position: relative; color: #fff; font-size: 13px; font-weight: 700; opacity: .9; }
+.title-version { position: absolute; left: 12px; bottom: calc(8px + var(--safe-b)); color: #fff; font-size: 10px; font-weight: 700; opacity: .55; }
 
 /* --------------------------------------------------------- name entry */
 
