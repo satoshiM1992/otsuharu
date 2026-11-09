@@ -42,18 +42,23 @@ const POSE = {
 // unless a separate `r` entry is given. ua = upper arm, la = lower arm,
 // sh = shoulder, sp = spine lean (x: forward, z: sideways), bounce = idle hop.
 const ARMS_DOWN = { ua: [0, 0, -1.2], la: [0, -0.25, 0] };
-const BODY = {
+export const BODY = { // exported for test/vrm-check.html tuning
   neutral: { l: ARMS_DOWN },
   relaxed: { l: ARMS_DOWN, sway: 1.4 },
-  happy: { l: { ua: [0, -0.35, -1.0], la: [0, -1.1, 0] }, bounce: 1 },
-  shy: { l: { ua: [0, -0.75, -1.2], la: [0, -1.25, 0.25] }, sh: [0, 0, 0.1], sp: [0.04, 0, 0] },
-  panic: { l: { ua: [0, -0.35, -1.15], la: [0, -2.2, 0] }, sh: [0, 0, 0.12] },
+  // hands stay below the chest: the thick china-dress sleeves clip into the chest
+  // and get cut by the frame when the arms go higher or wider
+  happy: { l: { ua: [0, -0.25, -1.08], la: [0, -0.85, 0] }, bounce: 1 },
+  shy: { l: { ua: [0, -0.2, -1.15], la: [0, -1.3, -0.5] }, sh: [0, 0, 0.1], sp: [0.04, 0, 0] }, // hands together in front
+  panic: { l: { ua: [0, -0.35, -1.1], la: [0, -0.8, 0] }, sh: [0, 0, 0.12] },
   sad: { l: { ua: [0, 0.05, -1.3], la: [0, -0.1, 0] }, sh: [0, 0, -0.06], sp: [0.08, 0, 0], sway: 0.4 },
-  angry: { l: { ua: [0, -0.55, -0.55], la: [0, -1.75, 0] }, sp: [0.03, 0, 0] }, // arms crossed
+  angry: { l: { ua: [0, 0.1, -1.28], la: [0, -0.35, 0] }, sh: [0, 0, 0.08], sp: [0.05, 0, 0] }, // fists at the sides
   surprised: { l: { ua: [0, -0.15, -1.05], la: [0, -0.6, 0] }, sp: [-0.05, 0, 0] },
   smug: { l: { ua: [0, 0.5, -1.2], la: [0, 0.6, 0] }, sp: [-0.04, 0, 0] }, // hands behind the back
   blank: { l: ARMS_DOWN, sway: 0.2 },
 };
+
+// right-hand wave (the motion), exported for tuning
+export const WAVE = { ua: [0, -0.7, 0.8], la: [0, 0.1, -2.1], h: [-0.6, 0, 0], osc: 0.35 }; // close to the face, so the thick sleeve stays in frame
 const mirror = ([x, y, z]) => [x, -y, -z];
 const lerp = (a, b, k) => a + (b - a) * k;
 
@@ -367,6 +372,7 @@ export class VrmView {
     const goal = {
       lua: def.l.ua, lla: def.l.la,
       rua: def.r?.ua ?? mirror(def.l.ua), rla: def.r?.la ?? mirror(def.l.la),
+      lh: def.l.h ?? [0, 0, 0], rh: def.r?.h ?? mirror(def.l.h ?? [0, 0, 0]),
       sh: def.sh ?? [0, 0, 0], sp: def.sp ?? [0, 0, 0],
     };
     if (!this.body) this.body = structuredClone(goal);
@@ -381,6 +387,7 @@ export class VrmView {
     const gest = talking ? Math.sin(t * 5.3) * 0.08 : 0;
 
     let lua = [...b.lua], rua = [...b.rua], lla = [...b.lla], rla = [...b.rla];
+    let lh = [...b.lh], rh = [...b.rh];
     lua[2] += armSway; rua[2] -= armSway;
     lla[1] -= gest; rla[1] += gest * 0.7;
 
@@ -445,9 +452,10 @@ export class VrmView {
           const d = 1.6;
           if (s < d) {
             const w = Math.min(1, s / 0.25, (d - s) / 0.3);
-            const osc = Math.sin(s * Math.PI * 2 * 2.2) * 0.35;
-            rua = [lerp(rua[0], 0, w), lerp(rua[1], -0.6, w), lerp(rua[2], 0.6, w)];
-            rla = [lerp(rla[0], 0, w), lerp(rla[1], 0.3 + osc, w), lerp(rla[2], -1.9, w)];
+            const osc = Math.sin(s * Math.PI * 2 * 2.2) * WAVE.osc;
+            rua = rua.map((v, i) => lerp(v, WAVE.ua[i], w));
+            rla = rla.map((v, i) => lerp(v, WAVE.la[i] + (i === 1 ? osc : 0), w));
+            rh = rh.map((v, i) => lerp(v, WAVE.h[i], w));
             hz += w * 0.05;
           } else this.motion = null;
           break;
@@ -464,6 +472,8 @@ export class VrmView {
       }
     }
 
+    set('leftHand', lh);
+    set('rightHand', rh);
     set('leftUpperArm', lua);
     set('rightUpperArm', rua);
     set('leftLowerArm', lla);
