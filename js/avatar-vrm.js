@@ -41,19 +41,21 @@ const POSE = {
 // Arms are given for the LEFT side; the right side mirrors them (y/z negated)
 // unless a separate `r` entry is given. ua = upper arm, la = lower arm,
 // sh = shoulder, sp = spine lean (x: forward, z: sideways), bounce = idle hop.
-const ARMS_DOWN = { ua: [0, 0, -1.2], la: [0, -0.25, 0] };
+const ARMS_DOWN = { ua: [0, 0.08, -1.2], la: [0, 0, 0] }; // hands at the sides, not in front of the skirt
+const BEHIND = { ua: [0, 0.5, -1.2], la: [0, 0.6, 0] }; // hands clasped behind the back
 export const BODY = { // exported for test/vrm-check.html tuning
   neutral: { l: ARMS_DOWN },
   relaxed: { l: ARMS_DOWN, sway: 1.4 },
-  // hands stay below the chest: the thick china-dress sleeves clip into the chest
-  // and get cut by the frame when the arms go higher or wider
-  happy: { l: { ua: [0, -0.25, -1.08], la: [0, -0.85, 0] }, bounce: 1 },
-  shy: { l: { ua: [0, -0.2, -1.15], la: [0, -1.3, -0.5] }, sh: [0, 0, 0.1], sp: [0.04, 0, 0] }, // hands together in front
-  panic: { l: { ua: [0, -0.35, -1.1], la: [0, -0.8, 0] }, sh: [0, 0, 0.12] },
-  sad: { l: { ua: [0, 0.05, -1.3], la: [0, -0.1, 0] }, sh: [0, 0, -0.06], sp: [0.08, 0, 0], sway: 0.4 },
+  // hands stay at the sides or behind the back: in front of the body the thick
+  // china-dress sleeves overlap the skirt and clip into the chest, and wider or
+  // higher arms get cut by the stage frame
+  happy: { l: { ua: [0, 0.05, -1.02], la: [0, 0, 0] }, bounce: 1 },
+  shy: { l: BEHIND, sh: [0, 0, 0.1], sp: [0.06, 0, 0] }, // fidgeting, hands behind the back
+  panic: { l: { ua: [0, 0.05, -0.98], la: [0, -0.1, 0] }, sh: [0, 0, 0.12] },
+  sad: { l: { ua: [0, 0.1, -1.3], la: [0, 0, 0] }, sh: [0, 0, -0.06], sp: [0.08, 0, 0], sway: 0.4 },
   angry: { l: { ua: [0, 0.1, -1.28], la: [0, -0.35, 0] }, sh: [0, 0, 0.08], sp: [0.05, 0, 0] }, // fists at the sides
-  surprised: { l: { ua: [0, -0.15, -1.05], la: [0, -0.6, 0] }, sp: [-0.05, 0, 0] },
-  smug: { l: { ua: [0, 0.5, -1.2], la: [0, 0.6, 0] }, sp: [-0.04, 0, 0] }, // hands behind the back
+  surprised: { l: { ua: [0, 0, -1.02], la: [0, -0.1, 0] }, sp: [-0.05, 0, 0] },
+  smug: { l: BEHIND, sp: [-0.04, 0, 0] },
   blank: { l: ARMS_DOWN, sway: 0.2 },
 };
 
