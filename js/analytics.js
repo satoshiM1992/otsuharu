@@ -8,7 +8,7 @@
 // To enable: sign up at goatcounter.com, pick a code (e.g. "oshivtuber"),
 // and put it in SITE_CODE below.
 
-export const SITE_CODE = ''; // ← GoatCounter code; empty = analytics off
+export const SITE_CODE = 'satoshim1992'; // ← GoatCounter code; empty = analytics off
 
 const params = new URLSearchParams(location.search);
 const off =
