@@ -383,7 +383,11 @@
           } },
         { "who": "narr", "text": "──コメントが、目で追えない速さで流れていく。" },
         { "who": "mob", "name": "ねこまんま", "text": "昔は23人だったのにな" },
-        { "who": "haru", "face": "panic", "text": "コメント速すぎて読めない〜！ みんなの名前が流れてく〜！" }
+        { "who": "haru", "face": "panic", "text": "コメント速すぎて読めない〜！ みんなの名前が流れてく〜！" },
+        { "who": "haru", "face": "happy", "text": "……あっ、{name}さんだ！ 見つけた！ 今日も来てくれたんだ〜！", "if": { "flag": "noticed" } },
+        { "who": "mob", "text": "古参だ", "if": { "flag": "noticed" } },
+        { "who": "mob", "text": "名前呼ばれてて草", "if": { "flag": "noticed" } },
+        { "who": "mob", "text": "認知されてるの強い", "if": { "flag": "noticed" } }
       ],
       "choice": {
         "pool": [
@@ -843,8 +847,10 @@
       "lines": [
         { "who": "haru", "face": "neutral", "text": "こんハル……今日はゆっくり話すね" },
         { "who": "narr", "text": "──いつもより、声が小さい。" },
-        { "who": "haru", "face": "sad", "text": "……あのね。人が増えて、いろんなコメントが来るようになって" },
-        { "who": "haru", "face": "sad", "text": "『人気出て調子乗ってる』って言われて……ちょっとだけ、へこんでた",
+        { "who": "haru", "face": "sad", "if": { "minPop": 41 }, "text": "……あのね。人が増えて、いろんなコメントが来るようになって" },
+        { "who": "haru", "face": "sad", "if": { "maxPop": 40 }, "text": "……あのね。バズが落ち着いて、人が減ってきたでしょ" },
+        { "who": "haru", "face": "sad", "if": { "maxPop": 40 }, "text": "『もう終わった一発屋』って言われて……ちょっとだけ、へこんでた" },
+        { "who": "haru", "face": "sad", "if": { "minPop": 41 }, "text": "『人気出て調子乗ってる』って言われて……ちょっとだけ、へこんでた",
           "by": {
             "queen": { "face": "sad", "text": "『金の亡者』って言われて……。……まあ、そう見えるよね、わたし" },
             "geinin": { "face": "sad", "text": "『ツッコミがうるさい』って言われて……。……あはは、芸人じゃないのにね、わたし" }
@@ -894,7 +900,11 @@
         { "who": "haru", "face": "relaxed", "text": "今日はね、ちょっと昔の話をさせて" },
         { "who": "haru", "face": "relaxed", "text": "深夜二時に、同接23人で雑談してたころ……毎晩来てくれた人たちがいたの" },
         { "who": "haru", "face": "shy", "text": "その人たちのコメント、全部スクショして、今でもときどき見返してるんだ" },
-        { "who": "haru", "face": "happy", "text": "あの23人がいなかったら、今のわたしはいないから。……ありがとう" }
+        { "who": "haru", "face": "happy", "text": "あの23人がいなかったら、今のわたしはいないから。……ありがとう" },
+        { "who": "haru", "face": "shy", "text": "……ひとりだけ、名前は言わないけど。その人のコメントのスクショが、いちばん多いんだ", "if": { "minAff": 30 } },
+        { "who": "mob", "text": "誰だよ", "if": { "minAff": 30 } },
+        { "who": "mob", "text": "俺かな", "if": { "minAff": 30 } },
+        { "who": "haru", "face": "panic", "text": "い、今のナシ！ カットで！", "if": { "minAff": 30 } }
       ],
       "choice": {
         "pool": [

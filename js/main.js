@@ -24,6 +24,7 @@ import { Engine, ABORT } from './engine.js';
 import { UI, preloadBackgrounds } from './ui.js';
 import { Avatar } from './avatar.js';
 import { listenerType, shareText as styleShareText } from './listener.js';
+import { pageview, track, analyticsOn } from './analytics.js';
 import { sound } from './sound.js';
 
 const params = new URLSearchParams(location.search);
@@ -43,7 +44,7 @@ const fixedSeed = params.has('seed') ? Number(params.get('seed')) >>> 0 : null;
 const $ = (id) => document.getElementById(id);
 
 // shown small in the corner of the title screen; v1.0 at release
-export const VERSION = 'v0.91';
+export const VERSION = 'v0.92';
 $('title-version').textContent = VERSION;
 
 
@@ -196,6 +197,7 @@ function startNew() {
 
 // Bonus scenes (data.omake) unlocked by the number of endings collected.
 async function playOmake(o) {
+  track(`omake/${o.id}`);
   ui.reset();
   ui.showScreen('game');
   const state = newState({ seed: 1, handle: loadHandle() ?? 'あなた' });
@@ -338,11 +340,13 @@ function showListenerType(state) {
 }
 
 function shareToX() {
+  track(`share/x/${lastEnding}`);
   const q = new URLSearchParams({ text: shareText(), url: shareUrl() });
   window.open(`https://x.com/intent/post?${q}`, '_blank', 'noopener');
 }
 
 async function shareNative() {
+  track(`share/native/${lastEnding}`);
   const text = shareText();
   const url = shareUrl();
   try {
@@ -395,7 +399,10 @@ async function play(state) {
     hooks: {
       onSave: (s) => {
         saveGame(s);
-        if (s.sceneIndex === 0) saveChapterSnapshot(s);
+        if (s.sceneIndex === 0) {
+          saveChapterSnapshot(s);
+          track(`chapter/${s.chapterIndex + 1}`); // how far players get
+        }
       },
       onRare: (id) => {
         recordGallery('rares', id);
@@ -416,6 +423,8 @@ async function play(state) {
     $('ending-unlock').textContent = unlocked.map((o) => `🎁 おまけ『${o.title}』が解放されました！（ギャラリー）`).join('\n');
     clearSave();
     showListenerType(state);
+    track(`ending/${result.id}`);
+    if (lastType && lastType.stats.total >= 3) track(`type/${lastType.type.id}`);
     showEnding(result.id);
   } else {
     showTitle();
@@ -433,6 +442,7 @@ $('name-form').addEventListener('submit', (e) => {
   }
   const handle = raw || '名無しのリスナー';
   const flags = { nameLong: [...handle].length > 10 };
+  track('start');
   play(newState({ seed: fixedSeed ?? randomSeed(), handle, flags }));
 });
 
@@ -502,3 +512,5 @@ document.addEventListener(
 refreshSoundButtons();
 
 showTitle();
+pageview();
+$('howto-privacy').hidden = !analyticsOn;

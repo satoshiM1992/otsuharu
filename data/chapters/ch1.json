@@ -1176,6 +1176,9 @@
         { "who": "haru", "face": "happy", "motion": "jump", "text": "みんなー！ なんと、登録者{subs}人になりました！" },
         { "who": "haru", "face": "shy", "text": "最初は誰も見てなくて、ひとりでしゃべってたのに……" },
         { "who": "haru", "face": "relaxed", "text": "いつも来てくれる人の名前、ちゃんと覚えてるからね。ほんとに、ありがとう" },
+        { "who": "haru", "face": "shy", "text": "……{name}さん、とか。……あっ、名指ししちゃった", "if": { "flag": "noticed" } },
+        { "who": "mob", "text": "名指しｗｗ", "if": { "flag": "noticed" } },
+        { "who": "mob", "text": "うらやま", "if": { "flag": "noticed" } },
         { "who": "haru", "face": "happy", "text": "今日はここまで！ おつハル〜！" }
       ],
       "choice": {
